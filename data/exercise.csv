@@ -1,0 +1,109 @@
+name,body_part
+Rosca 21,BICEPS
+Rosca Scott,BICEPS
+Rosca Concentrada,BICEPS
+Rosca Direta na Polia,BICEPS
+Rosca Direta com Barra,BICEPS
+Rosca Direta com Halteres,BICEPS
+Rosca Inclinada com Halteres,BICEPS
+Rosca Martelo com Halteres,BICEPS
+Rosca Martelo na Polia,BICEPS
+Rosca Spider,BICEPS
+Rosca Alternada com Halteres,BICEPS
+Rosca Inversa com Barra,BICEPS
+PullDown,COSTAS
+Pulley Frente,COSTAS
+Remada Baixa na Polia,COSTAS
+Remada Baixa na Máquina,COSTAS
+Remada Cavalinho,COSTAS
+Remada Curvada com Barra,COSTAS
+Remada na Máquina,COSTAS
+Remada Unilateral com Halteres,COSTAS
+Puxada com Pegada Neutra,COSTAS
+Remada com Barra T,COSTAS
+Barra Fixa,COSTAS
+Desenvolvimento com Halteres,OMBRO
+Desenvolvimento na Máquina,OMBRO
+Elevação Frontal com Halteres,OMBRO
+Elevação Frontal na Polia,OMBRO
+Elevação Lateral com Halteres,OMBRO
+Elevação Lateral na Máquina,OMBRO
+Elevação Lateral na Polia,OMBRO
+Encolhimento com Barra,OMBRO
+Encolhimento com Halteres,OMBRO
+Crucifixo Inverso na Máquina,OMBRO
+Crucifixo Inverso na Polia,OMBRO
+Desenvolvimento Arnold,OMBRO
+Desenvolvimento com Barra,OMBRO
+Face Pull,OMBRO
+Cross-Over,PEITO
+Crucifixo na Máquina,PEITO
+Crucifixo com Halteres,PEITO
+Flexão de Braço,PEITO
+Peck Deck,PEITO
+Pullover com Halteres,PEITO
+Supino Inclinado com Barra,PEITO
+Supino Inclinado com Halteres,PEITO
+Supino Reto com Barra,PEITO
+Supino Reto com Halteres,PEITO
+Flexão com Pegada Fechada,PEITO
+Flexão com Inclinação,PEITO
+Supino Declinado com Halteres,PEITO
+Agachamento Livre com Barra,PERNA
+Agachamento no Smith,PERNA
+Agachamento na Máquina Guiada,PERNA
+Avanço com Halteres,PERNA
+Cadeira Extensora,PERNA
+Cadeira Flexora,PERNA
+Leg Press 45°,PERNA
+Mesa Flexora,PERNA
+Panturrilha no Leg Press,PERNA
+Panturrilha Sentado,PERNA
+Stiff com Halteres,PERNA
+Stiff com Barra,PERNA
+Afundo com Halteres,PERNA
+Agachamento Búlgaro,PERNA
+Passada com Halteres,PERNA
+Cadeira Abdutora,PERNA
+Cadeira Adutora,PERNA
+Tríceps Corda na Polia,TRICEPS
+Tríceps Francês com Halteres,TRICEPS
+Tríceps Francês na Polia,TRICEPS
+Tríceps Testa com Barra,TRICEPS
+Tríceps Testa na Máquina,TRICEPS
+Tríceps Testa na Polia,TRICEPS
+Tríceps Coice com Halteres,TRICEPS
+Mergulho nas Paralelas,TRICEPS
+Tríceps na Barra Fixa,TRICEPS
+Rosca de Punho com Barra,ANTEBRACO
+Rosca de Punho Invertida com Barra,ANTEBRACO
+Rosca de Punho com Halteres,ANTEBRACO
+Rosca Inversa na Polia,ANTEBRACO
+Farmer's Walk,ANTEBRACO
+Abdominal Supra no Solo,ABDOMEN
+Abdominal Infra no Solo,ABDOMEN
+Abdominal Oblíquo,ABDOMEN
+Abdominal na Máquina,ABDOMEN
+Abdominal na Polia,ABDOMEN
+Prancha Isométrica,ABDOMEN
+Prancha Lateral,ABDOMEN
+Elevação de Pernas Suspenso,ABDOMEN
+Roda Abdominal,ABDOMEN
+Elevação Pélvica com Barra,GLUTEO
+Ponte de Glúteo,GLUTEO
+Coice na Polia,GLUTEO
+Coice na Máquina,GLUTEO
+Abdução de Quadril na Máquina,GLUTEO
+Agachamento Sumô com Halteres,GLUTEO
+Levantamento Terra,LOMBAR
+Levantamento Terra Sumô,LOMBAR
+Hiperextensão Lombar,LOMBAR
+Extensão Lombar na Máquina,LOMBAR
+Good Morning com Barra,LOMBAR
+Esteira,CARDIO
+Bicicleta Ergométrica,CARDIO
+Elíptico,CARDIO
+Escada Ergométrica,CARDIO
+Remo Ergométrico,CARDIO
+Corda Naval,CARDIO
+Pular Corda,CARDIO

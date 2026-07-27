@@ -1,0 +1,21 @@
+services:
+  db:
+    image: mysql:8
+    container_name: workout_sheet_v2_db
+    environment:
+      MYSQL_ROOT_PASSWORD: workout_sheet_api
+      MYSQL_DATABASE: workout_sheet_api_v2
+      MYSQL_USER: workout_sheet_api
+      MYSQL_PASSWORD: workout_sheet_api
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data_v2:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uroot', '-pworkout_sheet_api']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data_v2:
