@@ -1,16 +1,15 @@
-import { sql } from 'drizzle-orm'
 import {
   bigint,
-  datetime,
-  decimal,
-  foreignKey,
+  bigserial,
   index,
-  int,
-  mysqlEnum,
-  mysqlTable,
+  integer,
+  numeric,
+  pgEnum,
+  pgTable,
+  timestamp,
   uniqueIndex,
   varchar,
-} from 'drizzle-orm/mysql-core'
+} from 'drizzle-orm/pg-core'
 
 export const BODY_PARTS = [
   'PEITO',
@@ -33,21 +32,26 @@ export const ROLES = ['USER', 'ADMIN'] as const
 export type BodyPart = (typeof BODY_PARTS)[number]
 export type RecordExerciseStatus = (typeof RECORD_EXERCISE_STATUS)[number]
 
-const createdAt = () =>
-  datetime('created_at', { mode: 'date' }).notNull().default(sql`CURRENT_TIMESTAMP`)
+export const bodyPartEnum = pgEnum('body_part', BODY_PARTS)
+export const recordExerciseStatusEnum = pgEnum('record_exercise_status', RECORD_EXERCISE_STATUS)
+export const roleEnum = pgEnum('user_role', ROLES)
 
+const createdAt = () => timestamp('created_at', { mode: 'date' }).notNull().defaultNow()
+
+/** Postgres não tem `ON UPDATE`; Drizzle atualiza no ORM via `$onUpdate`. */
 const updatedAt = () =>
-  datetime('updated_at', { mode: 'date' })
+  timestamp('updated_at', { mode: 'date' })
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`)
+    .defaultNow()
+    .$onUpdate(() => new Date())
 
-export const users = mysqlTable(
+export const users = pgTable(
   'users',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     email: varchar('email', { length: 255 }).notNull(),
     password: varchar('password', { length: 255 }).notNull(),
-    role: mysqlEnum('role', ROLES).notNull().default('USER'),
+    role: roleEnum('role').notNull().default('USER'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -56,14 +60,14 @@ export const users = mysqlTable(
   }),
 )
 
-export const client = mysqlTable(
+export const client = pgTable(
   'client',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     firstName: varchar('first_name', { length: 255 }).notNull(),
     lastName: varchar('last_name', { length: 255 }),
-    weight: decimal('weight', { precision: 5, scale: 2 }),
-    height: decimal('height', { precision: 3, scale: 2 }),
+    weight: numeric('weight', { precision: 5, scale: 2 }),
+    height: numeric('height', { precision: 3, scale: 2 }),
     userId: bigint('user_id', { mode: 'number' })
       .notNull()
       .references(() => users.id),
@@ -75,12 +79,12 @@ export const client = mysqlTable(
   }),
 )
 
-export const exercise = mysqlTable(
+export const exercise = pgTable(
   'exercise',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     name: varchar('name', { length: 255 }).notNull(),
-    bodyPart: mysqlEnum('body_part', BODY_PARTS).notNull(),
+    bodyPart: bodyPartEnum('body_part').notNull(),
     /** NULL = exercício global do catálogo; não-null = custom do cliente. */
     clientId: bigint('client_id', { mode: 'number' }).references(() => client.id),
     createdAt: createdAt(),
@@ -92,16 +96,16 @@ export const exercise = mysqlTable(
   }),
 )
 
-export const workout = mysqlTable(
+export const workout = pgTable(
   'workout',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     name: varchar('name', { length: 255 }).notNull(),
-    listOrder: int('list_order').notNull().default(0),
+    listOrder: integer('list_order').notNull().default(0),
     clientId: bigint('client_id', { mode: 'number' })
       .notNull()
       .references(() => client.id),
-    deletedAt: datetime('deleted_at', { mode: 'date' }),
+    deletedAt: timestamp('deleted_at', { mode: 'date' }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -110,14 +114,14 @@ export const workout = mysqlTable(
   }),
 )
 
-export const workoutExercise = mysqlTable(
+export const workoutExercise = pgTable(
   'workout_exercise',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
-    sets: int('sets'),
-    reps: int('reps'),
-    exerciseLoad: decimal('exercise_load', { precision: 5, scale: 2 }),
-    listOrder: int('list_order').notNull().default(0),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    sets: integer('sets'),
+    reps: integer('reps'),
+    exerciseLoad: numeric('exercise_load', { precision: 5, scale: 2 }),
+    listOrder: integer('list_order').notNull().default(0),
     workoutId: bigint('workout_id', { mode: 'number' })
       .notNull()
       .references(() => workout.id, { onDelete: 'cascade' }),
@@ -132,14 +136,14 @@ export const workoutExercise = mysqlTable(
   }),
 )
 
-export const workoutRecord = mysqlTable(
+export const workoutRecord = pgTable(
   'workout_record',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     workoutId: bigint('workout_id', { mode: 'number' })
       .notNull()
       .references(() => workout.id),
-    deletedAt: datetime('deleted_at', { mode: 'date' }),
+    deletedAt: timestamp('deleted_at', { mode: 'date' }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -148,12 +152,12 @@ export const workoutRecord = mysqlTable(
   }),
 )
 
-export const workoutRecordExercise = mysqlTable(
+export const workoutRecordExercise = pgTable(
   'workout_record_exercise',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
     note: varchar('note', { length: 255 }),
-    status: mysqlEnum('status', RECORD_EXERCISE_STATUS).notNull(),
+    status: recordExerciseStatusEnum('status').notNull(),
     exerciseId: bigint('exercise_id', { mode: 'number' })
       .notNull()
       .references(() => exercise.id),
@@ -168,24 +172,20 @@ export const workoutRecordExercise = mysqlTable(
   }),
 )
 
-export const workoutRecordExerciseSet = mysqlTable(
+export const workoutRecordExerciseSet = pgTable(
   'workout_record_exercise_set',
   {
-    id: bigint('id', { mode: 'number' }).autoincrement().primaryKey(),
-    setNumber: int('set_number').notNull(),
-    reps: int('reps'),
-    exerciseLoad: decimal('exercise_load', { precision: 5, scale: 2 }),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    setNumber: integer('set_number').notNull(),
+    reps: integer('reps'),
+    exerciseLoad: numeric('exercise_load', { precision: 5, scale: 2 }),
     note: varchar('note', { length: 255 }),
-    workoutRecordExerciseId: bigint('workout_record_exercise_id', { mode: 'number' }).notNull(),
+    workoutRecordExerciseId: bigint('workout_record_exercise_id', { mode: 'number' })
+      .notNull()
+      .references(() => workoutRecordExercise.id, { onDelete: 'cascade' }),
     createdAt: createdAt(),
   },
   (t) => ({
     exerciseIdx: index('workout_record_exercise_set_exercise_idx').on(t.workoutRecordExerciseId),
-    // Nome explícito: o padrão do Drizzle passaria dos 64 chars do MySQL.
-    recordExerciseFk: foreignKey({
-      name: 'wr_exercise_set_wr_exercise_fk',
-      columns: [t.workoutRecordExerciseId],
-      foreignColumns: [workoutRecordExercise.id],
-    }).onDelete('cascade'),
   }),
 )

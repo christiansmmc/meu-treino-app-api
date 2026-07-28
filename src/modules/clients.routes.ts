@@ -43,21 +43,27 @@ clientRoutes.post('/', async (c) => {
   const passwordHash = await hashPassword(dto.user.password)
 
   const id = await db.transaction(async (tx) => {
-    const [userInsert] = await tx.insert(users).values({
-      email: dto.user.email,
-      password: passwordHash,
-      role: 'USER',
-    })
+    const [userInsert] = await tx
+      .insert(users)
+      .values({
+        email: dto.user.email,
+        password: passwordHash,
+        role: 'USER',
+      })
+      .returning({ id: users.id })
 
-    const [clientInsert] = await tx.insert(clientTable).values({
-      firstName: dto.firstName.toLowerCase(),
-      lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
-      weight: dto.weight != null ? String(dto.weight) : null,
-      height: dto.height != null ? String(dto.height) : null,
-      userId: userInsert.insertId,
-    })
+    const [clientInsert] = await tx
+      .insert(clientTable)
+      .values({
+        firstName: dto.firstName.toLowerCase(),
+        lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
+        weight: dto.weight != null ? String(dto.weight) : null,
+        height: dto.height != null ? String(dto.height) : null,
+        userId: userInsert!.id,
+      })
+      .returning({ id: clientTable.id })
 
-    return clientInsert.insertId
+    return clientInsert!.id
   })
 
   return c.json({ id })

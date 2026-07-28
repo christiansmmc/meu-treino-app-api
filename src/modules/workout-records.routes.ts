@@ -140,20 +140,26 @@ workoutRecordRoutes.post('/', async (c) => {
   await assertExercisesExist(vm.exercises.map((e) => e.exerciseId))
 
   const recordId = await db.transaction(async (tx) => {
-    const [inserted] = await tx.insert(workoutRecord).values({
-      workoutId: vm.workoutId,
-      createdAt: new Date(),
-    })
+    const [inserted] = await tx
+      .insert(workoutRecord)
+      .values({
+        workoutId: vm.workoutId,
+        createdAt: new Date(),
+      })
+      .returning({ id: workoutRecord.id })
 
-    const id = inserted.insertId
+    const id = inserted!.id
 
     for (const ex of vm.exercises) {
-      const [insertedExercise] = await tx.insert(workoutRecordExercise).values({
-        note: ex.note ?? null,
-        status: ex.status,
-        exerciseId: ex.exerciseId,
-        workoutRecordId: id,
-      })
+      const [insertedExercise] = await tx
+        .insert(workoutRecordExercise)
+        .values({
+          note: ex.note ?? null,
+          status: ex.status,
+          exerciseId: ex.exerciseId,
+          workoutRecordId: id,
+        })
+        .returning({ id: workoutRecordExercise.id })
 
       const sets = ex.exerciseSets ?? []
       if (sets.length > 0) {
@@ -163,7 +169,7 @@ workoutRecordRoutes.post('/', async (c) => {
             reps: set.reps ?? null,
             exerciseLoad: set.exerciseLoad != null ? String(set.exerciseLoad) : null,
             note: set.note ?? null,
-            workoutRecordExerciseId: insertedExercise.insertId,
+            workoutRecordExerciseId: insertedExercise!.id,
           })),
         )
       }

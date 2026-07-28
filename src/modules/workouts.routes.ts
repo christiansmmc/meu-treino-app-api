@@ -144,13 +144,16 @@ workoutRoutes.post('/', async (c) => {
   const listOrder = maxOrder?.value === null || maxOrder?.value === undefined ? 0 : maxOrder.value + 1
 
   const id = await db.transaction(async (tx) => {
-    const [inserted] = await tx.insert(workout).values({
-      name: vm.workoutName,
-      listOrder,
-      clientId: client.id,
-    })
+    const [inserted] = await tx
+      .insert(workout)
+      .values({
+        name: vm.workoutName,
+        listOrder,
+        clientId: client.id,
+      })
+      .returning({ id: workout.id })
 
-    const workoutId = inserted.insertId
+    const workoutId = inserted!.id
 
     await tx.insert(workoutExercise).values(
       vm.exercises.map((e, index) => ({

@@ -1,6 +1,6 @@
 import { isNull } from 'drizzle-orm'
 import { BODY_PARTS, type BodyPart, exercise } from './schema.ts'
-import { db, pool } from './client.ts'
+import { db, sql } from './client.ts'
 
 const CSV_PATH = new URL('../../data/exercise.csv', import.meta.url)
 
@@ -45,4 +45,4 @@ if (missing.length === 0) {
   console.log(`${missing.length} exercícios inseridos (total: ${existing.length + missing.length}).`)
 }
 
-await pool.end()
+await sql.end()
