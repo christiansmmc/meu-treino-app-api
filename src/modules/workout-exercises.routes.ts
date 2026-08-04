@@ -20,7 +20,7 @@ const createSchema = z.object({
 const updateSchema = z.object({
   sets: z.number().int(),
   reps: z.number().int(),
-  load: z.number().nullish(),
+  load: z.number().nullable(),
 })
 
 export const workoutExerciseRoutes = new Hono<AuthVariables>()
@@ -89,7 +89,7 @@ workoutExerciseRoutes.patch('/:id', async (c) => {
     .set({
       sets: dto.sets,
       reps: dto.reps,
-      exerciseLoad: dto.load != null ? String(dto.load) : null,
+      exerciseLoad: dto.load !== null ? String(dto.load) : null,
     })
     .where(eq(workoutExercise.id, row.id))
 
