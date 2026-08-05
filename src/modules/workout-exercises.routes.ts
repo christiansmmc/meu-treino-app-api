@@ -5,28 +5,10 @@ import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.t
 import { db } from '../db/client.ts'
 import { exercise, workout, workoutExercise } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
-
-/**
- * `workout_exercise.exercise_load` é `numeric(5, 2)`: no máximo 5 dígitos
- * significativos com 2 casas decimais, ou seja, o maior valor representável é
- * 999.99. Carga negativa não faz sentido físico, por isso o piso é 0. Valores
- * com mais de 2 casas decimais seriam truncados silenciosamente pelo banco —
- * rejeitamos aqui em vez de deixar isso acontecer sem o cliente saber.
- */
-const MAX_EXERCISE_LOAD = 999.99
-
-function hasAtMostTwoDecimalPlaces(value: number): boolean {
-  return Number(value.toFixed(2)) === value
-}
-
-const exerciseLoadSchema = z
-  .number()
-  .nonnegative()
-  .max(MAX_EXERCISE_LOAD)
-  .refine(hasAtMostTwoDecimalPlaces, { message: 'Number must have at most 2 decimal places' })
 
 const createSchema = z.object({
   sets: z.number().int().nullish(),

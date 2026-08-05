@@ -12,6 +12,7 @@ import {
   workoutRecordExerciseSet,
 } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { startOfMonthInAppTimezone, toLocalDate, toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
@@ -31,7 +32,7 @@ const createSchema = z.object({
           z.object({
             set: z.number().int(),
             reps: z.number().int().nullish(),
-            exerciseLoad: z.number().nullish(),
+            exerciseLoad: exerciseLoadSchema.nullish(),
             note: z.string().nullish(),
           }),
         )
