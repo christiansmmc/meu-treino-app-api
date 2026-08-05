@@ -44,6 +44,9 @@ function roundToTwoDecimals(value: number): number {
     return Math.round(value * 100) / 100
   }
 
+  // `nonnegative()` runs before this transform, so `value` is never negative
+  // in practice — this branch is unreachable today. Kept for robustness in
+  // case the chain order ever changes; the sign handling is correct either way.
   const negative = str.startsWith('-')
   const [intPart, fracPart = ''] = (negative ? str.slice(1) : str).split('.')
   if (fracPart.length <= 2) return value

@@ -596,6 +596,42 @@ let recordId = 0
 }
 
 {
+  // Mesmo comportamento de arredondamento coberto em POST/PATCH
+  // /workout-exercises, mas testado diretamente aqui: esta é a rota que
+  // motivou a mudança ("Finalizar treino") — um 400 indevido custaria o
+  // treino inteiro do usuário, então merece cobertura própria, não só
+  // "o schema é compartilhado, deve estar ok".
+  const res = await call('POST', '/workout-record', {
+    body: {
+      workoutId,
+      exercises: [
+        {
+          exerciseId: exerciseIds[0],
+          status: 'COMPLETED',
+          note: null,
+          exerciseSets: [{ set: 1, reps: 10, exerciseLoad: 15.257 }],
+        },
+      ],
+    },
+  })
+  check(
+    'POST /workout-record exerciseLoad com 3 casas (15.257) → 201, não 400',
+    res.status === 201 && typeof res.body?.id === 'number',
+    res.body,
+  )
+  check(
+    'exerciseLoad 15.257 foi arredondado para 15.26 no detail devolvido',
+    res.body?.workoutRecordExercises?.[0]?.workoutRecordExerciseSets?.[0]?.exerciseLoad === 15.26,
+    res.body?.workoutRecordExercises?.[0],
+  )
+
+  // Limpa o registro extra: só serviu para exercitar o arredondamento, não
+  // faz parte do fluxo principal do smoke test (que usa `recordId`, criado
+  // no bloco anterior).
+  if (res.body?.id) await call('DELETE', `/workout-record/${res.body.id}`)
+}
+
+{
   const res = await call('GET', `/workout-record/last?workoutId=${workoutId}`)
   check('GET /workout-record/last → último registro', res.body?.id === recordId, res.body?.id)
 }
