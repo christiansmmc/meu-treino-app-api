@@ -181,6 +181,20 @@ let workoutId = 0
 }
 
 {
+  const res = await call('POST', '/workouts', {
+    body: {
+      workoutName: 'Treino Smoke Carga Inválida',
+      exercises: [{ exerciseId: exerciseIds[0], sets: 3, reps: 10, load: 9999 }],
+    },
+  })
+  check(
+    'POST /workouts com load acima do teto → 400 VALIDATION_ERROR, não 500',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
   const res = await call('GET', '/workouts')
   const found = (res.body as any[])?.find((w) => w.id === workoutId)
   check(
@@ -274,6 +288,67 @@ let addedWorkoutExerciseId = 0
   })
   check(
     'POST /workout-exercises exerciseLoad acima do teto → 400 VALIDATION_ERROR, não 500',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 111,
+      reps: 111,
+      exerciseLoad: 999.99,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[0] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad no teto (999.99) → 201',
+    res.status === 201 && !res.body,
+    res.body,
+  )
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const added = detail.body?.workoutExercises?.find(
+    (we: any) => we.sets === 111 && we.reps === 111,
+  )
+  check('exerciseLoad no teto persistiu como 999.99', added?.exerciseLoad === 999.99, added)
+
+  // Limpa a linha extra: só serviu para exercitar o boundary, não faz parte
+  // do fluxo principal do smoke test.
+  if (added?.id) await call('DELETE', `/workout-exercises/${added.id}`)
+}
+
+{
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 4,
+      reps: 8,
+      exerciseLoad: -1,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[2] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad negativo → 400 VALIDATION_ERROR',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 4,
+      reps: 8,
+      exerciseLoad: 12.345,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[2] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad com mais de 2 casas decimais → 400 VALIDATION_ERROR',
     res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
     res.body,
   )
@@ -412,6 +487,27 @@ let recordId = 0
     res.body?.workoutRecordExercises?.[0]?.workoutRecordExerciseSets?.[0]?.set === 1 &&
       res.body?.workoutRecordExercises?.[0]?.workoutRecordExerciseSets?.[1]?.exerciseLoad === 45,
     res.body?.workoutRecordExercises?.[0],
+  )
+}
+
+{
+  const res = await call('POST', '/workout-record', {
+    body: {
+      workoutId,
+      exercises: [
+        {
+          exerciseId: exerciseIds[0],
+          status: 'COMPLETED',
+          note: null,
+          exerciseSets: [{ set: 1, reps: 10, exerciseLoad: 9999 }],
+        },
+      ],
+    },
+  })
+  check(
+    'POST /workout-record com exerciseLoad acima do teto → 400 VALIDATION_ERROR, não 500',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
   )
 }
 
