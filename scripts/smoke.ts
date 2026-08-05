@@ -338,20 +338,90 @@ let addedWorkoutExerciseId = 0
 }
 
 {
+  // Mais de 2 casas decimais não é mais rejeitado: é arredondado (meio para
+  // cima) antes de gravar, para casar com o que o numeric(5,2) faria de
+  // qualquer forma. 15.253 arredonda para baixo, 15.257 arredonda para cima.
   const res = await call('POST', '/workout-exercises', {
     body: {
-      sets: 4,
-      reps: 8,
-      exerciseLoad: 12.345,
+      sets: 131,
+      reps: 131,
+      exerciseLoad: 15.253,
       workout: { id: workoutId },
       exercise: { id: exerciseIds[2] },
     },
   })
   check(
-    'POST /workout-exercises exerciseLoad com mais de 2 casas decimais → 400 VALIDATION_ERROR',
-    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    'POST /workout-exercises exerciseLoad com 3 casas (15.253) → 201, não 400',
+    res.status === 201 && !res.body,
     res.body,
   )
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const added = detail.body?.workoutExercises?.find(
+    (we: any) => we.sets === 131 && we.reps === 131,
+  )
+  check('exerciseLoad 15.253 foi arredondado para 15.25', added?.exerciseLoad === 15.25, added)
+
+  if (added?.id) await call('DELETE', `/workout-exercises/${added.id}`)
+}
+
+{
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 132,
+      reps: 132,
+      exerciseLoad: 15.257,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[2] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad com 3 casas (15.257) → 201, não 400',
+    res.status === 201 && !res.body,
+    res.body,
+  )
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const added = detail.body?.workoutExercises?.find(
+    (we: any) => we.sets === 132 && we.reps === 132,
+  )
+  check('exerciseLoad 15.257 foi arredondado para 15.26', added?.exerciseLoad === 15.26, added)
+
+  if (added?.id) await call('DELETE', `/workout-exercises/${added.id}`)
+}
+
+{
+  // Caso de borda criado pela troca de ordem (arredondar antes de checar o
+  // teto): 999.994 está ACIMA do teto bruto (999.99) mas arredonda para
+  // 999.99, exatamente o teto — deve ser aceito. Com a ordem antiga
+  // (checar o teto no valor bruto) isso seria rejeitado incorretamente.
+  // Não existe o caso inverso (valor <= 999.99 que arredonda para ACIMA do
+  // teto): 999.99 já tem a mesma escala do arredondamento, então qualquer
+  // valor bruto <= 999.99 arredonda, no máximo, para 999.99 — nunca para
+  // 1000.00. Só valores já > 999.99 (portanto já rejeitados de qualquer
+  // forma) arredondam para 1000.00.
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 133,
+      reps: 133,
+      exerciseLoad: 999.994,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[2] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad 999.994 (arredonda para o teto) → 201, não 400',
+    res.status === 201 && !res.body,
+    res.body,
+  )
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const added = detail.body?.workoutExercises?.find(
+    (we: any) => we.sets === 133 && we.reps === 133,
+  )
+  check('exerciseLoad 999.994 foi arredondado para 999.99', added?.exerciseLoad === 999.99, added)
+
+  if (added?.id) await call('DELETE', `/workout-exercises/${added.id}`)
 }
 
 {
@@ -429,14 +499,28 @@ let addedWorkoutExerciseId = 0
 }
 
 {
+  // Mesmo comportamento de arredondamento do POST (schema compartilhado): o
+  // caso de borda do teto pós-arredondamento já foi coberto lá, não precisa
+  // repetir aqui.
   const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
-    body: { sets: 5, reps: 12, load: 12.345 },
+    body: { sets: 5, reps: 12, load: 15.253 },
   })
-  check(
-    'PATCH load com mais de 2 casas decimais → 400 VALIDATION_ERROR',
-    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
-    res.body,
-  )
+  check('PATCH load com 3 casas (15.253) → 200, não 400', res.status === 200, res.body)
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const updated = detail.body?.workoutExercises?.find((we: any) => we.id === workoutExerciseId)
+  check('load 15.253 foi arredondado para 15.25', updated?.exerciseLoad === 15.25, updated)
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: 15.257 },
+  })
+  check('PATCH load com 3 casas (15.257) → 200, não 400', res.status === 200, res.body)
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const updated = detail.body?.workoutExercises?.find((we: any) => we.id === workoutExerciseId)
+  check('load 15.257 foi arredondado para 15.26', updated?.exerciseLoad === 15.26, updated)
 }
 
 {
