@@ -263,6 +263,23 @@ let addedWorkoutExerciseId = 0
 }
 
 {
+  const res = await call('POST', '/workout-exercises', {
+    body: {
+      sets: 4,
+      reps: 8,
+      exerciseLoad: 9999,
+      workout: { id: workoutId },
+      exercise: { id: exerciseIds[2] },
+    },
+  })
+  check(
+    'POST /workout-exercises exerciseLoad acima do teto → 400 VALIDATION_ERROR, não 500',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
   const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
     body: { sets: 5, reps: 12, load: 55.5 },
   })
@@ -274,6 +291,76 @@ let addedWorkoutExerciseId = 0
     'update de sets/reps/load persistiu',
     updated?.sets === 5 && updated?.reps === 12 && updated?.exerciseLoad === 55.5,
     updated,
+  )
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: null },
+  })
+  check('PATCH /workout-exercises/{id} load:null → 200', res.status === 200, res.body)
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const updated = detail.body?.workoutExercises?.find((we: any) => we.id === workoutExerciseId)
+  check(
+    'load:null grava NULL de verdade (não "null", não 0)',
+    updated?.exerciseLoad === null,
+    updated,
+  )
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12 },
+  })
+  check(
+    'PATCH sem a chave load → 400 VALIDATION_ERROR (nullable, não nullish)',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: 999.99 },
+  })
+  check('PATCH load no teto da coluna (999.99) → 200', res.status === 200, res.body)
+
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const updated = detail.body?.workoutExercises?.find((we: any) => we.id === workoutExerciseId)
+  check('load no teto persistiu como 999.99', updated?.exerciseLoad === 999.99, updated)
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: 1000 },
+  })
+  check(
+    'PATCH load acima do teto (1000) → 400 VALIDATION_ERROR, não 500',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: -1 },
+  })
+  check(
+    'PATCH load negativo → 400 VALIDATION_ERROR',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
+  )
+}
+
+{
+  const res = await call('PATCH', `/workout-exercises/${workoutExerciseId}`, {
+    body: { sets: 5, reps: 12, load: 12.345 },
+  })
+  check(
+    'PATCH load com mais de 2 casas decimais → 400 VALIDATION_ERROR',
+    res.status === 400 && res.body?.code === 'VALIDATION_ERROR',
+    res.body,
   )
 }
 
