@@ -668,21 +668,79 @@ let recordId = 0
 }
 
 // --- GET /workouts/full -----------------------------------------------------
+// Treino esvaziado de propósito: POST /workouts exige ao menos um exercício,
+// então a única forma de ter um treino sem nenhum é criar com um e removê-lo
+// depois — o mesmo caminho que um usuário real percorre ao esvaziar o treino.
+let workoutEmptyId = 0
+{
+  const res = await call('POST', '/workouts', {
+    body: { workoutName: 'Treino Smoke Vazio', exercises: [{ exerciseId: exerciseIds[0] }] },
+  })
+  workoutEmptyId = res.body?.id ?? 0
+  check(
+    'POST /workouts (treino a ser esvaziado) → 201',
+    res.status === 201 && workoutEmptyId > 0,
+    res.body,
+  )
+
+  const detail = await call('GET', `/workouts/${workoutEmptyId}`)
+  const onlyWorkoutExerciseId = detail.body?.workoutExercises?.[0]?.id ?? 0
+  const del = await call('DELETE', `/workout-exercises/${onlyWorkoutExerciseId}`)
+  check('DELETE do único exercício do treino → 204', del.status === 204, del.body)
+}
+
+// Inverte listOrder x id de propósito: sem isso, ordenar por id (bug) e
+// ordenar por listOrder (correto) dariam o mesmo resultado e o teste não
+// provaria nada.
+{
+  const res = await call('PATCH', '/workouts/list-order', {
+    body: [
+      { id: workoutId, listOrder: 100 },
+      { id: workoutEmptyId, listOrder: 1 },
+    ],
+  })
+  check('PATCH /workouts/list-order (setup do teste de ordenação) → 200', res.status === 200, res.body)
+}
+
 {
   const res = await call('GET', '/workouts/full')
-  const list = (res.body as any[]) ?? []
+  const isList = Array.isArray(res.body)
+  check('GET /workouts/full → 200 lista', res.status === 200 && isList, res.body)
+  // Se `/full` fosse capturada por `/:id`, `res.body` seria o objeto de erro
+  // do argumentTypeMismatch, não um array — checar isso aqui em vez de deixar
+  // o `.find` mais abaixo estourar TypeError antes de qualquer check rodar.
+  check('/full não foi capturada por /:id', isList, res.body)
+
+  const list = isList ? (res.body as any[]) : []
   const found = list.find((w) => w.id === workoutId)
-  check('GET /workouts/full → 200 lista', res.status === 200 && Array.isArray(res.body), res.body)
   check('treino do smoke aparece com exercícios', !!found?.exercises?.length, found)
   check(
     'exercício traz nome, séries, reps e carga',
     typeof found?.exercises?.[0]?.name === 'string' && 'exerciseLoad' in found.exercises[0],
     found?.exercises?.[0],
   )
+
+  const empty = list.find((w) => w.id === workoutEmptyId)
   check(
-    '/full não foi capturada por /:id',
-    res.body?.code !== 'ARGUMENT_TYPE_MISMATCH' && res.body?.code !== '003',
-    res.body,
+    'treino sem exercícios aparece com array vazio, não some',
+    !!empty && Array.isArray(empty.exercises) && empty.exercises.length === 0,
+    empty,
+  )
+
+  const emptyIdx = list.findIndex((w) => w.id === workoutEmptyId)
+  const mainIdx = list.findIndex((w) => w.id === workoutId)
+  check(
+    'treinos vêm ordenados por listOrder, não por id',
+    emptyIdx !== -1 && mainIdx !== -1 && emptyIdx < mainIdx,
+    list.map((w) => ({ id: w.id, listOrder: w.listOrder })),
+  )
+
+  const exerciseListOrders: number[] = found?.exercises?.map((e: any) => e.listOrder) ?? []
+  check(
+    'exercícios de um treino vêm ordenados por listOrder',
+    exerciseListOrders.length >= 2 &&
+      exerciseListOrders.every((lo, i) => i === 0 || (exerciseListOrders[i - 1] ?? -Infinity) <= lo),
+    exerciseListOrders,
   )
 }
 
