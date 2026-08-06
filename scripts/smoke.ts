@@ -66,11 +66,33 @@ function check(label: string, condition: boolean, extra?: unknown) {
   }
 }
 
+/**
+ * Como `check`, mas para pré-condições cuja falha invalida blocos
+ * posteriores (ex.: restaurar a senha principal antes de blocos que
+ * dependem dela). `check` sozinho registraria a falha e o script seguiria
+ * em frente com uma premissa falsa — e aí a falha real aparece só nos
+ * blocos dependentes, mais abaixo (ex.: `DELETE /clients → 204` falhando
+ * porque a senha não é a que o script pensa que é), apontando para o
+ * sintoma errado. `fatal` registra e interrompe ali mesmo.
+ */
+function fatal(label: string, extra?: unknown): never {
+  failed += 1
+  console.log(`  FATAL ${label}`, extra === undefined ? '' : JSON.stringify(extra))
+  throw new Error(`smoke abortado: ${label}`)
+}
+
 const email = `smoke_${Date.now()}@test.com`
 const password = 'test1234'
 
 console.log(`Smoke em ${BASE_URL}`)
 
+// O corpo inteiro fica dentro do try/finally abaixo (ver o fechamento no fim
+// do arquivo) para que `sql.end()` e o resumo passaram/falharam rodem mesmo
+// quando algo lança (ex.: `fatal()`) — sem isso, um throw pulava os dois,
+// exatamente a falha que o docstring do topo do arquivo alerta. Deliberadamente
+// NÃO reindentado: são ~1300 linhas, e reindentar tudo só pra caber dentro do
+// `try` infla o diff sem mudar comportamento nenhum.
+try {
 // --- Health -----------------------------------------------------------------
 {
   const res = await call('GET', '/health', { auth: false })
@@ -1120,12 +1142,21 @@ const novaSenha = 'test5678'
     mesmaSenha.body,
   )
 
-  // Restaura a senha para `novaSenha`: os blocos seguintes (isolamento entre
-  // clientes e DELETE /clients) dependem desse valor exato.
+  // Restaura a senha para `novaSenha`: os blocos seguintes (corrida
+  // PATCH x DELETE, isolamento entre clientes e DELETE /clients) dependem
+  // desse valor exato. Se isso não voltar 204, a conta fica com uma senha
+  // diferente da que o resto do script supõe — sem parar aqui, a falha real
+  // só apareceria mais abaixo como `DELETE /clients → 204` falhando (senha
+  // errada), apontando para o endpoint errado, e a conta (com seus treinos,
+  // registros e o exercício custom inserido direto no banco) ficaria no
+  // banco pra sempre, já que aquele DELETE é o único caminho de limpeza.
   const restaura = await call('PATCH', '/clients/password', {
     body: { currentPassword: seisChars, newPassword: novaSenha },
   })
-  check('PATCH /clients/password restaura para novaSenha → 204', restaura.status === 204, restaura.body)
+  if (restaura.status !== 204) {
+    fatal('PATCH /clients/password restaura para novaSenha → não voltou 204', restaura.body)
+  }
+  check('PATCH /clients/password restaura para novaSenha → 204', true)
 }
 
 // --- A6: PATCH /clients concorrente com DELETE /clients nunca 500 ----------
@@ -1342,8 +1373,14 @@ const novaSenha = 'test5678'
   const res = await call('GET', '/nao-existe')
   check('rota inexistente → 404 NOT_FOUND', res.status === 404 && res.body?.code === 'NOT_FOUND', res.body)
 }
+} catch (err) {
+  // `fatal()` (ou qualquer outro throw não previsto) cai aqui: registra e
+  // segue para o `finally`, em vez de matar o processo antes de fechar a
+  // conexão e imprimir o resumo.
+  console.error('\nSmoke abortado por um erro fatal:', err)
+} finally {
+  await sql.end()
+  console.log(`\n${passed} passaram, ${failed} falharam`)
+}
 
-await sql.end()
-
-console.log(`\n${passed} passaram, ${failed} falharam`)
 process.exit(failed === 0 ? 0 : 1)
