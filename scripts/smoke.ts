@@ -116,6 +116,46 @@ console.log(`Smoke em ${BASE_URL}`)
   )
 }
 
+// --- Cadastro: mínimo de senha alinhado com PATCH /clients/password ---------
+// `createClientSchema` e `changePasswordSchema` precisam concordar em min(6)
+// (ver comentário em `clients.routes.ts`); senão dá pra criar conta com senha
+// que o próprio endpoint de trocar senha recusaria depois.
+{
+  const emailCurta = `smoke_curta_${Date.now()}@test.com`
+  const curta = await call('POST', '/clients', {
+    auth: false,
+    body: { firstName: 'Smoke', lastName: 'Curta', user: { email: emailCurta, password: '12345' } },
+  })
+  check('POST /clients senha com 5 caracteres → 400', curta.status === 400, curta.body)
+
+  const emailMinima = `smoke_minima_${Date.now()}@test.com`
+  const senhaMinima = '123456'
+  const minima = await call('POST', '/clients', {
+    auth: false,
+    body: { firstName: 'Smoke', lastName: 'Minima', user: { email: emailMinima, password: senhaMinima } },
+  })
+  check(
+    'POST /clients senha com 6 caracteres → 200 {id}',
+    minima.status === 200 && typeof minima.body?.id === 'number',
+    minima.body,
+  )
+
+  // Limpa a conta criada só para provar o mínimo de 6 chars: troca o token
+  // module-scope temporariamente para ela se autodeletar, sem afetar a conta
+  // principal (`email`/`password`) usada pelo resto do smoke.
+  if (minima.status === 200) {
+    const tokenPrincipal = token
+    const loginMinima = await call('POST', '/authenticate', {
+      auth: false,
+      body: { email: emailMinima, password: senhaMinima },
+    })
+    token = loginMinima.body?.token ?? ''
+    const delMinima = await call('DELETE', '/clients', { body: { password: senhaMinima } })
+    check('DELETE /clients conta senha mínima → 204 (limpeza)', delMinima.status === 204, delMinima.body)
+    token = tokenPrincipal
+  }
+}
+
 // --- Client -----------------------------------------------------------------
 {
   const res = await call('GET', '/clients')
