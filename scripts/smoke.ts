@@ -842,6 +842,29 @@ let swappedSecondName = ''
   const alto = await call('PATCH', '/clients', { body: { height: 12 } })
   check('PATCH /clients altura acima do teto → 400', alto.status === 400, alto.body)
 
+  const pesoAlto = await call('PATCH', '/clients', { body: { weight: 1000 } })
+  check('PATCH /clients peso acima do teto → 400', pesoAlto.status === 400, pesoAlto.body)
+
+  const noTeto = await call('PATCH', '/clients', { body: { weight: 999.99, height: 9.99 } })
+  check(
+    'PATCH /clients peso e altura exatamente no teto (999.99 / 9.99) → 200, aceitos',
+    noTeto.status === 200 && noTeto.body?.weight === 999.99 && noTeto.body?.height === 9.99,
+    noTeto.body,
+  )
+
+  const arredonda = await call('PATCH', '/clients', { body: { weight: 82.555 } })
+  check(
+    'PATCH /clients peso com 3 casas (82.555) → arredondado para 82.56',
+    arredonda.status === 200 && arredonda.body?.weight === 82.56,
+    arredonda.body,
+  )
+  const arredondaPersistiu = await call('GET', '/clients')
+  check(
+    'peso arredondado (82.56) persistiu e volta assim no GET',
+    arredondaPersistiu.body?.weight === 82.56,
+    arredondaPersistiu.body,
+  )
+
   const semToken = await call('PATCH', '/clients', { body: { weight: 80 }, auth: false })
   check('PATCH /clients sem token → 401', semToken.status === 401, semToken.body)
 
@@ -872,6 +895,15 @@ const novaSenha = 'test5678'
   })
   check('PATCH /clients/password nova senha curta → 400', curta.status === 400, curta.body)
 
+  const cincoChars = await call('PATCH', '/clients/password', {
+    body: { currentPassword: password, newPassword: '12345' },
+  })
+  check(
+    'PATCH /clients/password nova senha com 5 caracteres → 400',
+    cincoChars.status === 400,
+    cincoChars.body,
+  )
+
   const res = await call('PATCH', '/clients/password', {
     body: { currentPassword: password, newPassword: novaSenha },
   })
@@ -895,6 +927,36 @@ const novaSenha = 'test5678'
   // invalidação de token.
   const atual = await call('GET', '/clients')
   check('token anterior continua válido após trocar a senha', atual.status === 200, atual.body)
+
+  // Fronteira dos 6 caracteres: exatamente 6 é o mínimo aceito.
+  const seisChars = 'senha6'
+  const seisCharsRes = await call('PATCH', '/clients/password', {
+    body: { currentPassword: novaSenha, newPassword: seisChars },
+  })
+  check(
+    'PATCH /clients/password nova senha com exatamente 6 caracteres → 204',
+    seisCharsRes.status === 204,
+    seisCharsRes.body,
+  )
+
+  // Trocar para a mesma senha atual é permitido de propósito — a rota não
+  // proíbe reuso, e isso não é um bug: só não havia cobertura fixando o
+  // comportamento.
+  const mesmaSenha = await call('PATCH', '/clients/password', {
+    body: { currentPassword: seisChars, newPassword: seisChars },
+  })
+  check(
+    'PATCH /clients/password nova senha igual à atual → 204 (permitido de propósito)',
+    mesmaSenha.status === 204,
+    mesmaSenha.body,
+  )
+
+  // Restaura a senha para `novaSenha`: os blocos seguintes (isolamento entre
+  // clientes e DELETE /clients) dependem desse valor exato.
+  const restaura = await call('PATCH', '/clients/password', {
+    body: { currentPassword: seisChars, newPassword: novaSenha },
+  })
+  check('PATCH /clients/password restaura para novaSenha → 204', restaura.status === 204, restaura.body)
 }
 
 // --- Isolamento entre clientes (exercício custom) ----------------------------
