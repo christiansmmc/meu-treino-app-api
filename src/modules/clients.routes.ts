@@ -1,10 +1,10 @@
-import { eq } from 'drizzle-orm'
+import { eq, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { requireAuth, requireUserRole, loggedClient } from '../auth/middleware.ts'
 import { hashPassword, verifyPassword } from '../auth/password.ts'
 import { db } from '../db/client.ts'
-import { client as clientTable, users } from '../db/schema.ts'
+import { client as clientTable, exercise, users, workout, workoutRecord } from '../db/schema.ts'
 import { AppError, ErrorType } from '../shared/errors.ts'
 import { clientHeightSchema, clientWeightSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
@@ -37,6 +37,10 @@ const changePasswordSchema = z.object({
   currentPassword: z.string().min(1),
   // Mínimo alinhado com `FormValidators.validatePassword` do app Flutter.
   newPassword: z.string().min(6),
+})
+
+const deleteAccountSchema = z.object({
+  password: z.string().min(1),
 })
 
 export const clientRoutes = new Hono<AuthVariables>()
@@ -143,6 +147,47 @@ clientRoutes.patch('/password', requireAuth, requireUserRole, async (c) => {
     .update(users)
     .set({ password: await hashPassword(dto.newPassword) })
     .where(eq(users.id, user.id))
+
+  return c.body(null, 204)
+})
+
+/**
+ * Hard delete: o app promete "seus treinos e histórico são apagados junto".
+ *
+ * A ordem importa. `workout_exercise`, `workout_record_exercise` e
+ * `workout_record_exercise_set` caem sozinhos por `onDelete: 'cascade'`, mas
+ * `workout_record → workout` NÃO tem cascade no schema — apagar `workout`
+ * primeiro violaria a FK. Os treinos são buscados sem filtrar `deletedAt`:
+ * treino excluído por soft delete também tem que sair do banco aqui.
+ *
+ * Exercícios custom (`exercise.client_id`) só podem ser referenciados pelo
+ * próprio dono — `assertExercisesExist` em `workouts.routes.ts` filtra por
+ * cliente — então saem junto sem risco de órfão em treino de terceiro.
+ */
+clientRoutes.delete('/', requireAuth, requireUserRole, async (c) => {
+  const client = loggedClient(c)
+  const user = c.get('user')
+  const dto = await parseBody(c, deleteAccountSchema)
+
+  const ok = await verifyPassword(dto.password, user.password)
+  AppError.throwIfNot(ok, ErrorType.INVALID_PASSWORD)
+
+  await db.transaction(async (tx) => {
+    const workouts = await tx
+      .select({ id: workout.id })
+      .from(workout)
+      .where(eq(workout.clientId, client.id))
+    const workoutIds = workouts.map((w) => w.id)
+
+    if (workoutIds.length > 0) {
+      await tx.delete(workoutRecord).where(inArray(workoutRecord.workoutId, workoutIds))
+      await tx.delete(workout).where(inArray(workout.id, workoutIds))
+    }
+
+    await tx.delete(exercise).where(eq(exercise.clientId, client.id))
+    await tx.delete(clientTable).where(eq(clientTable.id, client.id))
+    await tx.delete(users).where(eq(users.id, user.id))
+  })
 
   return c.body(null, 204)
 })

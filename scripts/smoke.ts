@@ -757,6 +757,29 @@ const novaSenha = 'test5678'
   check('token anterior continua válido após trocar a senha', atual.status === 200, atual.body)
 }
 
+// --- DELETE /clients --------------------------------------------------------
+// Precisa ser o último bloco autenticado: apaga o usuário do smoke.
+{
+  const errada = await call('DELETE', '/clients', { body: { password: 'senha-errada' } })
+  check(
+    'DELETE /clients senha errada → 400 código 008',
+    errada.status === 400 && errada.body?.code === '008',
+    errada.body,
+  )
+
+  const res = await call('DELETE', '/clients', { body: { password: novaSenha } })
+  check('DELETE /clients → 204', res.status === 204, res.body)
+
+  const login = await call('POST', '/authenticate', {
+    body: { email, password: novaSenha },
+    auth: false,
+  })
+  check('conta excluída não autentica mais → 401', login.status === 401, login.body)
+
+  const comToken = await call('GET', '/clients')
+  check('token de conta excluída → 401', comToken.status === 401, comToken.body)
+}
+
 // --- 404 --------------------------------------------------------------------
 {
   const res = await call('GET', '/nao-existe')
