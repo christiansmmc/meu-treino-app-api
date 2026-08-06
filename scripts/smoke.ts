@@ -2,6 +2,10 @@
  * Smoke test end-to-end contra uma API rodando (Java ou Bun).
  * Uso: BASE_URL=http://localhost:8080/api bun run scripts/smoke.ts
  */
+import { eq } from 'drizzle-orm'
+import { db, sql } from '../src/db/client.ts'
+import { client as clientTable, exercise, users } from '../src/db/schema.ts'
+
 const BASE_URL = process.env.BASE_URL ?? 'http://localhost:8080/api'
 
 let token = ''
@@ -757,6 +761,88 @@ const novaSenha = 'test5678'
   check('token anterior continua válido após trocar a senha', atual.status === 200, atual.body)
 }
 
+// --- Isolamento entre clientes (exercício custom) ----------------------------
+// Regressão do fix em `workout-records.routes.ts`: `assertExercisesExist` ali
+// não filtrava por cliente, então B conseguia anexar o exerciseId custom de A
+// (bigserial sequencial, fácil de adivinhar) a um registro do próprio treino.
+// Fica antes do bloco DELETE /clients porque troca o `token` module-scope
+// para a conta B e precisa devolvê-lo para A antes daquele bloco rodar.
+{
+  // Não há endpoint HTTP para criar exercício custom — insere direto no banco
+  // (mesmo padrão do `db:seed`) para garantir que a conta A tem um, sem supor
+  // que sobrou algum de um passo anterior.
+  const [clientA] = await db
+    .select({ id: clientTable.id })
+    .from(clientTable)
+    .innerJoin(users, eq(users.id, clientTable.userId))
+    .where(eq(users.email, email))
+  const clientAId = clientA?.id ?? 0
+
+  const [customExercise] = await db
+    .insert(exercise)
+    .values({ name: 'Exercício Custom Smoke A', bodyPart: 'PEITO', clientId: clientAId })
+    .returning({ id: exercise.id })
+  const customExerciseId = customExercise?.id ?? 0
+
+  const tokenA = token
+
+  const emailB = `smoke_b_${Date.now()}@test.com`
+  const passwordB = 'test1234'
+
+  const cadastroB = await call('POST', '/clients', {
+    auth: false,
+    body: { firstName: 'Smoke', lastName: 'B', user: { email: emailB, password: passwordB } },
+  })
+  check('POST /clients conta B → 200 {id}', cadastroB.status === 200, cadastroB.body)
+
+  const loginB = await call('POST', '/authenticate', {
+    auth: false,
+    body: { email: emailB, password: passwordB },
+  })
+  check('POST /authenticate conta B → 200 {token}', loginB.status === 200 && !!loginB.body?.token, loginB.body)
+  token = loginB.body?.token ?? ''
+
+  const workoutB = await call('POST', '/workouts', {
+    body: { workoutName: 'Treino B', exercises: [{ exerciseId: exerciseIds[0] }] },
+  })
+  const workoutBId = workoutB.body?.id ?? 0
+  check('POST /workouts conta B → 201 {id}', workoutB.status === 201 && workoutBId > 0, workoutB.body)
+
+  const negado = await call('POST', '/workout-record', {
+    body: {
+      workoutId: workoutBId,
+      exercises: [{ exerciseId: customExerciseId, status: 'COMPLETED', note: null, exerciseSets: [] }],
+    },
+  })
+  check(
+    'POST /workout-record com exerciseId custom de outro cliente → 404 código 007',
+    negado.status === 404 && negado.body?.code === '007',
+    negado.body,
+  )
+
+  const aceito = await call('POST', '/workout-record', {
+    body: {
+      workoutId: workoutBId,
+      exercises: [{ exerciseId: exerciseIds[0], status: 'COMPLETED', note: null, exerciseSets: [] }],
+    },
+  })
+  check(
+    'POST /workout-record com exercício global continua permitido → 201',
+    aceito.status === 201 && typeof aceito.body?.id === 'number',
+    aceito.body,
+  )
+
+  // Limpa a conta B: não faz parte do fluxo principal, só existiu para provar
+  // o isolamento entre clientes.
+  const delB = await call('DELETE', '/clients', { body: { password: passwordB } })
+  check('DELETE /clients conta B → 204 (limpeza)', delB.status === 204, delB.body)
+
+  // Devolve a identidade para a conta A: o bloco DELETE /clients a seguir (e
+  // tudo que já rodou antes dele) depende do `token` module-scope apontando
+  // para a conta principal do smoke.
+  token = tokenA
+}
+
 // --- DELETE /clients --------------------------------------------------------
 // Precisa ser o último bloco autenticado: apaga o usuário do smoke.
 {
@@ -785,6 +871,8 @@ const novaSenha = 'test5678'
   const res = await call('GET', '/nao-existe')
   check('rota inexistente → 404 NOT_FOUND', res.status === 404 && res.body?.code === 'NOT_FOUND', res.body)
 }
+
+await sql.end()
 
 console.log(`\n${passed} passaram, ${failed} falharam`)
 process.exit(failed === 0 ? 0 : 1)

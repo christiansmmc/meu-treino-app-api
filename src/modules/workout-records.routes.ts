@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte, isNull } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, isNull, or } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -15,7 +15,7 @@ import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { startOfMonthInAppTimezone, toLocalDate, toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
-import type { AuthVariables } from '../types.ts'
+import type { AuthVariables, ClientRow } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
 
 const PERIODS = ['CURRENT_MONTH', 'LAST_3_MONTHS', 'ALL', 'LAST'] as const
@@ -122,12 +122,20 @@ async function buildDetail(recordId: number) {
   }
 }
 
-async function assertExercisesExist(ids: number[]) {
+/**
+ * Igual à mesma checagem em `workouts.routes.ts` e `workout-exercises.routes.ts`:
+ * exercício global (`clientId` nulo) ou do próprio cliente. Sem isso, qualquer
+ * cliente autenticado podia anexar o `exerciseId` de outro (bigserial
+ * sequencial) a um registro do seu próprio treino — vazando o nome do
+ * exercício alheio em `GET /workout-record/{id}` e, pior, criando uma FK que
+ * `DELETE /clients` não consegue apagar quando o dono do exercício sai.
+ */
+async function assertExercisesExist(client: ClientRow, ids: number[]) {
   for (const id of new Set(ids)) {
     const [found] = await db
       .select({ id: exercise.id })
       .from(exercise)
-      .where(eq(exercise.id, id))
+      .where(and(eq(exercise.id, id), or(isNull(exercise.clientId), eq(exercise.clientId, client.id))))
       .limit(1)
     if (!found) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
   }
@@ -138,7 +146,10 @@ workoutRecordRoutes.post('/', async (c) => {
   const vm = await parseBody(c, createSchema)
 
   await findOwnedWorkout(client, vm.workoutId, ErrorType.WORKOUT_NOT_FOUND)
-  await assertExercisesExist(vm.exercises.map((e) => e.exerciseId))
+  await assertExercisesExist(
+    client,
+    vm.exercises.map((e) => e.exerciseId),
+  )
 
   const recordId = await db.transaction(async (tx) => {
     const [inserted] = await tx
