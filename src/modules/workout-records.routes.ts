@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte, isNull, or } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, inArray, isNull, or } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -127,17 +127,26 @@ async function buildDetail(recordId: number) {
  * exercício global (`clientId` nulo) ou do próprio cliente. Sem isso, qualquer
  * cliente autenticado podia anexar o `exerciseId` de outro (bigserial
  * sequencial) a um registro do seu próprio treino — vazando o nome do
- * exercício alheio em `GET /workout-record/{id}` e, pior, criando uma FK que
- * `DELETE /clients` não consegue apagar quando o dono do exercício sai.
+ * exercício alheio no corpo 201 de `POST /workout-record` e em
+ * `GET /workout-record/last` (ambos montados por `buildDetail`) e, pior,
+ * criando uma FK que `DELETE /clients` não consegue apagar quando o dono do
+ * exercício sai.
  */
 async function assertExercisesExist(client: ClientRow, ids: number[]) {
-  for (const id of new Set(ids)) {
-    const [found] = await db
-      .select({ id: exercise.id })
-      .from(exercise)
-      .where(and(eq(exercise.id, id), or(isNull(exercise.clientId), eq(exercise.clientId, client.id))))
-      .limit(1)
-    if (!found) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
+  if (ids.length === 0) return
+  const rows = await db
+    .select({ id: exercise.id })
+    .from(exercise)
+    .where(
+      and(
+        inArray(exercise.id, ids),
+        or(isNull(exercise.clientId), eq(exercise.clientId, client.id)),
+      ),
+    )
+
+  const found = new Set(rows.map((r) => r.id))
+  for (const id of ids) {
+    if (!found.has(id)) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
   }
 }
 
