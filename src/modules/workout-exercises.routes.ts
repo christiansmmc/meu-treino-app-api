@@ -5,6 +5,7 @@ import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.t
 import { db } from '../db/client.ts'
 import { exercise, workout, workoutExercise } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
@@ -12,7 +13,7 @@ import { findOwnedWorkout } from './workouts.routes.ts'
 const createSchema = z.object({
   sets: z.number().int().nullish(),
   reps: z.number().int().nullish(),
-  exerciseLoad: z.number().nullish(),
+  exerciseLoad: exerciseLoadSchema.nullish(),
   workout: z.object({ id: z.number().int().positive() }),
   exercise: z.object({ id: z.number().int().positive() }),
 })
@@ -20,7 +21,7 @@ const createSchema = z.object({
 const updateSchema = z.object({
   sets: z.number().int(),
   reps: z.number().int(),
-  load: z.number().nullable(),
+  load: exerciseLoadSchema.nullable(),
 })
 
 export const workoutExerciseRoutes = new Hono<AuthVariables>()

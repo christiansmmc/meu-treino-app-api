@@ -10,6 +10,7 @@ import {
   type ErrorTypeEntry,
   argumentTypeMismatch,
 } from '../shared/errors.ts'
+import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables, ClientRow } from '../types.ts'
@@ -23,7 +24,7 @@ const createWorkoutSchema = z.object({
         sets: z.number().int().nullish(),
         reps: z.number().int().nullish(),
         // No POST o campo é `load`; na resposta é `exerciseLoad` (inconsistência herdada).
-        load: z.number().nullish(),
+        load: exerciseLoadSchema.nullish(),
       }),
     )
     .min(1),
