@@ -235,6 +235,52 @@ console.log(`Smoke em ${BASE_URL}`)
   token = tokenPrincipal
 }
 
+// --- A6: POST /clients concorrente no mesmo e-mail nunca 500 ---------------
+// O SELECT que checa e-mail duplicado e o INSERT não são atômicos entre si:
+// dois cadastros simultâneos para o mesmo e-mail podem ambos passar pelo
+// SELECT antes de qualquer um commitar. O índice único por trás garante que
+// só um vence — sem tratar o `PostgresError` 23505 do perdedor, ele recebia
+// 500 em vez do 400 EMAIL_ALREADY_EXISTS que o caminho do SELECT já dá.
+// Determinístico (não depende de qual dos dois "ganha"): o índice único do
+// Postgres garante que exatamente um dos dois commita.
+{
+  const emailCorrida = `smoke_corrida_${Date.now()}@test.com`
+  const [corridaA, corridaB] = await Promise.all([
+    call('POST', '/clients', {
+      auth: false,
+      body: { firstName: 'Smoke', lastName: 'CorridaA', user: { email: emailCorrida, password } },
+    }),
+    call('POST', '/clients', {
+      auth: false,
+      body: { firstName: 'Smoke', lastName: 'CorridaB', user: { email: emailCorrida, password } },
+    }),
+  ])
+  const statusesCorrida = [corridaA.status, corridaB.status].sort()
+  const perdedor = corridaA.status === 400 ? corridaA : corridaB
+  check(
+    'POST /clients concorrentes no mesmo e-mail → um 200 e um 400 EMAIL_ALREADY_EXISTS, nunca 500',
+    statusesCorrida[0] === 200 &&
+      statusesCorrida[1] === 400 &&
+      perdedor.body?.code === 'EMAIL_ALREADY_EXISTS',
+    { a: corridaA.status, b: corridaB.status, aBody: corridaA.body, bBody: corridaB.body },
+  )
+
+  // Limpa a conta que venceu a corrida.
+  const tokenPrincipalCorrida = token
+  const loginCorrida = await call('POST', '/authenticate', {
+    auth: false,
+    body: { email: emailCorrida, password },
+  })
+  token = loginCorrida.body?.token ?? ''
+  const delCorrida = await call('DELETE', '/clients', { body: { password } })
+  check(
+    'DELETE /clients conta vencedora da corrida de e-mail → 204 (limpeza)',
+    delCorrida.status === 204,
+    delCorrida.body,
+  )
+  token = tokenPrincipalCorrida
+}
+
 // --- Client -----------------------------------------------------------------
 {
   const res = await call('GET', '/clients')
@@ -1080,6 +1126,52 @@ const novaSenha = 'test5678'
     body: { currentPassword: seisChars, newPassword: novaSenha },
   })
   check('PATCH /clients/password restaura para novaSenha → 204', restaura.status === 204, restaura.body)
+}
+
+// --- A6: PATCH /clients concorrente com DELETE /clients nunca 500 ----------
+// Se o client for apagado (DELETE /clients de outro dispositivo) entre
+// `requireAuth` e o UPDATE deste PATCH, `.returning()` vem vazio e `updated!`
+// estourava `TypeError` → 500 sem a guarda. Dispara os dois concorrentes
+// contra a mesma conta descartável: não é garantido acertar exatamente a
+// janela de corrida (best-effort, depende de como o event loop intercala as
+// duas requisições), mas o PATCH nunca deveria responder 500 em nenhuma
+// ordem de execução.
+{
+  const emailRace = `smoke_race_${Date.now()}@test.com`
+  const passwordRace = 'test1234'
+  const cadastroRace = await call('POST', '/clients', {
+    auth: false,
+    body: { firstName: 'Smoke', lastName: 'Race', user: { email: emailRace, password: passwordRace } },
+  })
+  check(
+    'POST /clients conta descartável p/ corrida PATCH x DELETE → 200 {id}',
+    cadastroRace.status === 200,
+    cadastroRace.body,
+  )
+
+  const tokenPrincipalRace = token
+  const loginRace = await call('POST', '/authenticate', {
+    auth: false,
+    body: { email: emailRace, password: passwordRace },
+  })
+  token = loginRace.body?.token ?? ''
+
+  const [patchRace, deleteRace] = await Promise.all([
+    call('PATCH', '/clients', { body: { weight: 70 } }),
+    call('DELETE', '/clients', { body: { password: passwordRace } }),
+  ])
+  check(
+    'PATCH /clients concorrente com DELETE /clients → nunca 500',
+    patchRace.status !== 500,
+    { patch: patchRace.status, patchBody: patchRace.body, del: deleteRace.status },
+  )
+
+  // Garante limpeza mesmo se o DELETE concorrente perdeu a corrida.
+  if (deleteRace.status !== 204) {
+    await call('DELETE', '/clients', { body: { password: passwordRace } })
+  }
+
+  token = tokenPrincipalRace
 }
 
 // --- Isolamento entre clientes (exercício custom) ----------------------------

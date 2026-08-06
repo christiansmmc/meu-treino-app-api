@@ -1,5 +1,6 @@
 import { eq, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
+import postgres from 'postgres'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
 import { hashPassword, verifyPassword } from '../auth/password.ts'
@@ -81,6 +82,11 @@ function clientResponse(client: ClientRow, user: UserRow) {
   }
 }
 
+const EMAIL_ALREADY_EXISTS = {
+  code: 'EMAIL_ALREADY_EXISTS',
+  message: 'Já existe uma conta com esse e-mail.',
+}
+
 /** Cadastro — público (mesma regra do `SecurityConfig` do Java). */
 clientRoutes.post('/', async (c) => {
   const dto = await parseBody(c, createClientSchema)
@@ -93,39 +99,54 @@ clientRoutes.post('/', async (c) => {
     .limit(1)
 
   if (existing) {
-    throw new AppError(
-      { code: 'EMAIL_ALREADY_EXISTS', message: 'Já existe uma conta com esse e-mail.' },
-      400,
-    )
+    throw new AppError(EMAIL_ALREADY_EXISTS, 400)
   }
 
   const passwordHash = await hashPassword(dto.user.password)
 
-  const id = await db.transaction(async (tx) => {
-    const [userInsert] = await tx
-      .insert(users)
-      .values({
-        email: dto.user.email,
-        password: passwordHash,
-        role: 'USER',
-      })
-      .returning({ id: users.id })
+  // O SELECT acima e este INSERT não são atômicos entre si: dois cadastros
+  // simultâneos para o mesmo e-mail podem ambos passar pelo `existing` acima
+  // antes de qualquer um commitar. O índice único (`users_email_unique`) por
+  // trás garante que só um vence — o outro recebe um `PostgresError` 23505
+  // não tratado, que sem este catch vira 500 em vez do 400
+  // `EMAIL_ALREADY_EXISTS` que o caminho do SELECT já dá. Isso importa mais
+  // agora que `DELETE /clients` libera e-mails para re-cadastro.
+  try {
+    const id = await db.transaction(async (tx) => {
+      const [userInsert] = await tx
+        .insert(users)
+        .values({
+          email: dto.user.email,
+          password: passwordHash,
+          role: 'USER',
+        })
+        .returning({ id: users.id })
 
-    const [clientInsert] = await tx
-      .insert(clientTable)
-      .values({
-        firstName: dto.firstName.toLowerCase(),
-        lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
-        weight: dto.weight != null ? String(dto.weight) : null,
-        height: dto.height != null ? String(dto.height) : null,
-        userId: userInsert!.id,
-      })
-      .returning({ id: clientTable.id })
+      const [clientInsert] = await tx
+        .insert(clientTable)
+        .values({
+          firstName: dto.firstName.toLowerCase(),
+          lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
+          weight: dto.weight != null ? String(dto.weight) : null,
+          height: dto.height != null ? String(dto.height) : null,
+          userId: userInsert!.id,
+        })
+        .returning({ id: clientTable.id })
 
-    return clientInsert!.id
-  })
+      return clientInsert!.id
+    })
 
-  return c.json({ id })
+    return c.json({ id })
+  } catch (err) {
+    if (
+      err instanceof postgres.PostgresError &&
+      err.code === '23505' &&
+      err.constraint_name === 'users_email_unique'
+    ) {
+      throw new AppError(EMAIL_ALREADY_EXISTS, 400)
+    }
+    throw err
+  }
 })
 
 clientRoutes.get('/', requireAuth, (c) => {
@@ -156,7 +177,15 @@ clientRoutes.patch('/', requireAuth, requireUserRole, async (c) => {
     .where(eq(clientTable.id, client.id))
     .returning()
 
-  return c.json(clientResponse(updated!, user))
+  // Janela entre `requireAuth` e este UPDATE: se um segundo dispositivo
+  // rodou `DELETE /clients` nesse meio-tempo, a linha já não existe mais e
+  // `.returning()` volta vazio — sem esta checagem, `updated!` mentiria pro
+  // TypeScript e estouraria `TypeError` em runtime, virando 500.
+  if (!updated) {
+    throw new AppError(ErrorType.CLIENT_NOT_FOUND, 401)
+  }
+
+  return c.json(clientResponse(updated, user))
 })
 
 /**
