@@ -2,10 +2,10 @@ import { eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { requireAuth, requireUserRole, loggedClient } from '../auth/middleware.ts'
-import { hashPassword } from '../auth/password.ts'
+import { hashPassword, verifyPassword } from '../auth/password.ts'
 import { db } from '../db/client.ts'
 import { client as clientTable, users } from '../db/schema.ts'
-import { AppError } from '../shared/errors.ts'
+import { AppError, ErrorType } from '../shared/errors.ts'
 import { clientHeightSchema, clientWeightSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody } from '../shared/validate.ts'
@@ -32,6 +32,12 @@ const updateClientSchema = z
   .refine((dto) => Object.keys(dto).length > 0, {
     message: 'Informe ao menos um campo para atualizar.',
   })
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  // Mínimo alinhado com `FormValidators.validatePassword` do app Flutter.
+  newPassword: z.string().min(6),
+})
 
 export const clientRoutes = new Hono<AuthVariables>()
 
@@ -121,4 +127,22 @@ clientRoutes.patch('/', requireAuth, requireUserRole, async (c) => {
     .returning()
 
   return c.json(clientResponse(updated!, user))
+})
+
+/**
+ * A sessão sobrevive à troca: o `sub` do JWT é o e-mail, que não muda aqui.
+ */
+clientRoutes.patch('/password', requireAuth, requireUserRole, async (c) => {
+  const user = c.get('user')
+  const dto = await parseBody(c, changePasswordSchema)
+
+  const ok = await verifyPassword(dto.currentPassword, user.password)
+  AppError.throwIfNot(ok, ErrorType.INVALID_PASSWORD)
+
+  await db
+    .update(users)
+    .set({ password: await hashPassword(dto.newPassword) })
+    .where(eq(users.id, user.id))
+
+  return c.body(null, 204)
 })

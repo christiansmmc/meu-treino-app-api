@@ -25,6 +25,7 @@ export const ErrorType = {
   },
   CLIENT_NOT_FOUND: { code: '006', message: 'Nenhum cliente encontrado com o e-mail informado.' },
   EXERCISE_NOT_FOUND: { code: '007', message: 'Exercício não encontrado.' },
+  INVALID_PASSWORD: { code: '008', message: 'Senha incorreta.' },
 } as const
 
 export interface ErrorTypeEntry {

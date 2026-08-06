@@ -715,6 +715,44 @@ let recordId = 0
   await call('PATCH', '/clients', { body: { weight: 82.5, height: 1.78 } })
 }
 
+// --- PATCH /clients/password ------------------------------------------------
+const novaSenha = 'test5678'
+{
+  const errada = await call('PATCH', '/clients/password', {
+    body: { currentPassword: 'senha-errada', newPassword: novaSenha },
+  })
+  check(
+    'PATCH /clients/password senha atual errada → 400 código 008',
+    errada.status === 400 && errada.body?.code === '008',
+    errada.body,
+  )
+
+  const curta = await call('PATCH', '/clients/password', {
+    body: { currentPassword: password, newPassword: '123' },
+  })
+  check('PATCH /clients/password nova senha curta → 400', curta.status === 400, curta.body)
+
+  const res = await call('PATCH', '/clients/password', {
+    body: { currentPassword: password, newPassword: novaSenha },
+  })
+  check('PATCH /clients/password → 204', res.status === 204, res.body)
+
+  const velha = await call('POST', '/authenticate', {
+    body: { email, password },
+    auth: false,
+  })
+  check('senha antiga não autentica mais → 401', velha.status === 401, velha.body)
+
+  const nova = await call('POST', '/authenticate', {
+    body: { email, password: novaSenha },
+    auth: false,
+  })
+  check('senha nova autentica → 200', nova.status === 200 && !!nova.body?.token, nova.body)
+
+  const atual = await call('GET', '/clients')
+  check('token anterior continua válido após trocar a senha', atual.status === 200, atual.body)
+}
+
 // --- 404 --------------------------------------------------------------------
 {
   const res = await call('GET', '/nao-existe')
