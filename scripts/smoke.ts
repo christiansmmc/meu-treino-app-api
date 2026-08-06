@@ -667,6 +667,25 @@ let recordId = 0
   check('registro deletado sumiu do /last', last.body === null, last.body)
 }
 
+// --- GET /workouts/full -----------------------------------------------------
+{
+  const res = await call('GET', '/workouts/full')
+  const list = (res.body as any[]) ?? []
+  const found = list.find((w) => w.id === workoutId)
+  check('GET /workouts/full → 200 lista', res.status === 200 && Array.isArray(res.body), res.body)
+  check('treino do smoke aparece com exercícios', !!found?.exercises?.length, found)
+  check(
+    'exercício traz nome, séries, reps e carga',
+    typeof found?.exercises?.[0]?.name === 'string' && 'exerciseLoad' in found.exercises[0],
+    found?.exercises?.[0],
+  )
+  check(
+    '/full não foi capturada por /:id',
+    res.body?.code !== 'ARGUMENT_TYPE_MISMATCH' && res.body?.code !== '003',
+    res.body,
+  )
+}
+
 // --- Delete workout ---------------------------------------------------------
 {
   const res = await call('DELETE', `/workouts/${workoutId}`)

@@ -128,6 +128,61 @@ workoutRoutes.get('/', async (c) => {
   )
 })
 
+// Precisa vir antes de `/:id` para não ser capturada como path param.
+/** Todos os treinos com seus exercícios — origem do "Copiar todos os treinos". */
+workoutRoutes.get('/full', async (c) => {
+  const client = loggedClient(c)
+
+  const workouts = await db
+    .select({ id: workout.id, name: workout.name, listOrder: workout.listOrder })
+    .from(workout)
+    .where(and(eq(workout.clientId, client.id), isNull(workout.deletedAt)))
+    .orderBy(asc(workout.listOrder), asc(workout.id))
+
+  if (workouts.length === 0) return c.json([])
+
+  const rows = await db
+    .select({
+      workoutId: workoutExercise.workoutId,
+      name: exercise.name,
+      sets: workoutExercise.sets,
+      reps: workoutExercise.reps,
+      exerciseLoad: workoutExercise.exerciseLoad,
+      listOrder: workoutExercise.listOrder,
+    })
+    .from(workoutExercise)
+    .innerJoin(exercise, eq(exercise.id, workoutExercise.exerciseId))
+    .where(
+      inArray(
+        workoutExercise.workoutId,
+        workouts.map((w) => w.id),
+      ),
+    )
+    .orderBy(asc(workoutExercise.listOrder), asc(workoutExercise.id))
+
+  const byWorkout = new Map<number, Array<Record<string, unknown>>>()
+  for (const row of rows) {
+    const list = byWorkout.get(row.workoutId) ?? []
+    list.push({
+      name: row.name,
+      sets: row.sets,
+      reps: row.reps,
+      exerciseLoad: toNumber(row.exerciseLoad),
+      listOrder: row.listOrder,
+    })
+    byWorkout.set(row.workoutId, list)
+  }
+
+  return c.json(
+    workouts.map((w) => ({
+      id: w.id,
+      name: w.name,
+      listOrder: w.listOrder,
+      exercises: byWorkout.get(w.id) ?? [],
+    })),
+  )
+})
+
 workoutRoutes.post('/', async (c) => {
   const client = loggedClient(c)
   const vm = await parseBody(c, createWorkoutSchema)
