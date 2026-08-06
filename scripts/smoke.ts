@@ -156,6 +156,81 @@ console.log(`Smoke em ${BASE_URL}`)
   }
 }
 
+// --- Cadastro: peso/altura usam os mesmos limites de PATCH /clients --------
+// `createClientSchema` usava `z.number()` cru para weight/height, sem o teto
+// que `clientWeightSchema`/`clientHeightSchema` aplicam em PATCH /clients.
+// `height: 175` (erro de digitação óbvio — 1,75m digitado sem a vírgula, e o
+// campo de altura do cadastro não tem validador nem formatter no app) chega
+// direto em `numeric(3, 2)` e o Postgres estoura `numeric field overflow`,
+// virando 500 em vez de 400. Espelha os checks de teto de `PATCH /clients`,
+// mas contra `POST /clients`.
+{
+  const tokenPrincipal = token
+
+  const emailAltura = `smoke_altura_${Date.now()}@test.com`
+  const alturaEstoura = await call('POST', '/clients', {
+    auth: false,
+    body: {
+      firstName: 'Smoke',
+      lastName: 'Altura',
+      height: 175,
+      user: { email: emailAltura, password },
+    },
+  })
+  check(
+    'POST /clients altura acima do teto (175, erro de digitação típico) → 400, não 500',
+    alturaEstoura.status === 400,
+    alturaEstoura.body,
+  )
+
+  const emailPeso = `smoke_peso_${Date.now()}@test.com`
+  const pesoEstoura = await call('POST', '/clients', {
+    auth: false,
+    body: {
+      firstName: 'Smoke',
+      lastName: 'Peso',
+      weight: 1000,
+      user: { email: emailPeso, password },
+    },
+  })
+  check(
+    'POST /clients peso acima do teto (1000) → 400, não 500',
+    pesoEstoura.status === 400,
+    pesoEstoura.body,
+  )
+
+  const emailTeto = `smoke_teto_${Date.now()}@test.com`
+  const noTeto = await call('POST', '/clients', {
+    auth: false,
+    body: {
+      firstName: 'Smoke',
+      lastName: 'Teto',
+      weight: 999.99,
+      height: 9.99,
+      user: { email: emailTeto, password },
+    },
+  })
+  check(
+    'POST /clients peso e altura exatamente no teto (999.99 / 9.99) → 200, aceitos',
+    noTeto.status === 200 && typeof noTeto.body?.id === 'number',
+    noTeto.body,
+  )
+
+  // Limpa a única conta que de fato foi criada (a do teto): loga com ela e se
+  // autodeleta, sem afetar a conta principal do smoke.
+  if (noTeto.status === 200) {
+    const loginTeto = await call('POST', '/authenticate', {
+      auth: false,
+      body: { email: emailTeto, password },
+    })
+    token = loginTeto.body?.token ?? ''
+    const delTeto = await call('DELETE', '/clients', { body: { password } })
+    check('DELETE /clients conta no teto → 204 (limpeza)', delTeto.status === 204, delTeto.body)
+  }
+
+  token = tokenPrincipal
+}
+
 // --- Client -----------------------------------------------------------------
 {
   const res = await call('GET', '/clients')

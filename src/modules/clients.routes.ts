@@ -21,8 +21,8 @@ const PASSWORD_MIN_LENGTH = 6
 const createClientSchema = z.object({
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().nullish(),
-  weight: z.number().nullish(),
-  height: z.number().nullish(),
+  weight: clientWeightSchema.nullish(),
+  height: clientHeightSchema.nullish(),
   user: z.object({
     email: z.string().trim().min(1),
     password: z.string().min(PASSWORD_MIN_LENGTH),
