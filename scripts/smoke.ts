@@ -1122,6 +1122,46 @@ const novaSenha = 'test5678'
   check('token de conta excluída → 401', comToken.status === 401, comToken.body)
 }
 
+// --- A1: token da conta excluída não pode autenticar como quem reusa o e-mail
+// `requireAuth` resolvia o usuário por `payload.sub` (o e-mail). DELETE
+// /clients libera o e-mail para re-cadastro, então um token de 30 dias ainda
+// não expirado, emitido para a conta antiga, passava a autenticar como
+// QUALQUER UM que reusasse aquele e-mail depois — sem senha. O check
+// 'token de conta excluída → 401' acima NÃO cobre isso: ele passa mesmo sem
+// o fix, porque ninguém re-cadastra o e-mail naquele momento. Este bloco
+// reproduz o caso que importa: re-cadastra o MESMO e-mail e reusa o token
+// antigo contra a conta nova.
+{
+  const tokenContaExcluida = token
+
+  const recadastro = await call('POST', '/clients', {
+    auth: false,
+    body: { firstName: 'Smoke', lastName: 'Recadastro', user: { email, password: novaSenha } },
+  })
+  check(
+    'POST /clients re-cadastro do e-mail de conta excluída → 200 {id}',
+    recadastro.status === 200 && typeof recadastro.body?.id === 'number',
+    recadastro.body,
+  )
+
+  token = tokenContaExcluida
+  const comTokenAntigo = await call('GET', '/clients')
+  check(
+    'token emitido para a conta excluída → 401 mesmo após alguém re-cadastrar o e-mail',
+    comTokenAntigo.status === 401,
+    comTokenAntigo.body,
+  )
+
+  // Limpa a conta re-cadastrada com um token válido para ela.
+  const loginNovo = await call('POST', '/authenticate', {
+    auth: false,
+    body: { email, password: novaSenha },
+  })
+  token = loginNovo.body?.token ?? ''
+  const delNovo = await call('DELETE', '/clients', { body: { password: novaSenha } })
+  check('DELETE /clients conta re-cadastrada → 204 (limpeza)', delNovo.status === 204, delNovo.body)
+}
+
 // --- 404 --------------------------------------------------------------------
 {
   const res = await call('GET', '/nao-existe')
