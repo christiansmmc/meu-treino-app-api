@@ -11,6 +11,13 @@ import { toNumber } from '../shared/serialize.ts'
 import { parseBody } from '../shared/validate.ts'
 import type { AuthVariables, ClientRow, UserRow } from '../types.ts'
 
+// Mínimo alinhado com `FormValidators.validatePassword` do app Flutter.
+// Usado tanto no cadastro (`createClientSchema`) quanto na troca de senha
+// (`changePasswordSchema`) para os dois nunca voltarem a divergir: sem isso,
+// dá pra cadastrar uma conta com uma senha que o próprio endpoint de trocar
+// senha recusaria depois.
+const PASSWORD_MIN_LENGTH = 6
+
 const createClientSchema = z.object({
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().nullish(),
@@ -18,7 +25,7 @@ const createClientSchema = z.object({
   height: z.number().nullish(),
   user: z.object({
     email: z.string().trim().min(1),
-    password: z.string().min(1),
+    password: z.string().min(PASSWORD_MIN_LENGTH),
   }),
 })
 
@@ -35,8 +42,7 @@ const updateClientSchema = z
 
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1),
-  // Mínimo alinhado com `FormValidators.validatePassword` do app Flutter.
-  newPassword: z.string().min(6),
+  newPassword: z.string().min(PASSWORD_MIN_LENGTH),
 })
 
 const deleteAccountSchema = z.object({
