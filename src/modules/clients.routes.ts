@@ -1,7 +1,7 @@
 import { eq, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { requireAuth, requireUserRole, loggedClient } from '../auth/middleware.ts'
+import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
 import { hashPassword, verifyPassword } from '../auth/password.ts'
 import { db } from '../db/client.ts'
 import { client as clientTable, exercise, users, workout, workoutRecord } from '../db/schema.ts'
@@ -11,13 +11,23 @@ import { toNumber } from '../shared/serialize.ts'
 import { parseBody } from '../shared/validate.ts'
 import type { AuthVariables, ClientRow, UserRow } from '../types.ts'
 
-// Mínimo alinhado com `FormValidators.validatePassword` do app Flutter.
-// Usado tanto no cadastro (`createClientSchema`) quanto na troca de senha
-// (`changePasswordSchema`) para os dois nunca voltarem a divergir: sem isso,
-// dá pra cadastrar uma conta com uma senha que o próprio endpoint de trocar
-// senha recusaria depois.
+// NÃO está alinhado com o app Flutter — a tela de cadastro não tem `Form`
+// nem validador nenhum, e barra client-side em `length >= 8` (mais estrito
+// que isso). `FormValidators.validatePassword`, que usa 6, só é chamado pela
+// tela de LOGIN, não pela de cadastro. O que este mínimo garante é que
+// cadastro (`createClientSchema`) e troca de senha (`changePasswordSchema`)
+// concordem entre si: sem isso, dá pra cadastrar uma conta com uma senha que
+// o próprio endpoint de trocar senha recusaria depois.
 const PASSWORD_MIN_LENGTH = 6
 
+// O tamanho mínimo da senha NÃO é validado no schema (`z.string()` cru, sem
+// `.min(PASSWORD_MIN_LENGTH)`): senha curta cai no envelope genérico do zod,
+// cuja única string útil (`details.errors`) o cliente Flutter nunca lê — ele
+// só olha `errorMessage ?? message`, e viraria "Existem erros de validação
+// nos campos enviados.", em inglês por baixo, num contrato de erro que é
+// todo o resto em português. Em vez disso o handler valida e lança
+// `ErrorType.SHORT_PASSWORD` explicitamente — mesmo padrão de
+// `INVALID_PASSWORD`.
 const createClientSchema = z.object({
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().nullish(),
@@ -25,7 +35,7 @@ const createClientSchema = z.object({
   height: clientHeightSchema.nullish(),
   user: z.object({
     email: z.string().trim().min(1),
-    password: z.string().min(PASSWORD_MIN_LENGTH),
+    password: z.string(),
   }),
 })
 
@@ -40,9 +50,11 @@ const updateClientSchema = z
     message: 'Informe ao menos um campo para atualizar.',
   })
 
+// Mesmo motivo do `createClientSchema` acima: tamanho mínimo fora do zod,
+// validado explicitamente no handler via `ErrorType.SHORT_PASSWORD`.
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1),
-  newPassword: z.string().min(PASSWORD_MIN_LENGTH),
+  newPassword: z.string(),
 })
 
 const deleteAccountSchema = z.object({
@@ -72,6 +84,7 @@ function clientResponse(client: ClientRow, user: UserRow) {
 /** Cadastro — público (mesma regra do `SecurityConfig` do Java). */
 clientRoutes.post('/', async (c) => {
   const dto = await parseBody(c, createClientSchema)
+  AppError.throwIfNot(dto.user.password.length >= PASSWORD_MIN_LENGTH, ErrorType.SHORT_PASSWORD)
 
   const [existing] = await db
     .select({ id: users.id })
@@ -152,6 +165,7 @@ clientRoutes.patch('/', requireAuth, requireUserRole, async (c) => {
 clientRoutes.patch('/password', requireAuth, requireUserRole, async (c) => {
   const user = c.get('user')
   const dto = await parseBody(c, changePasswordSchema)
+  AppError.throwIfNot(dto.newPassword.length >= PASSWORD_MIN_LENGTH, ErrorType.SHORT_PASSWORD)
 
   const ok = await verifyPassword(dto.currentPassword, user.password)
   AppError.throwIfNot(ok, ErrorType.INVALID_PASSWORD)

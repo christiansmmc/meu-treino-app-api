@@ -126,7 +126,11 @@ console.log(`Smoke em ${BASE_URL}`)
     auth: false,
     body: { firstName: 'Smoke', lastName: 'Curta', user: { email: emailCurta, password: '12345' } },
   })
-  check('POST /clients senha com 5 caracteres → 400', curta.status === 400, curta.body)
+  check(
+    'POST /clients senha com 5 caracteres → 400 código 009 (não o envelope genérico do zod)',
+    curta.status === 400 && curta.body?.code === '009',
+    curta.body,
+  )
 
   const emailMinima = `smoke_minima_${Date.now()}@test.com`
   const senhaMinima = '123456'
@@ -1008,14 +1012,18 @@ const novaSenha = 'test5678'
   const curta = await call('PATCH', '/clients/password', {
     body: { currentPassword: password, newPassword: '123' },
   })
-  check('PATCH /clients/password nova senha curta → 400', curta.status === 400, curta.body)
+  check(
+    'PATCH /clients/password nova senha curta → 400 código 009 (não o envelope genérico do zod)',
+    curta.status === 400 && curta.body?.code === '009',
+    curta.body,
+  )
 
   const cincoChars = await call('PATCH', '/clients/password', {
     body: { currentPassword: password, newPassword: '12345' },
   })
   check(
-    'PATCH /clients/password nova senha com 5 caracteres → 400',
-    cincoChars.status === 400,
+    'PATCH /clients/password nova senha com 5 caracteres → 400 código 009',
+    cincoChars.status === 400 && cincoChars.body?.code === '009',
     cincoChars.body,
   )
 

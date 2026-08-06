@@ -26,6 +26,9 @@ export const ErrorType = {
   CLIENT_NOT_FOUND: { code: '006', message: 'Nenhum cliente encontrado com o e-mail informado.' },
   EXERCISE_NOT_FOUND: { code: '007', message: 'Exercício não encontrado.' },
   INVALID_PASSWORD: { code: '008', message: 'Senha incorreta.' },
+  // Mensagem hardcoded porque `ErrorType` inteiro é estático — se
+  // `PASSWORD_MIN_LENGTH` (`clients.routes.ts`) mudar, atualizar aqui junto.
+  SHORT_PASSWORD: { code: '009', message: 'A senha precisa ter pelo menos 6 caracteres.' },
 } as const
 
 export interface ErrorTypeEntry {
