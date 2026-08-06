@@ -43,6 +43,13 @@ const deleteAccountSchema = z.object({
   password: z.string().min(1),
 })
 
+/**
+ * Diferente dos outros módulos, este arquivo NÃO usa
+ * `use('*', requireAuth, requireUserRole)`: `POST /` (cadastro) precisa ficar
+ * público. Por isso cada rota declara suas próprias guards — uma rota nova
+ * aqui que esquecer de listar `requireAuth`/`requireUserRole` fica pública
+ * por padrão, sem nada estrutural para pegar o esquecimento.
+ */
 export const clientRoutes = new Hono<AuthVariables>()
 
 /** Corpo de resposta compartilhado por `GET /` e `PATCH /`. */
