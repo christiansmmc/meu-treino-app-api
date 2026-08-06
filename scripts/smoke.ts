@@ -749,6 +749,10 @@ const novaSenha = 'test5678'
   })
   check('senha nova autentica → 200', nova.status === 200 && !!nova.body?.token, nova.body)
 
+  // Guarda de regressão, não prova desta rota: `requireAuth` valida o JWT por
+  // assinatura/expiração e recarrega o usuário pelo `sub` (o e-mail), sem
+  // olhar a senha — então isso só passaria a falhar se alguém introduzisse
+  // invalidação de token.
   const atual = await call('GET', '/clients')
   check('token anterior continua válido após trocar a senha', atual.status === 200, atual.body)
 }
