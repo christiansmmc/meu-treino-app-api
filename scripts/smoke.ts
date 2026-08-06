@@ -1,6 +1,18 @@
 /**
  * Smoke test end-to-end contra uma API rodando (Java ou Bun).
- * Uso: BASE_URL=http://localhost:8080/api bun run scripts/smoke.ts
+ *
+ * Precisa de duas env vars, não só `BASE_URL`:
+ * - `BASE_URL`: onde a API alvo está escutando.
+ * - `DATABASE_URL`: aponta para o MESMO banco que essa API usa. O script
+ *   importa `../src/db/client.ts`, que abre um pool Postgres já no load do
+ *   módulo, e o bloco de isolamento entre clientes escreve direto nesse
+ *   banco (insere um exercício custom, lê o id do cliente). Um
+ *   `DATABASE_URL` apontando para outro banco falha longe do ponto real:
+ *   a busca do cliente não acha nada, o id cai para `0`, e o insert
+ *   seguinte estoura uma FK não tratada, matando a suíte no meio sem
+ *   imprimir o resumo.
+ *
+ * Uso: BASE_URL=http://localhost:8080/api DATABASE_URL=postgres://... bun run scripts/smoke.ts
  */
 import { eq } from 'drizzle-orm'
 import { db, sql } from '../src/db/client.ts'
@@ -716,17 +728,26 @@ let swappedSecondName = ''
 {
   const detail = await call('GET', `/workouts/${workoutId}`)
   const [first, second] = detail.body?.workoutExercises ?? []
-  swappedFirstName = first?.exercise?.name ?? ''
-  swappedSecondName = second?.exercise?.name ?? ''
+  const hasTwo = !!first && !!second
+  check(
+    'treino principal tem os dois exercícios esperados antes da troca de listOrder',
+    hasTwo,
+    detail.body?.workoutExercises,
+  )
 
-  await db
-    .update(workoutExercise)
-    .set({ listOrder: first.listOrder })
-    .where(eq(workoutExercise.id, second.id))
-  await db
-    .update(workoutExercise)
-    .set({ listOrder: second.listOrder })
-    .where(eq(workoutExercise.id, first.id))
+  if (hasTwo) {
+    swappedFirstName = first.exercise?.name ?? ''
+    swappedSecondName = second.exercise?.name ?? ''
+
+    await db
+      .update(workoutExercise)
+      .set({ listOrder: first.listOrder })
+      .where(eq(workoutExercise.id, second.id))
+    await db
+      .update(workoutExercise)
+      .set({ listOrder: second.listOrder })
+      .where(eq(workoutExercise.id, first.id))
+  }
 }
 
 {
@@ -743,7 +764,10 @@ let swappedSecondName = ''
   check('treino do smoke aparece com exercícios', !!found?.exercises?.length, found)
   check(
     'exercício traz nome, séries, reps e carga',
-    typeof found?.exercises?.[0]?.name === 'string' && 'exerciseLoad' in found.exercises[0],
+    typeof found?.exercises?.[0]?.name === 'string' &&
+      'sets' in found.exercises[0] &&
+      'reps' in found.exercises[0] &&
+      'exerciseLoad' in found.exercises[0],
     found?.exercises?.[0],
   )
 
@@ -828,6 +852,12 @@ let swappedSecondName = ''
 // --- PATCH /clients/password ------------------------------------------------
 const novaSenha = 'test5678'
 {
+  const semToken = await call('PATCH', '/clients/password', {
+    auth: false,
+    body: { currentPassword: password, newPassword: novaSenha },
+  })
+  check('PATCH /clients/password sem token → 401', semToken.status === 401, semToken.body)
+
   const errada = await call('PATCH', '/clients/password', {
     body: { currentPassword: 'senha-errada', newPassword: novaSenha },
   })
@@ -883,12 +913,24 @@ const novaSenha = 'test5678'
     .innerJoin(users, eq(users.id, clientTable.userId))
     .where(eq(users.email, email))
   const clientAId = clientA?.id ?? 0
+  // Se isso falhar, `DATABASE_URL` não aponta para o mesmo banco que a API em
+  // `BASE_URL` está usando — sem essa checagem, `clientAId` cai para `0` e o
+  // insert abaixo estoura uma FK não tratada, matando a suíte no meio sem
+  // resumo (ver docstring no topo do arquivo).
+  check(
+    'DATABASE_URL aponta para o mesmo banco usado pela API (cliente do smoke encontrado direto no banco)',
+    clientAId > 0,
+    { email, clientA },
+  )
 
-  const [customExercise] = await db
-    .insert(exercise)
-    .values({ name: 'Exercício Custom Smoke A', bodyPart: 'PEITO', clientId: clientAId })
-    .returning({ id: exercise.id })
-  const customExerciseId = customExercise?.id ?? 0
+  let customExerciseId = 0
+  if (clientAId > 0) {
+    const [customExercise] = await db
+      .insert(exercise)
+      .values({ name: 'Exercício Custom Smoke A', bodyPart: 'PEITO', clientId: clientAId })
+      .returning({ id: exercise.id })
+    customExerciseId = customExercise?.id ?? 0
+  }
 
   const tokenA = token
 
@@ -952,6 +994,12 @@ const novaSenha = 'test5678'
 // --- DELETE /clients --------------------------------------------------------
 // Precisa ser o último bloco autenticado: apaga o usuário do smoke.
 {
+  const semToken = await call('DELETE', '/clients', {
+    auth: false,
+    body: { password: novaSenha },
+  })
+  check('DELETE /clients sem token → 401', semToken.status === 401, semToken.body)
+
   const errada = await call('DELETE', '/clients', { body: { password: 'senha-errada' } })
   check(
     'DELETE /clients senha errada → 400 código 008',
