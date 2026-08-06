@@ -21,6 +21,12 @@ import { z } from 'zod'
  */
 const MAX_EXERCISE_LOAD = 999.99
 
+/** `client.weight` é `numeric(5, 2)`: maior valor representável é 999.99. */
+const MAX_CLIENT_WEIGHT = 999.99
+
+/** `client.height` é `numeric(3, 2)`: maior valor representável é 9.99. */
+const MAX_CLIENT_HEIGHT = 9.99
+
 /**
  * Arredonda para 2 casas decimais, "meio para cima" (como o Postgres faz ao
  * gravar num `numeric(N, 2)`).
@@ -57,8 +63,18 @@ function roundToTwoDecimals(value: number): number {
   return negative ? -result : result
 }
 
-export const exerciseLoadSchema = z
-  .number()
-  .nonnegative()
-  .transform(roundToTwoDecimals)
-  .pipe(z.number().max(MAX_EXERCISE_LOAD))
+/**
+ * Número não-negativo arredondado para 2 casas e limitado a [max]. O
+ * arredondamento vem ANTES da checagem do teto para que o teto valha sobre o
+ * valor que de fato será gravado — ver o comentário de `roundToTwoDecimals`.
+ *
+ * Compartilhado por carga de exercício e pelas medidas do cliente: as três
+ * colunas são `numeric(N, 2)` e todas estouram como 500 sem esta validação.
+ */
+function roundedNumericSchema(max: number) {
+  return z.number().nonnegative().transform(roundToTwoDecimals).pipe(z.number().max(max))
+}
+
+export const exerciseLoadSchema = roundedNumericSchema(MAX_EXERCISE_LOAD)
+export const clientWeightSchema = roundedNumericSchema(MAX_CLIENT_WEIGHT)
+export const clientHeightSchema = roundedNumericSchema(MAX_CLIENT_HEIGHT)

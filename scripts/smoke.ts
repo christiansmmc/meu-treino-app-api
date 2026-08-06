@@ -676,6 +676,45 @@ let recordId = 0
   )
 }
 
+// --- PATCH /clients ---------------------------------------------------------
+{
+  const res = await call('PATCH', '/clients', { body: { weight: 82.5, height: 1.78 } })
+  check(
+    'PATCH /clients medidas → 200 com o cliente atualizado',
+    res.status === 200 && res.body?.weight === 82.5 && res.body?.height === 1.78,
+    res.body,
+  )
+
+  const nome = await call('PATCH', '/clients', { body: { firstName: 'Rafael', lastName: 'Souza' } })
+  check(
+    'PATCH /clients nome → grava em lowercase',
+    nome.status === 200 && nome.body?.firstName === 'rafael' && nome.body?.lastName === 'souza',
+    nome.body,
+  )
+
+  const parcial = await call('GET', '/clients')
+  check(
+    'PATCH parcial não apagou as medidas',
+    parcial.body?.weight === 82.5 && parcial.body?.height === 1.78,
+    parcial.body,
+  )
+
+  const limpa = await call('PATCH', '/clients', { body: { weight: null } })
+  check('PATCH /clients weight:null limpa o campo', limpa.body?.weight === null, limpa.body)
+
+  const vazio = await call('PATCH', '/clients', { body: {} })
+  check('PATCH /clients corpo vazio → 400', vazio.status === 400, vazio.body)
+
+  const alto = await call('PATCH', '/clients', { body: { height: 12 } })
+  check('PATCH /clients altura acima do teto → 400', alto.status === 400, alto.body)
+
+  const semToken = await call('PATCH', '/clients', { body: { weight: 80 }, auth: false })
+  check('PATCH /clients sem token → 401', semToken.status === 401, semToken.body)
+
+  // Restaura as medidas para os blocos seguintes.
+  await call('PATCH', '/clients', { body: { weight: 82.5, height: 1.78 } })
+}
+
 // --- 404 --------------------------------------------------------------------
 {
   const res = await call('GET', '/nao-existe')
