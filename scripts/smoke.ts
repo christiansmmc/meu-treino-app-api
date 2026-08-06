@@ -4,7 +4,7 @@
  */
 import { eq } from 'drizzle-orm'
 import { db, sql } from '../src/db/client.ts'
-import { client as clientTable, exercise, users } from '../src/db/schema.ts'
+import { client as clientTable, exercise, users, workoutExercise } from '../src/db/schema.ts'
 
 const BASE_URL = process.env.BASE_URL ?? 'http://localhost:8080/api'
 
@@ -702,6 +702,33 @@ let workoutEmptyId = 0
   check('PATCH /workouts/list-order (setup do teste de ordenação) → 200', res.status === 200, res.body)
 }
 
+// Troca o listOrder dos dois exercícios do treino principal direto no banco.
+// Não existe endpoint HTTP que reordene exercícios dentro de um treino hoje:
+// POST /workout-exercises sempre anexa no fim (MAX(listOrder) + 1) e PATCH
+// não toca listOrder — então HTTP sozinho nunca faz listOrder e id divergir,
+// e um teste que dependesse só disso não provaria que o handler ordena por
+// listOrder em vez de id. O insert direto imita o padrão já usado acima para
+// o exercício custom da conta A. De quebra, fixa o contrato de `/full`
+// (ordenar por listOrder) antes do recurso de arrastar-para-reordenar dos
+// exercícios chegar no app e passar a depender dele.
+let swappedFirstName = ''
+let swappedSecondName = ''
+{
+  const detail = await call('GET', `/workouts/${workoutId}`)
+  const [first, second] = detail.body?.workoutExercises ?? []
+  swappedFirstName = first?.exercise?.name ?? ''
+  swappedSecondName = second?.exercise?.name ?? ''
+
+  await db
+    .update(workoutExercise)
+    .set({ listOrder: first.listOrder })
+    .where(eq(workoutExercise.id, second.id))
+  await db
+    .update(workoutExercise)
+    .set({ listOrder: second.listOrder })
+    .where(eq(workoutExercise.id, first.id))
+}
+
 {
   const res = await call('GET', '/workouts/full')
   const isList = Array.isArray(res.body)
@@ -735,12 +762,14 @@ let workoutEmptyId = 0
     list.map((w) => ({ id: w.id, listOrder: w.listOrder })),
   )
 
-  const exerciseListOrders: number[] = found?.exercises?.map((e: any) => e.listOrder) ?? []
+  // Depois da troca acima, quem tinha o id maior (`second`) ficou com o
+  // listOrder menor. Se o handler ordenasse por id em vez de listOrder, a
+  // sequência viria `[swappedFirstName, swappedSecondName]` — o inverso.
+  const names = found?.exercises?.map((e: any) => e.name) ?? []
   check(
-    'exercícios de um treino vêm ordenados por listOrder',
-    exerciseListOrders.length >= 2 &&
-      exerciseListOrders.every((lo, i) => i === 0 || (exerciseListOrders[i - 1] ?? -Infinity) <= lo),
-    exerciseListOrders,
+    'exercícios de um treino vêm ordenados por listOrder, não por id',
+    names.length === 2 && names[0] === swappedSecondName && names[1] === swappedFirstName,
+    names,
   )
 }
 
