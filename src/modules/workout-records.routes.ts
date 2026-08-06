@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte, inArray, isNull, or } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, isNull } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -12,10 +12,11 @@ import {
   workoutRecordExerciseSet,
 } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { assertExercisesExist } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { startOfMonthInAppTimezone, toLocalDate, toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
-import type { AuthVariables, ClientRow } from '../types.ts'
+import type { AuthVariables } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
 
 const PERIODS = ['CURRENT_MONTH', 'LAST_3_MONTHS', 'ALL', 'LAST'] as const
@@ -119,34 +120,6 @@ async function buildDetail(recordId: number) {
         note: s.note,
       })),
     })),
-  }
-}
-
-/**
- * Igual à mesma checagem em `workouts.routes.ts` e `workout-exercises.routes.ts`:
- * exercício global (`clientId` nulo) ou do próprio cliente. Sem isso, qualquer
- * cliente autenticado podia anexar o `exerciseId` de outro (bigserial
- * sequencial) a um registro do seu próprio treino — vazando o nome do
- * exercício alheio no corpo 201 de `POST /workout-record` e em
- * `GET /workout-record/last` (ambos montados por `buildDetail`) e, pior,
- * criando uma FK que `DELETE /clients` não consegue apagar quando o dono do
- * exercício sai.
- */
-async function assertExercisesExist(client: ClientRow, ids: number[]) {
-  if (ids.length === 0) return
-  const rows = await db
-    .select({ id: exercise.id })
-    .from(exercise)
-    .where(
-      and(
-        inArray(exercise.id, ids),
-        or(isNull(exercise.clientId), eq(exercise.clientId, client.id)),
-      ),
-    )
-
-  const found = new Set(rows.map((r) => r.id))
-  for (const id of ids) {
-    if (!found.has(id)) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
   }
 }
 

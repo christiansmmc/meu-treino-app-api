@@ -174,10 +174,11 @@ clientRoutes.patch('/password', requireAuth, requireUserRole, async (c) => {
  * treino excluído por soft delete também tem que sair do banco aqui.
  *
  * Exercícios custom (`exercise.client_id`) só podem ser referenciados pelo
- * próprio dono — as três variantes de `assertExercisesExist` (em
- * `workouts.routes.ts`, `workout-exercises.routes.ts` e
- * `workout-records.routes.ts`) filtram por cliente — então saem junto sem
- * risco de órfão em `workout_record_exercise` de terceiro.
+ * próprio dono — `assertExercisesExist`/`assertExerciseExists`, em
+ * `shared/exercise-access.ts` e usadas por `workouts.routes.ts`,
+ * `workout-exercises.routes.ts` e `workout-records.routes.ts`, filtram por
+ * cliente — então saem junto sem risco de órfão em `workout_record_exercise`
+ * de terceiro.
  */
 clientRoutes.delete('/', requireAuth, requireUserRole, async (c) => {
   const client = loggedClient(c)

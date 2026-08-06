@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
+import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -10,6 +10,7 @@ import {
   type ErrorTypeEntry,
   argumentTypeMismatch,
 } from '../shared/errors.ts'
+import { assertExercisesExist } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
@@ -61,24 +62,6 @@ export async function findOwnedWorkout(
   AppError.throwIfNot(found.clientId === client.id, ownershipError)
 
   return found
-}
-
-async function assertExercisesExist(client: ClientRow, ids: number[]) {
-  if (ids.length === 0) return
-  const rows = await db
-    .select({ id: exercise.id })
-    .from(exercise)
-    .where(
-      and(
-        inArray(exercise.id, ids),
-        or(isNull(exercise.clientId), eq(exercise.clientId, client.id)),
-      ),
-    )
-
-  const found = new Set(rows.map((r) => r.id))
-  for (const id of ids) {
-    if (!found.has(id)) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
-  }
 }
 
 workoutRoutes.get('/', async (c) => {

@@ -1,10 +1,11 @@
-import { and, eq, isNull, or, sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
 import { db } from '../db/client.ts'
-import { exercise, workout, workoutExercise } from '../db/schema.ts'
+import { workout, workoutExercise } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { assertExerciseExists } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
@@ -33,19 +34,7 @@ workoutExerciseRoutes.post('/', async (c) => {
   const dto = await parseBody(c, createSchema)
 
   const owned = await findOwnedWorkout(client, dto.workout.id)
-
-  const [found] = await db
-    .select({ id: exercise.id })
-    .from(exercise)
-    .where(
-      and(
-        eq(exercise.id, dto.exercise.id),
-        or(isNull(exercise.clientId), eq(exercise.clientId, client.id)),
-      ),
-    )
-    .limit(1)
-
-  if (!found) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
+  await assertExerciseExists(client, dto.exercise.id)
 
   const [maxOrder] = await db
     .select({ value: sql<number | null>`MAX(${workoutExercise.listOrder})` })
@@ -61,7 +50,7 @@ workoutExerciseRoutes.post('/', async (c) => {
     exerciseLoad: dto.exerciseLoad != null ? String(dto.exerciseLoad) : null,
     listOrder,
     workoutId: owned.id,
-    exerciseId: found.id,
+    exerciseId: dto.exercise.id,
   })
 
   c.header('Location', '/api/workout-exercises/')
