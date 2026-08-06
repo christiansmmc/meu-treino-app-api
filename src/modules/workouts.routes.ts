@@ -128,6 +128,14 @@ workoutRoutes.get('/', async (c) => {
   )
 })
 
+interface FullWorkoutExerciseRow {
+  name: string
+  sets: number | null
+  reps: number | null
+  exerciseLoad: number | null
+  listOrder: number
+}
+
 // Precisa vir antes de `/:id` para não ser capturada como path param.
 /** Todos os treinos com seus exercícios — origem do "Copiar todos os treinos". */
 workoutRoutes.get('/full', async (c) => {
@@ -160,7 +168,7 @@ workoutRoutes.get('/full', async (c) => {
     )
     .orderBy(asc(workoutExercise.listOrder), asc(workoutExercise.id))
 
-  const byWorkout = new Map<number, Array<Record<string, unknown>>>()
+  const byWorkout = new Map<number, FullWorkoutExerciseRow[]>()
   for (const row of rows) {
     const list = byWorkout.get(row.workoutId) ?? []
     list.push({
