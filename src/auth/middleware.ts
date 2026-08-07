@@ -33,6 +33,30 @@ export const requireAuth: MiddlewareHandler<AuthVariables> = async (c, next) => 
     throw new AppError(ErrorType.LOGGED_USER_NOT_FOUND, 401)
   }
 
+  // `sub` é o e-mail, não um id estável: `DELETE /clients` faz hard delete da
+  // linha em `users`, o que libera o e-mail para re-cadastro. Sem esta
+  // checagem, um token de até 30 dias emitido para a conta antiga autentica
+  // como QUALQUER UM que reusar aquele e-mail depois — sem senha.
+  //
+  // `iat` (JWT, sempre inteiro em segundos) é comparado contra `createdAt`
+  // também truncado para segundos — não `payload.iat * 1000 < createdAt.getTime()`
+  // direto. Cadastro e login acontecem em requisições HTTP separadas, mas
+  // podem cair no mesmo segundo (o smoke faz isso sempre): `iat` arredonda
+  // para baixo, então um `createdAt` com milissegundos à frente dentro
+  // daquele mesmo segundo faria a comparação em ms rejeitar um token
+  // legítimo emitido segundos depois do cadastro. Comparar segundo-a-segundo
+  // elimina esse falso positivo sem abrir a janela que a checagem existe
+  // para fechar.
+  //
+  // `iat` é sempre gravado por `signToken`, mas tratamos a ausência como
+  // inválida (em vez de deixar `undefined` virar `NaN` e a comparação abaixo
+  // silenciosamente não barrar nada) — falha fechada, não aberta.
+  const issuedAtSeconds = typeof payload.iat === 'number' ? payload.iat : Number.NaN
+  const createdAtSeconds = Math.floor(row.user.createdAt.getTime() / 1000)
+  if (!Number.isFinite(issuedAtSeconds) || issuedAtSeconds < createdAtSeconds) {
+    throw new AppError(ErrorType.LOGGED_USER_NOT_FOUND, 401)
+  }
+
   c.set('jwt', { sub: payload.sub, roles: payload.roles })
   c.set('user', row.user)
   c.set('client', row.client)

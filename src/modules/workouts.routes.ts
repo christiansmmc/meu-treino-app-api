@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
+import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -10,6 +10,7 @@ import {
   type ErrorTypeEntry,
   argumentTypeMismatch,
 } from '../shared/errors.ts'
+import { assertExercisesExist } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
@@ -63,24 +64,6 @@ export async function findOwnedWorkout(
   return found
 }
 
-async function assertExercisesExist(client: ClientRow, ids: number[]) {
-  if (ids.length === 0) return
-  const rows = await db
-    .select({ id: exercise.id })
-    .from(exercise)
-    .where(
-      and(
-        inArray(exercise.id, ids),
-        or(isNull(exercise.clientId), eq(exercise.clientId, client.id)),
-      ),
-    )
-
-  const found = new Set(rows.map((r) => r.id))
-  for (const id of ids) {
-    if (!found.has(id)) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
-  }
-}
-
 workoutRoutes.get('/', async (c) => {
   const client = loggedClient(c)
 
@@ -125,6 +108,69 @@ workoutRoutes.get('/', async (c) => {
         bodyParts: entry ? [...entry.bodyParts] : [],
       }
     }),
+  )
+})
+
+interface FullWorkoutExerciseRow {
+  name: string
+  sets: number | null
+  reps: number | null
+  exerciseLoad: number | null
+  listOrder: number
+}
+
+// Precisa vir antes de `/:id` para não ser capturada como path param.
+/** Todos os treinos com seus exercícios — origem do "Copiar todos os treinos". */
+workoutRoutes.get('/full', async (c) => {
+  const client = loggedClient(c)
+
+  const workouts = await db
+    .select({ id: workout.id, name: workout.name, listOrder: workout.listOrder })
+    .from(workout)
+    .where(and(eq(workout.clientId, client.id), isNull(workout.deletedAt)))
+    .orderBy(asc(workout.listOrder), asc(workout.id))
+
+  if (workouts.length === 0) return c.json([])
+
+  const rows = await db
+    .select({
+      workoutId: workoutExercise.workoutId,
+      name: exercise.name,
+      sets: workoutExercise.sets,
+      reps: workoutExercise.reps,
+      exerciseLoad: workoutExercise.exerciseLoad,
+      listOrder: workoutExercise.listOrder,
+    })
+    .from(workoutExercise)
+    .innerJoin(exercise, eq(exercise.id, workoutExercise.exerciseId))
+    .where(
+      inArray(
+        workoutExercise.workoutId,
+        workouts.map((w) => w.id),
+      ),
+    )
+    .orderBy(asc(workoutExercise.listOrder), asc(workoutExercise.id))
+
+  const byWorkout = new Map<number, FullWorkoutExerciseRow[]>()
+  for (const row of rows) {
+    const list = byWorkout.get(row.workoutId) ?? []
+    list.push({
+      name: row.name,
+      sets: row.sets,
+      reps: row.reps,
+      exerciseLoad: toNumber(row.exerciseLoad),
+      listOrder: row.listOrder,
+    })
+    byWorkout.set(row.workoutId, list)
+  }
+
+  return c.json(
+    workouts.map((w) => ({
+      id: w.id,
+      name: w.name,
+      listOrder: w.listOrder,
+      exercises: byWorkout.get(w.id) ?? [],
+    })),
   )
 })
 

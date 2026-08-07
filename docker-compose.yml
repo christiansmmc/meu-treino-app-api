@@ -1,21 +1,20 @@
 services:
   db:
-    image: mysql:8
+    image: postgres:16
     container_name: workout_sheet_v2_db
     environment:
-      MYSQL_ROOT_PASSWORD: workout_sheet_api
-      MYSQL_DATABASE: workout_sheet_api_v2
-      MYSQL_USER: workout_sheet_api
-      MYSQL_PASSWORD: workout_sheet_api
+      POSTGRES_DB: workout_sheet_api_v2
+      POSTGRES_USER: workout_sheet_api
+      POSTGRES_PASSWORD: workout_sheet_api
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - mysql_data_v2:/var/lib/mysql
+      - postgres_data_v2:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uroot', '-pworkout_sheet_api']
+      test: ['CMD-SHELL', 'pg_isready -U workout_sheet_api -d workout_sheet_api_v2']
       interval: 5s
       timeout: 5s
       retries: 10
 
 volumes:
-  mysql_data_v2:
+  postgres_data_v2:

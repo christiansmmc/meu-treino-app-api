@@ -12,6 +12,7 @@ import {
   workoutRecordExerciseSet,
 } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
+import { assertExercisesExist } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { startOfMonthInAppTimezone, toLocalDate, toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
@@ -122,23 +123,15 @@ async function buildDetail(recordId: number) {
   }
 }
 
-async function assertExercisesExist(ids: number[]) {
-  for (const id of new Set(ids)) {
-    const [found] = await db
-      .select({ id: exercise.id })
-      .from(exercise)
-      .where(eq(exercise.id, id))
-      .limit(1)
-    if (!found) throw new AppError(ErrorType.EXERCISE_NOT_FOUND, 404)
-  }
-}
-
 workoutRecordRoutes.post('/', async (c) => {
   const client = loggedClient(c)
   const vm = await parseBody(c, createSchema)
 
   await findOwnedWorkout(client, vm.workoutId, ErrorType.WORKOUT_NOT_FOUND)
-  await assertExercisesExist(vm.exercises.map((e) => e.exerciseId))
+  await assertExercisesExist(
+    client,
+    vm.exercises.map((e) => e.exerciseId),
+  )
 
   const recordId = await db.transaction(async (tx) => {
     const [inserted] = await tx

@@ -1,31 +1,96 @@
-import { eq } from 'drizzle-orm'
+import { eq, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
+import postgres from 'postgres'
 import { z } from 'zod'
-import { loggedClient, requireAuth } from '../auth/middleware.ts'
-import { hashPassword } from '../auth/password.ts'
+import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
+import { hashPassword, verifyPassword } from '../auth/password.ts'
 import { db } from '../db/client.ts'
-import { client as clientTable, users } from '../db/schema.ts'
-import { AppError } from '../shared/errors.ts'
+import { client as clientTable, exercise, users, workout, workoutRecord } from '../db/schema.ts'
+import { AppError, ErrorType } from '../shared/errors.ts'
+import { clientHeightSchema, clientWeightSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody } from '../shared/validate.ts'
-import type { AuthVariables } from '../types.ts'
+import type { AuthVariables, ClientRow, UserRow } from '../types.ts'
 
+// NÃO está alinhado com o app Flutter — a tela de cadastro não tem `Form`
+// nem validador nenhum, e barra client-side em `length >= 8` (mais estrito
+// que isso). `FormValidators.validatePassword`, que usa 6, só é chamado pela
+// tela de LOGIN, não pela de cadastro. O que este mínimo garante é que
+// cadastro (`createClientSchema`) e troca de senha (`changePasswordSchema`)
+// concordem entre si: sem isso, dá pra cadastrar uma conta com uma senha que
+// o próprio endpoint de trocar senha recusaria depois.
+const PASSWORD_MIN_LENGTH = 6
+
+// O tamanho mínimo da senha NÃO é validado no schema (`z.string()` cru, sem
+// `.min(PASSWORD_MIN_LENGTH)`): senha curta cai no envelope genérico do zod,
+// cuja única string útil (`details.errors`) o cliente Flutter nunca lê — ele
+// só olha `errorMessage ?? message`, e viraria "Existem erros de validação
+// nos campos enviados.", em inglês por baixo, num contrato de erro que é
+// todo o resto em português. Em vez disso o handler valida e lança
+// `ErrorType.SHORT_PASSWORD` explicitamente — mesmo padrão de
+// `INVALID_PASSWORD`.
 const createClientSchema = z.object({
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().nullish(),
-  weight: z.number().nullish(),
-  height: z.number().nullish(),
+  weight: clientWeightSchema.nullish(),
+  height: clientHeightSchema.nullish(),
   user: z.object({
     email: z.string().trim().min(1),
-    password: z.string().min(1),
+    password: z.string(),
   }),
 })
 
+const updateClientSchema = z
+  .object({
+    firstName: z.string().trim().min(1).optional(),
+    lastName: z.string().trim().nullish(),
+    weight: clientWeightSchema.nullish(),
+    height: clientHeightSchema.nullish(),
+  })
+  .refine((dto) => Object.keys(dto).length > 0, {
+    message: 'Informe ao menos um campo para atualizar.',
+  })
+
+// Mesmo motivo do `createClientSchema` acima: tamanho mínimo fora do zod,
+// validado explicitamente no handler via `ErrorType.SHORT_PASSWORD`.
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string(),
+})
+
+const deleteAccountSchema = z.object({
+  password: z.string().min(1),
+})
+
+/**
+ * Diferente dos outros módulos, este arquivo NÃO usa
+ * `use('*', requireAuth, requireUserRole)`: `POST /` (cadastro) precisa ficar
+ * público. Por isso cada rota declara suas próprias guards — uma rota nova
+ * aqui que esquecer de listar `requireAuth`/`requireUserRole` fica pública
+ * por padrão, sem nada estrutural para pegar o esquecimento.
+ */
 export const clientRoutes = new Hono<AuthVariables>()
+
+/** Corpo de resposta compartilhado por `GET /` e `PATCH /`. */
+function clientResponse(client: ClientRow, user: UserRow) {
+  return {
+    firstName: client.firstName,
+    lastName: client.lastName,
+    weight: toNumber(client.weight),
+    height: toNumber(client.height),
+    user: { email: user.email },
+  }
+}
+
+const EMAIL_ALREADY_EXISTS = {
+  code: 'EMAIL_ALREADY_EXISTS',
+  message: 'Já existe uma conta com esse e-mail.',
+}
 
 /** Cadastro — público (mesma regra do `SecurityConfig` do Java). */
 clientRoutes.post('/', async (c) => {
   const dto = await parseBody(c, createClientSchema)
+  AppError.throwIfNot(dto.user.password.length >= PASSWORD_MIN_LENGTH, ErrorType.SHORT_PASSWORD)
 
   const [existing] = await db
     .select({ id: users.id })
@@ -34,50 +99,154 @@ clientRoutes.post('/', async (c) => {
     .limit(1)
 
   if (existing) {
-    throw new AppError(
-      { code: 'EMAIL_ALREADY_EXISTS', message: 'Já existe uma conta com esse e-mail.' },
-      400,
-    )
+    throw new AppError(EMAIL_ALREADY_EXISTS, 400)
   }
 
   const passwordHash = await hashPassword(dto.user.password)
 
-  const id = await db.transaction(async (tx) => {
-    const [userInsert] = await tx
-      .insert(users)
-      .values({
-        email: dto.user.email,
-        password: passwordHash,
-        role: 'USER',
-      })
-      .returning({ id: users.id })
+  // O SELECT acima e este INSERT não são atômicos entre si: dois cadastros
+  // simultâneos para o mesmo e-mail podem ambos passar pelo `existing` acima
+  // antes de qualquer um commitar. O índice único (`users_email_unique`) por
+  // trás garante que só um vence — o outro recebe um `PostgresError` 23505
+  // não tratado, que sem este catch vira 500 em vez do 400
+  // `EMAIL_ALREADY_EXISTS` que o caminho do SELECT já dá. Isso importa mais
+  // agora que `DELETE /clients` libera e-mails para re-cadastro.
+  try {
+    const id = await db.transaction(async (tx) => {
+      const [userInsert] = await tx
+        .insert(users)
+        .values({
+          email: dto.user.email,
+          password: passwordHash,
+          role: 'USER',
+        })
+        .returning({ id: users.id })
 
-    const [clientInsert] = await tx
-      .insert(clientTable)
-      .values({
-        firstName: dto.firstName.toLowerCase(),
-        lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
-        weight: dto.weight != null ? String(dto.weight) : null,
-        height: dto.height != null ? String(dto.height) : null,
-        userId: userInsert!.id,
-      })
-      .returning({ id: clientTable.id })
+      const [clientInsert] = await tx
+        .insert(clientTable)
+        .values({
+          firstName: dto.firstName.toLowerCase(),
+          lastName: dto.lastName ? dto.lastName.toLowerCase() : null,
+          weight: dto.weight != null ? String(dto.weight) : null,
+          height: dto.height != null ? String(dto.height) : null,
+          userId: userInsert!.id,
+        })
+        .returning({ id: clientTable.id })
 
-    return clientInsert!.id
-  })
+      return clientInsert!.id
+    })
 
-  return c.json({ id })
+    return c.json({ id })
+  } catch (err) {
+    if (
+      err instanceof postgres.PostgresError &&
+      err.code === '23505' &&
+      err.constraint_name === 'users_email_unique'
+    ) {
+      throw new AppError(EMAIL_ALREADY_EXISTS, 400)
+    }
+    throw err
+  }
 })
 
 clientRoutes.get('/', requireAuth, (c) => {
+  return c.json(clientResponse(loggedClient(c), c.get('user')))
+})
+
+/**
+ * Atualização parcial: só as chaves presentes no corpo são gravadas. `null`
+ * explícito limpa o campo (peso e altura são opcionais no cadastro), e chave
+ * ausente não mexe no valor atual — por isso o `values` é montado testando
+ * `!== undefined` em vez de espalhar o dto.
+ */
+clientRoutes.patch('/', requireAuth, requireUserRole, async (c) => {
   const client = loggedClient(c)
   const user = c.get('user')
+  const dto = await parseBody(c, updateClientSchema)
 
-  return c.json({
-    firstName: client.firstName,
-    lastName: client.lastName,
-    weight: toNumber(client.weight),
-    height: toNumber(client.height),
-    user: { email: user.email },
+  const values: Partial<typeof clientTable.$inferInsert> = {}
+  // `firstName` em lowercase, mesma regra do cadastro; o app capitaliza na exibição.
+  if (dto.firstName !== undefined) values.firstName = dto.firstName.toLowerCase()
+  if (dto.lastName !== undefined) values.lastName = dto.lastName ? dto.lastName.toLowerCase() : null
+  if (dto.weight !== undefined) values.weight = dto.weight != null ? String(dto.weight) : null
+  if (dto.height !== undefined) values.height = dto.height != null ? String(dto.height) : null
+
+  const [updated] = await db
+    .update(clientTable)
+    .set(values)
+    .where(eq(clientTable.id, client.id))
+    .returning()
+
+  // Janela entre `requireAuth` e este UPDATE: se um segundo dispositivo
+  // rodou `DELETE /clients` nesse meio-tempo, a linha já não existe mais e
+  // `.returning()` volta vazio — sem esta checagem, `updated!` mentiria pro
+  // TypeScript e estouraria `TypeError` em runtime, virando 500.
+  if (!updated) {
+    throw new AppError(ErrorType.CLIENT_NOT_FOUND, 401)
+  }
+
+  return c.json(clientResponse(updated, user))
+})
+
+/**
+ * A sessão sobrevive à troca: o `sub` do JWT é o e-mail, que não muda aqui.
+ */
+clientRoutes.patch('/password', requireAuth, requireUserRole, async (c) => {
+  const user = c.get('user')
+  const dto = await parseBody(c, changePasswordSchema)
+  AppError.throwIfNot(dto.newPassword.length >= PASSWORD_MIN_LENGTH, ErrorType.SHORT_PASSWORD)
+
+  const ok = await verifyPassword(dto.currentPassword, user.password)
+  AppError.throwIfNot(ok, ErrorType.INVALID_PASSWORD)
+
+  await db
+    .update(users)
+    .set({ password: await hashPassword(dto.newPassword) })
+    .where(eq(users.id, user.id))
+
+  return c.body(null, 204)
+})
+
+/**
+ * Hard delete: o app promete "seus treinos e histórico são apagados junto".
+ *
+ * A ordem importa. `workout_exercise`, `workout_record_exercise` e
+ * `workout_record_exercise_set` caem sozinhos por `onDelete: 'cascade'`, mas
+ * `workout_record → workout` NÃO tem cascade no schema — apagar `workout`
+ * primeiro violaria a FK. Os treinos são buscados sem filtrar `deletedAt`:
+ * treino excluído por soft delete também tem que sair do banco aqui.
+ *
+ * Exercícios custom (`exercise.client_id`) só podem ser referenciados pelo
+ * próprio dono — `assertExercisesExist`/`assertExerciseExists`, em
+ * `shared/exercise-access.ts` e usadas por `workouts.routes.ts`,
+ * `workout-exercises.routes.ts` e `workout-records.routes.ts`, filtram por
+ * cliente — então saem junto sem risco de órfão em `workout_record_exercise`
+ * de terceiro.
+ */
+clientRoutes.delete('/', requireAuth, requireUserRole, async (c) => {
+  const client = loggedClient(c)
+  const user = c.get('user')
+  const dto = await parseBody(c, deleteAccountSchema)
+
+  const ok = await verifyPassword(dto.password, user.password)
+  AppError.throwIfNot(ok, ErrorType.INVALID_PASSWORD)
+
+  await db.transaction(async (tx) => {
+    const workouts = await tx
+      .select({ id: workout.id })
+      .from(workout)
+      .where(eq(workout.clientId, client.id))
+    const workoutIds = workouts.map((w) => w.id)
+
+    if (workoutIds.length > 0) {
+      await tx.delete(workoutRecord).where(inArray(workoutRecord.workoutId, workoutIds))
+      await tx.delete(workout).where(inArray(workout.id, workoutIds))
+    }
+
+    await tx.delete(exercise).where(eq(exercise.clientId, client.id))
+    await tx.delete(clientTable).where(eq(clientTable.id, client.id))
+    await tx.delete(users).where(eq(users.id, user.id))
   })
+
+  return c.body(null, 204)
 })
