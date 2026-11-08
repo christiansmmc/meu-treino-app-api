@@ -1,0 +1,127 @@
+{
+  "$comment": "Exercises written for this project (not from openGym/ExerciseDB): text by the meu-treino authors, no images. Appended as is by build-catalog.mjs (output shape). externalId is mt-NNNN, which cannot collide with the numeric openGym ids; never reuse or renumber one (catalog:sync upserts by externalId). equipment, target, secondaryMuscles and category must be values of the build's dictionaries.",
+  "exercises": [
+    {
+      "externalId": "mt-0001",
+      "name": "Remo ergométrico",
+      "nameEn": "rowing machine",
+      "bodyPart": "CARDIO",
+      "equipment": "Remo ergométrico",
+      "target": "Sistema cardiovascular",
+      "secondaryMuscles": ["Quadríceps", "Glúteos", "Dorsais", "Bíceps", "Core"],
+      "category": "Cardio",
+      "instructions": [
+        "Sente-se no remo ergométrico, prenda os pés nos apoios com as tiras sobre a parte mais larga do pé e segure o puxador com as mãos afastadas na largura dos ombros.",
+        "Comece com os joelhos flexionados, as canelas quase na vertical, os braços estendidos e o tronco levemente inclinado à frente, com as costas retas.",
+        "Empurre o apoio dos pés estendendo as pernas e, quando os joelhos estiverem quase estendidos, incline o tronco levemente para trás.",
+        "Termine o movimento puxando o puxador até a parte inferior do peito, com os cotovelos próximos ao corpo.",
+        "Volte na ordem inversa: estenda os braços, incline o tronco à frente e flexione os joelhos até a posição inicial.",
+        "Mantenha um ritmo constante pelo tempo ou pela distância desejados."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    },
+    {
+      "externalId": "mt-0002",
+      "name": "Leg press horizontal",
+      "nameEn": "horizontal leg press",
+      "bodyPart": "PERNA",
+      "equipment": "Máquina",
+      "target": "Quadríceps",
+      "secondaryMuscles": ["Glúteos", "Posteriores de coxa", "Panturrilhas"],
+      "category": "Força",
+      "instructions": [
+        "Ajuste o encosto e sente-se na máquina com as costas e o quadril bem apoiados.",
+        "Apoie os pés na plataforma, afastados na largura do quadril, e segure as alças laterais.",
+        "Empurre a plataforma estendendo os joelhos, sem travá-los no final do movimento.",
+        "Flexione os joelhos devagar, controlando a volta até as coxas ficarem próximas do tronco, sem tirar o quadril do encosto.",
+        "Repita pelo número desejado de repetições."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    },
+    {
+      "externalId": "mt-0003",
+      "name": "Flexora em pé",
+      "nameEn": "standing leg curl",
+      "bodyPart": "PERNA",
+      "equipment": "Máquina",
+      "target": "Posteriores de coxa",
+      "secondaryMuscles": ["Panturrilhas"],
+      "category": "Força",
+      "instructions": [
+        "Ajuste a máquina e fique em pé de frente para ela, com o quadril e o tronco encostados no apoio e as mãos nas alças.",
+        "Posicione a parte de trás do tornozelo de uma das pernas sob o rolo acolchoado, com o joelho alinhado ao eixo da máquina.",
+        "Mantendo a coxa imóvel e o quadril encostado no apoio, flexione o joelho levando o calcanhar em direção ao glúteo.",
+        "Segure a contração por um instante e abaixe a perna devagar até a posição inicial.",
+        "Complete as repetições e troque de perna."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    },
+    {
+      "externalId": "mt-0004",
+      "name": "Abdução de quadril na polia",
+      "nameEn": "cable standing hip abduction",
+      "bodyPart": "GLUTEO",
+      "equipment": "Polia",
+      "target": "Abdutores",
+      "secondaryMuscles": ["Glúteos", "Core"],
+      "category": "Força",
+      "instructions": [
+        "Prenda a tornozeleira da polia baixa no tornozelo da perna mais distante da máquina e fique de lado para ela.",
+        "Segure na estrutura da máquina para se equilibrar, com o corpo ereto e o joelho da perna de apoio levemente flexionado.",
+        "Afaste a perna para o lado, com o joelho estendido e a ponta do pé voltada para a frente, sem inclinar o tronco.",
+        "Faça uma breve pausa no ponto mais alto e volte devagar, controlando o peso até a posição inicial.",
+        "Complete as repetições e troque de lado."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    },
+    {
+      "externalId": "mt-0005",
+      "name": "Glúteo 4 apoios com caneleira",
+      "nameEn": "quadruped glute kickback with ankle weight",
+      "bodyPart": "GLUTEO",
+      "equipment": "Caneleira",
+      "target": "Glúteos",
+      "secondaryMuscles": ["Posteriores de coxa", "Core"],
+      "category": "Força",
+      "instructions": [
+        "Prenda a caneleira no tornozelo da perna que vai trabalhar e fique em quatro apoios, com as mãos sob os ombros e os joelhos sob o quadril.",
+        "Contraia o abdômen e mantenha as costas retas e a cabeça alinhada com a coluna.",
+        "Com o joelho flexionado a 90°, eleve a perna para trás e para cima, levando a sola do pé em direção ao teto até a coxa ficar alinhada com o tronco.",
+        "Contraia o glúteo no ponto mais alto, sem arquear a lombar nem girar o quadril.",
+        "Abaixe a perna devagar até o joelho quase tocar o chão.",
+        "Complete as repetições e troque de perna."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    },
+    {
+      "externalId": "mt-0006",
+      "name": "Salto no caixote",
+      "nameEn": "box jump",
+      "bodyPart": "PERNA",
+      "equipment": "Peso corporal",
+      "target": "Quadríceps",
+      "secondaryMuscles": ["Glúteos", "Posteriores de coxa", "Panturrilhas"],
+      "category": "Pliometria",
+      "instructions": [
+        "Fique em pé de frente para um caixote firme, a cerca de um passo de distância, com os pés afastados na largura do quadril.",
+        "Flexione o quadril e os joelhos em um meio agachamento, levando os braços para trás.",
+        "Salte de forma explosiva, balançando os braços para a frente, e aterrisse com os dois pés no centro do caixote.",
+        "Amorteça a aterrissagem com os joelhos levemente flexionados e alinhados com os pés e fique totalmente em pé sobre o caixote.",
+        "Desça do caixote com um passo para trás, um pé de cada vez, e repita pelo número desejado de repetições."
+      ],
+      "images": [],
+      "video": null,
+      "mediaAttribution": null
+    }
+  ]
+}

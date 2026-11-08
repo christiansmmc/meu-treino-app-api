@@ -23,7 +23,7 @@ cp .env.example .env          # ajuste JWT_SECRET / DATABASE_URL
 docker compose up -d db       # Postgres local (porta 5432)
 bun run db:migrate            # cria/atualiza o schema
 bun run catalog:sync          # sincroniza o catálogo global com data/exercises.json
-bun run media:fetch           # baixa as imagens do catálogo para MEDIA_DIR (~14 MB + ~17 MB de originais em cache, só o que falta)
+bun run media:fetch           # baixa as imagens do catálogo para MEDIA_DIR (~6,5 MB + ~7 MB de originais em cache, só o que falta)
 bun run dev                   # hot reload
 ```
 
@@ -68,9 +68,12 @@ MEDIA_MANIFEST=...               # opcional, só media:fetch (default: data/medi
 
 ## Catálogo de exercícios
 
-O catálogo global (`exercise.client_id IS NULL`) vem de **`data/exercises.json`**: 1.324
-exercícios (texto do ExerciseDB/openGym, nomes e instruções em pt-BR), 363 com ilustração.
-Licenças em [`NOTICE.md`](NOTICE.md). Formato (array):
+O catálogo global (`exercise.client_id IS NULL`) vem de **`data/exercises.json`**: uma lista
+enxuta de **184** exercícios comuns de academia, 143 com ilustração — 178 escolhidos entre os 1.324
+do openGym (texto do ExerciseDB/openGym, nomes e instruções em pt-BR; lista em
+`scripts/catalog/curated-list.json`) e 6 escritos para o projeto (`externalId` `mt-0001`…`mt-0006`,
+sem imagem: remo ergométrico, leg press horizontal, flexora em pé, abdução de quadril na polia,
+glúteo 4 apoios com caneleira, salto no caixote). Licenças em [`NOTICE.md`](NOTICE.md). Formato (array):
 
 ```json
 {
@@ -132,7 +135,10 @@ mapa que apontam para `external_id` fora do arquivo e sobre arquivos de mídia a
 
 `data/exercises.json`, `data/media-manifest.json`, `data/credits.json` e
 `data/legacy-exercise-map.csv` são gerados por [`scripts/catalog/`](scripts/catalog/README.md)
-a partir de um clone do openGym (offline, Node 20+):
+a partir de um clone do openGym, filtrado por `scripts/catalog/curated-list.json` e somado a
+`scripts/catalog/custom-exercises.json` (offline, Node 20+; o build falha se um id da lista não
+existe, se dois exercícios têm o mesmo nome, se falta um id usado pelos treinos atuais ou se o mapa
+legado aponta para fora da lista):
 
 ```bash
 node scripts/catalog/build-catalog.mjs /caminho/do/openGym --compound-legs-as-perna
@@ -141,8 +147,15 @@ bun run catalog:sync && bun run media:fetch
 ```
 
 `--compound-legs-as-perna` põe agachamentos, afundos, leg press, stiff/terra e good morning em
-`PERNA` (o openGym os mira em glúteos). Distribuição atual: PERNA 226, ABDOMEN 174, COSTAS 169,
-OMBRO 160, PEITO 158, BICEPS 151, TRICEPS 141, GLUTEO 60, ANTEBRACO 37, CARDIO 29, LOMBAR 19.
+`PERNA` (o openGym os mira em glúteos). Distribuição atual: PERNA 34, PEITO 25, COSTAS 23, OMBRO 23,
+ABDOMEN 18, TRICEPS 17, BICEPS 15, GLUTEO 12, CARDIO 10, ANTEBRACO 4, LOMBAR 3. A curadoria (o que
+entra, nomes, exercícios próprios, validações) está no [README do gerador](scripts/catalog/README.md#curation-curated-listjson-custom-exercisesjson).
+
+Num banco que já tinha o catálogo completo (1.324), o primeiro `catalog:sync` com a lista enxuta
+apaga os exercícios que saíram e **arquiva** os que algum treino ou registro ainda usa (somem de
+`GET /exercises`, continuam nos treinos e no histórico); os mantidos são atualizados/renomeados no
+lugar, pelo mesmo `external_id`. Depois do deploy, `media:fetch --prune` apaga as imagens que saíram
+do manifesto (504 → 236 arquivos).
 
 ### Imagens: `bun run media:fetch`
 
@@ -234,7 +247,7 @@ código 1 sem subir o servidor (o deploy anterior continua no ar). A imagem leva
 (com as migrations), `data/` e `NOTICE.md`. Roda como usuário `bun`, com `HEALTHCHECK` em
 `/api/health`.
 
-**Mídia embutida**: um estágio do build roda `media:fetch` (rede no build; ~25 s, ~14 MB) e a imagem
+**Mídia embutida**: um estágio do build roda `media:fetch` (rede no build; ~10 s, ~6,5 MB) e a imagem
 leva só os arquivos processados em `MEDIA_DIR=/app/media` (dono `bun`; o cache `.raw/` fica de
 fora) — num host sem disco persistente (Render free) a API sobe com as imagens. O estágio só
 depende de `data/media-manifest.json`, `src/media/` e `src/shared/media-paths.ts`, então fica em
@@ -291,7 +304,7 @@ src/
     media.ts                reexporta media-paths.ts + `exerciseFirstImage` (SQL)
     serialize.ts            decimal→number, created_at→YYYY-MM-DD
     validate.ts             parse de body/params
-data/exercises.json         catálogo global (1.324 exercícios, gerado por scripts/catalog)
+data/exercises.json         catálogo global (184 exercícios, gerado por scripts/catalog)
 data/media-manifest.json    imagens: path, URL de origem, licença, crédito, transform, align
 data/credits.json           fontes e licenças (para uma tela de créditos)
 data/legacy-exercise-map.csv  mapa exercício antigo → external_id

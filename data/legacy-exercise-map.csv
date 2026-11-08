@@ -7,18 +7,18 @@ Rosca Direta com Halteres,BICEPS,0294
 Rosca Inclinada com Halteres,BICEPS,0318
 Rosca Martelo com Halteres,BICEPS,0313
 Rosca Martelo na Polia,BICEPS,0165
-Rosca Spider,BICEPS,0454
+Rosca Spider,BICEPS,0070
 Rosca Alternada com Halteres,BICEPS,0285
 Rosca Inversa com Barra,BICEPS,0080
 PullDown,COSTAS,0238
 Pulley Frente,COSTAS,0198
 Remada Baixa na Polia,COSTAS,0861
-Remada Baixa na Máquina,COSTAS,0588
+Remada Baixa na Máquina,COSTAS,1350
 Remada Cavalinho,COSTAS,0606
 Remada Curvada com Barra,COSTAS,0027
 Remada na Máquina,COSTAS,1350
 Remada Unilateral com Halteres,COSTAS,0292
-Puxada com Pegada Neutra,COSTAS,0818
+Puxada com Pegada Neutra,COSTAS,2616
 Remada com Barra T,COSTAS,0606
 Barra Fixa,COSTAS,0652
 Desenvolvimento com Halteres,OMBRO,0405
@@ -45,7 +45,7 @@ Supino Inclinado com Barra,PEITO,0047
 Supino Inclinado com Halteres,PEITO,0314
 Supino Reto com Barra,PEITO,0025
 Supino Reto com Halteres,PEITO,0289
-Flexão com Pegada Fechada,PEITO,0259
+Flexão com Pegada Fechada,PEITO,0283
 Flexão com Inclinação,PEITO,0493
 Supino Declinado com Halteres,PEITO,0301
 Agachamento Livre com Barra,PERNA,0043
@@ -70,17 +70,16 @@ Tríceps Francês com Halteres,TRICEPS,2188
 Tríceps Francês na Polia,TRICEPS,0194
 Tríceps Testa com Barra,TRICEPS,0060
 Tríceps Testa na Máquina,TRICEPS,0607
-Tríceps Testa na Polia,TRICEPS,0186
+Tríceps Testa na Polia,TRICEPS,0060
 Tríceps Coice com Halteres,TRICEPS,0333
 Mergulho nas Paralelas,TRICEPS,0251
 Rosca de Punho com Barra,ANTEBRACO,0126
 Rosca de Punho Invertida com Barra,ANTEBRACO,0082
 Rosca de Punho com Halteres,ANTEBRACO,0369
-Rosca Inversa na Polia,ANTEBRACO,0206
-Farmer's Walk,ANTEBRACO,2133
+Rosca Inversa na Polia,ANTEBRACO,0080
 Abdominal Supra no Solo,ABDOMEN,0274
 Abdominal Infra no Solo,ABDOMEN,0872
-Abdominal Oblíquo,ABDOMEN,0635
+Abdominal Oblíquo,ABDOMEN,0262
 Abdominal na Máquina,ABDOMEN,1452
 Abdominal na Polia,ABDOMEN,0175
 Prancha Isométrica,ABDOMEN,2135
@@ -94,12 +93,11 @@ Coice na Máquina,GLUTEO,2286
 Abdução de Quadril na Máquina,GLUTEO,0597
 Levantamento Terra,LOMBAR,0032
 Levantamento Terra Sumô,LOMBAR,0117
-Hiperextensão Lombar,LOMBAR,0489
+Hiperextensão Lombar,LOMBAR,0488
 Extensão Lombar na Máquina,LOMBAR,0573
 Good Morning com Barra,LOMBAR,0044
 Esteira,CARDIO,3666
 Bicicleta Ergométrica,CARDIO,2138
 Elíptico,CARDIO,2141
 Escada Ergométrica,CARDIO,2311
-Corda Naval,CARDIO,0128
 Pular Corda,CARDIO,2612

@@ -17,9 +17,12 @@ cd scripts/catalog
 #    The shipped catalogue is built with --compound-legs-as-perna.
 node build-catalog.mjs /path/to/openGym --compound-legs-as-perna
 #    -> out/exercises.json, out/media-manifest.json, out/credits.json
+#    = the exercises of curated-list.json + custom-exercises.json (184), and only their media files
 #    prints the bodyPart distribution and media stats; exits 1 on any untranslated value,
-#    unreviewed media candidate, invalid media path, bad media-frame-exclude.json entry or bad legacy-map row
+#    unreviewed media candidate, invalid media path, bad media-frame-exclude.json entry, bad
+#    curated-list.json / custom-exercises.json entry, duplicate name or bad legacy-map row (see "Curation")
 #    add --verbose to list every legacy-map row with its new exercise name
+#    add --all to output every openGym entry instead (the pre-curation catalogue, to pick new ids from)
 
 # 2. Download + process the media and check every URL (skips folders whose files are all present)
 cd ../..
@@ -58,12 +61,60 @@ node build-catalog.mjs /path/to/openGym --refresh-candidates=.cache/match/matche
 
 New candidates scored 0.75–0.85 make the build fail until each has a decision in `media-review.json`.
 
+## Curation (`curated-list.json`, `custom-exercises.json`)
+
+The shipped catalogue is a lean list of common gym exercises, not all 1,324 openGym entries (which carry
+many near-duplicates: grip-width variants, "(variação N)", side/back views, exotic equipment). The build still
+runs every openGym record through the same names, translations and media picks (and their checks), then
+writes only:
+
+- the openGym ids in `curated-list.json` (178), grouped by the bodyPart the build gives them; each row also
+  shows the final display name;
+- the entries of `custom-exercises.json` (6, `mt-0001`…`mt-0006`): exercises the openGym catalogue lacks,
+  written for this project in the output shape (pt-BR text, no images, `mediaAttribution: null`).
+
+The media manifest then lists only the files those exercises use (236 files instead of 504).
+
+Selection criteria of the current list: one entry per movement + equipment + relevant variation (bench angle,
+grip that changes the exercise, high/low pulley); among duplicates the one with an illustration, then the most
+standard name; strength exercises on barbell, dumbbell, cable, machine, Smith, EZ bar and body weight, plus basic
+calisthenics, core and cardio; no stretching, mobility, yoga, combat, rehab or Olympic lifts; no stability
+ball, BOSU, TRX, medicine ball and similar.
+
+The build fails when:
+
+- an id in `curated-list.json` is not an openGym exercisedb id, is listed twice, or sits under a group other
+  than the bodyPart the build gives it;
+- a row's `name` differs from the built name (rename in `name-overrides.json`, then update the row);
+- two output exercises share a display name (case-insensitive): no "(variação N)" in the curated list;
+- an id in `requiredIds` (the ids existing workouts use in production) is missing from the list;
+- a custom entry has an id other than `mt-NNNN`, an unknown field, media, or an `equipment`/`target`/
+  `secondaryMuscles`/`category` value that is not a value of the build's dictionaries (add new vocabulary to
+  the dictionary, as done for "Remo ergométrico" and "Caneleira");
+- a `legacy-exercise-map.csv` row points at an id that is not in the output.
+
+To **add** an exercise: build with `--all --out=.cache/all`, find it in `.cache/all/exercises.json`, add its
+id (and the name the build prints) under its bodyPart, rename it in `name-overrides.json` if needed. To
+**remove** one: drop its row and retarget or drop the legacy-map rows that point at it; check first that no
+workout uses it (`requiredIds`). In the database, `catalog:sync` archives a removed exercise that workouts or
+records still reference and deletes it otherwise. Never reuse or renumber a custom `mt-` id (the sync upserts by
+`externalId`).
+
+Legacy-map retargets made for the lean list (old target no longer in the list): Rosca Spider 0454 → 0070
+(Rosca Scott com barra); Remada Baixa na Máquina 0588 → 1350 (Remada sentada na máquina); Puxada com Pegada
+Neutra 0818 → 2616 (Puxada frontal com triângulo); Flexão com Pegada Fechada 0259 → 0283 (Flexão diamante);
+Tríceps Testa na Polia 0186 → 0060 (Tríceps testa com barra); Rosca Inversa na Polia 0206 → 0080 (Rosca inversa
+com barra); Abdominal Oblíquo 0635 → 0262 (Abdominal cruzado); Hiperextensão Lombar 0489 → 0488 (same
+movement, now "Hiperextensão lombar"). Dropped (no equivalent in the list): Farmer's Walk, Corda Naval.
+
 ## Files
 
 | File | Purpose |
 |---|---|
-| `build-catalog.mjs` | The build. Translation dictionaries, pt-BR name rules, media selection |
-| `name-overrides.json` | `externalId -> name`; wins over the automatic name rules |
+| `build-catalog.mjs` | The build. Translation dictionaries, pt-BR name rules, media selection, curation |
+| `curated-list.json` | The openGym ids the catalogue keeps, by bodyPart, with their display names; `requiredIds` = ids existing workouts use |
+| `custom-exercises.json` | Exercises written for this project (`mt-NNNN`, no media), in the output shape |
+| `name-overrides.json` | `externalId -> name`; wins over the automatic name rules (includes the curated list's renames) |
 | `media-candidates.json` | Best Workout Guide / Everkinetic / wger match per exercise (score ≥ 0.75) |
 | `media-review.json` | Manual `accept`/`reject` with a reason: every 0.75–0.85 candidate, plus rejects of wrong auto-accepted ones |
 | `media-manual.json` | Hand-picked media (full frame URLs + reason) for common exercises the name matcher missed because the source uses another name, e.g. Face Pull, Pec Deck, Hip Thrust |
@@ -76,16 +127,18 @@ The downloader is `src/media/fetch-media.ts` in the app (`bun run media:fetch`).
 
 ## Rules the build applies
 
-- **Exercises**: the 1,324 openGym entries with `"textSource": "exercisedb"`. `externalId` is the openGym id.
-- **Text**: `name` is the pt-BR name in sentence case after the wording rules and overrides (duplicates get
-  "(variação N)"); `nameEn` is the English name as is; `instructions` are pt-BR (English if missing).
+- **Exercises**: built for the 1,324 openGym entries with `"textSource": "exercisedb"` (`externalId` is the
+  openGym id); the output keeps those in `curated-list.json` and appends `custom-exercises.json` (see "Curation").
+- **Text**: `name` is the pt-BR name in sentence case after the wording rules and overrides (a duplicate
+  fails the curated build; with `--all` it gets "(variação N)"); `nameEn` is the English name as is; `instructions` are pt-BR (English if missing).
   `equipment`, `target`, `secondaryMuscles` and `category` go through explicit dictionaries.
 - **bodyPart** comes from `target` (pectorals→PEITO, lats/upper back→COSTAS, delts/traps/levator
   scapulae→OMBRO, quads/hamstrings/calves/adductors→PERNA, glutes/abductors→GLUTEO, abs/serratus→ABDOMEN,
   spine→LOMBAR, forearms→ANTEBRACO, cardiovascular system or openGym bodyPart "cardio"→CARDIO).
   openGym targets most squats, lunges, leg presses and deadlifts at glutes, so they would land in GLUTEO;
   `--compound-legs-as-perna` (used for the shipped catalogue) files those under PERNA instead, by English
-  name (squat, lunge, leg press, step-up, split, hack, deadlift, good morning, pistol): 89 exercises.
+  name (squat, lunge, leg press, step-up, split, hack, deadlift, good morning, pistol): 89 of the 1,324 exercises
+  (16 of the curated list).
 - **Media**: an entry in `media-manual.json` wins. Otherwise candidates scored ≥ 0.85 are accepted unless
   `media-review.json` rejects them; 0.75–0.85 need an explicit accept. The highest score wins (near-ties:
   Workout Guide, then Everkinetic, then wger). PNG files only; wger only for images credited to Everkinetic

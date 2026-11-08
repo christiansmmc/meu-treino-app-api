@@ -4,7 +4,7 @@
 //
 // Usage:
 //   node build-catalog.mjs <openGymPath> [--out=<dir>] [--refresh-candidates=<matches-by-source.json>]
-//                          [--compound-legs-as-perna] [--verbose]
+//                          [--compound-legs-as-perna] [--all] [--verbose]
 //
 //   <openGymPath>   openGym repo root (or its `catalogue/` folder). Only `catalogue/exercises/*.json`
 //                   and `catalogue/i18n/pt-BR.json` are read. `catalogue/media` is NEVER read: that media
@@ -16,9 +16,14 @@
 //   --compound-legs-as-perna
 //                   file squats/lunges/leg presses/deadlifts whose openGym target is "glutes" under PERNA
 //                   instead of GLUTEO (off by default: bodyPart follows the target table below).
+//   --all           ignore curated-list.json and output every openGym entry (plus the custom ones), with duplicate
+//                   names suffixed "(variação N)": the pre-curation catalogue, for picking ids to add to the list.
 //   --verbose       also print every legacy-map row with the new exercise name.
 //
 // Inputs kept next to this script (all committed):
+//   curated-list.json       the openGym externalIds the shipped (lean) catalogue keeps, grouped by bodyPart, with their
+//                           final names (checked), plus the ids existing workouts use (must stay in the list)
+//   custom-exercises.json   exercises written for this project (externalId mt-NNNN, no media), appended as is
 //   media-candidates.json   per exercise, the best Workout Guide / Everkinetic / wger match (score >= 0.75)
 //   media-review.json       manual accept/reject decisions (required for every 0.75-0.85 candidate)
 //   media-exclude.json      media URLs that failed to download permanently (skipped)
@@ -30,11 +35,15 @@
 // Outputs (in --out):
 //   exercises.json          array sorted by name (see README.md for the shape)
 //   media-manifest.json     [{path, url, license, attribution, transform, align}] — what src/media/fetch-media.ts
-//                           (`bun run media:fetch`) downloads, colour-normalizes and crops per exercise folder
+//                           (`bun run media:fetch`) downloads, colour-normalizes and crops per exercise folder; only
+//                           the files the output exercises use
 //   credits.json            [{source, license, url, attribution}] — for an in-app credits screen
 //
-// Fails loudly (exit 1) on any value without a translation, an unreviewed 0.75-0.85 media candidate,
-// an invalid media path, or a legacy-map row pointing at an unknown externalId.
+// Every openGym record still goes through the same names, translations and media picks (and their checks); the
+// curated list only selects which of them are written. Fails loudly (exit 1) on any value without a translation,
+// an unreviewed 0.75-0.85 media candidate, an invalid media path, a bad curated-list.json / custom-exercises.json
+// entry (unknown id, wrong group, stale name, missing required id, value outside the dictionaries), a duplicate
+// display name in the curated output, or a legacy-map row pointing at an externalId that is not in the output.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -79,7 +88,10 @@ const FILES = {
   manual: path.join(HERE, 'media-manual.json'),
   overrides: path.join(HERE, 'name-overrides.json'),
   legacy: path.join(HERE, 'legacy-exercise-map.csv'),
+  curated: path.join(HERE, 'curated-list.json'),
+  custom: path.join(HERE, 'custom-exercises.json'),
 };
+const ALL = !!flags.all;
 
 // ---------------------------------------------------------------- openGym text
 const records = fs
@@ -149,6 +161,9 @@ const EQUIPMENT = {
   'skierg machine': 'Ergômetro de esqui',
   'stepmill machine': 'Escada ergométrica',
   tire: 'Pneu',
+  // not in openGym; values used by custom-exercises.json
+  'rowing machine': 'Remo ergométrico',
+  'ankle weight': 'Caneleira',
 };
 
 const TARGET = {
@@ -398,7 +413,6 @@ for (const [key, byFrame] of Object.entries(frameExcludeFile.frames ?? {})) {
   frameExclude.set(key, m);
 }
 const frameExcludeUsed = new Set();
-const frameStats = { excludedFrames: 0, byReason: {} };
 
 /**
  * Frames actually used from a candidate, each with `n` = its 1-based upstream number: raster only, minus the frames in
@@ -433,9 +447,11 @@ function mediaPath(c, n, url) {
 }
 
 const unreviewed = [];
-// counts over the chosen media (one per exercise) and over skipped accepted candidates
-const pickStats = { pickedManual: 0, pickedAutoAccepted: 0, pickedReviewed: 0, skippedNoUsableFrames: 0, skippedExcludedUrl: 0 };
-function pickMedia(rec) {
+/**
+ * Best accepted candidate for one exercise, or null. `info` (per exercise, summed over the output exercises in the
+ * report) gets the kind of pick and the accepted candidates skipped.
+ */
+function pickMedia(rec, info) {
   const list = (candidates[rec.id] ?? []).filter((c) => SOURCES.includes(c.source));
   if (manual.has(rec.id)) list.unshift(manual.get(rec.id));
   const ok = [];
@@ -452,11 +468,11 @@ function pickMedia(rec) {
     if (!accepted) continue;
     const frames = usableFrames(c);
     if (!frames.length) {
-      pickStats.skippedNoUsableFrames++;
+      info.skippedNoUsableFrames++;
       continue;
     }
     if (frames.some((f) => excluded.has(f.url))) {
-      pickStats.skippedExcludedUrl++;
+      info.skippedExcludedUrl++;
       continue;
     }
     ok.push({ c, frames, decision });
@@ -465,9 +481,7 @@ function pickMedia(rec) {
   ok.sort((a, b) => key(b) - key(a));
   const best = ok[0];
   if (!best) return null;
-  if (best.c.manual) pickStats.pickedManual++;
-  else if (best.decision) pickStats.pickedReviewed++;
-  else pickStats.pickedAutoAccepted++;
+  info.kind = best.c.manual ? 'pickedManual' : best.decision ? 'pickedReviewed' : 'pickedAutoAccepted';
   return best;
 }
 
@@ -509,7 +523,7 @@ const overrides = Object.fromEntries(
 );
 for (const id of Object.keys(overrides)) if (!records.some((r) => r.id === id)) fail(`name-overrides.json: unknown externalId ${id}`);
 
-const mediaBySource = { workoutGuide: 0, everkinetic: 0, wger: 0 };
+const mediaInfo = new Map(); // externalId -> { source, kind, skipped..., excludedFrames }, summed over the output in the report
 const exercises = records.map((rec) => {
   const target = String(rec.target).toLowerCase();
   let bodyPart = String(rec.bodyPart).toLowerCase() === 'cardio' ? 'CARDIO' : BODY_PART_BY_TARGET[target];
@@ -518,7 +532,9 @@ const exercises = records.map((rec) => {
   const pt = ptBR[rec.id] ?? {};
   const instructions = (pt.instructions?.length ? pt.instructions : rec.instructions ?? []).map((s) => String(s).trim()).filter(Boolean);
 
-  const media = pickMedia(rec);
+  const info = { source: null, kind: null, skippedNoUsableFrames: 0, skippedExcludedUrl: 0, excludedFrames: [] };
+  mediaInfo.set(rec.id, info);
+  const media = pickMedia(rec, info);
   let images = [];
   let mediaAttribution = null;
   if (media) {
@@ -537,12 +553,9 @@ const exercises = records.map((rec) => {
       });
       return p;
     });
-    for (const reason of (frameExclude.get(`${c.source}/${c.sourceId}`) ?? new Map()).values()) {
-      frameStats.excludedFrames++;
-      frameStats.byReason[reason] = (frameStats.byReason[reason] ?? 0) + 1;
-    }
+    info.excludedFrames = [...(frameExclude.get(`${c.source}/${c.sourceId}`) ?? new Map()).values()];
     mediaAttribution = exerciseAttribution(c, frames);
-    mediaBySource[c.source]++;
+    info.source = c.source;
   }
 
   return {
@@ -565,14 +578,87 @@ if (missing.size) fail(`values without a translation (add them to the dictionari
 if (unreviewed.length) fail(`${unreviewed.length} media candidates in the ${REVIEW_MIN}-${AUTO_ACCEPT} band have no decision in media-review.json:\n  ${unreviewed.join('\n  ')}`);
 for (const e of exercises) if (!BODY_PARTS.includes(e.bodyPart)) fail(`invalid bodyPart ${e.bodyPart} for ${e.externalId}`);
 
-// duplicate display names: the lowest externalId keeps the name, the others get "(variação N)"
-const taken = new Map();
-for (const e of [...exercises].sort((a, b) => a.externalId.localeCompare(b.externalId))) {
-  let name = e.name;
-  for (let n = 2; taken.has(name.toLocaleLowerCase('pt-BR')); n++) name = `${e.name} (variação ${n})`;
-  if (name !== e.name) console.log(`  dedupe: ${e.externalId} "${e.name}" -> "${name}"`);
-  e.name = name;
-  taken.set(name.toLocaleLowerCase('pt-BR'), e.externalId);
+// ---------------------------------------------------------------- curation
+// The shipped catalogue is a curated (lean) subset: curated-list.json names the openGym ids to keep and
+// custom-exercises.json adds exercises written for this project. Everything above ran over every openGym record, so a
+// kept exercise is exactly what the full build produces for its id. --all skips the list (pre-curation catalogue).
+const builtById = new Map(exercises.map((e) => [e.externalId, e]));
+const curatedFile = readJson(FILES.curated);
+const curatedNames = new Map(); // externalId -> the name curated-list.json shows for it
+for (const [bp, rows] of Object.entries(curatedFile.groups ?? {})) {
+  if (!BODY_PARTS.includes(bp)) fail(`curated-list.json: unknown group "${bp}"`);
+  for (const row of rows) {
+    const e = builtById.get(row.externalId);
+    if (!e) fail(`curated-list.json: ${row.externalId} is not an openGym exercisedb externalId`);
+    if (curatedNames.has(row.externalId)) fail(`curated-list.json: ${row.externalId} is listed twice`);
+    if (e.bodyPart !== bp) fail(`curated-list.json: ${row.externalId} "${e.name}" is listed under ${bp}, but the build files it under ${e.bodyPart}`);
+    curatedNames.set(row.externalId, row.name);
+  }
+}
+if (!curatedNames.size) fail('curated-list.json: empty list');
+for (const id of curatedFile.requiredIds ?? []) {
+  if (!curatedNames.has(id)) fail(`curated-list.json: ${id} is used by existing workouts (requiredIds) but is not in the list`);
+}
+
+// custom exercises: already in the output shape and in pt-BR; the vocabulary must be the dictionaries' values
+const CUSTOM_ID = /^mt-\d{4}$/;
+const CUSTOM_KEYS = ['externalId', 'name', 'nameEn', 'bodyPart', 'equipment', 'target', 'secondaryMuscles', 'category', 'instructions', 'images', 'video', 'mediaAttribution'];
+const values = (dict) => new Set(Object.values(dict));
+const customExercises = (readJson(FILES.custom).exercises ?? []).map((c) => {
+  const where = `custom-exercises.json ${c.externalId ?? '(no externalId)'}`;
+  for (const k of Object.keys(c)) if (!CUSTOM_KEYS.includes(k)) fail(`${where}: unknown field "${k}"`);
+  if (!CUSTOM_ID.test(c.externalId ?? '')) fail(`${where}: externalId must look like mt-0001 (never an openGym id)`);
+  if (typeof c.name !== 'string' || !c.name.trim()) fail(`${where}: missing name`);
+  if (!BODY_PARTS.includes(c.bodyPart)) fail(`${where}: invalid bodyPart "${c.bodyPart}"`);
+  if (!values(EQUIPMENT).has(c.equipment)) fail(`${where}: equipment "${c.equipment}" is not a value of the EQUIPMENT dictionary`);
+  if (!values(TARGET).has(c.target)) fail(`${where}: target "${c.target}" is not a value of the TARGET dictionary`);
+  for (const m of c.secondaryMuscles ?? []) if (!values(SECONDARY).has(m)) fail(`${where}: secondary muscle "${m}" is not a value of the SECONDARY dictionary`);
+  if (!values(CATEGORY).has(c.category)) fail(`${where}: category "${c.category}" is not a value of the CATEGORY dictionary`);
+  if (!Array.isArray(c.instructions) || !c.instructions.length || c.instructions.some((s) => typeof s !== 'string' || !s.trim())) {
+    fail(`${where}: instructions must be a non-empty list of steps`);
+  }
+  if (c.images?.length || c.video || c.mediaAttribution) fail(`${where}: custom exercises have no media (the manifest only covers openGym picks)`);
+  return {
+    externalId: c.externalId,
+    name: c.name.trim(),
+    nameEn: c.nameEn?.trim() || null,
+    bodyPart: c.bodyPart,
+    equipment: c.equipment,
+    target: c.target,
+    secondaryMuscles: [...new Set(c.secondaryMuscles ?? [])],
+    category: c.category,
+    instructions: c.instructions.map((s) => s.trim()),
+    images: [],
+    video: null,
+    mediaAttribution: null,
+  };
+});
+if (new Set(customExercises.map((c) => c.externalId)).size !== customExercises.length) fail('custom-exercises.json: duplicate externalId');
+
+const catalogue = [...(ALL ? exercises : exercises.filter((e) => curatedNames.has(e.externalId))), ...customExercises];
+
+if (ALL) {
+  // duplicate display names: the lowest externalId keeps the name, the others get "(variação N)"
+  const taken = new Map();
+  for (const e of [...catalogue].sort((a, b) => a.externalId.localeCompare(b.externalId))) {
+    let name = e.name;
+    for (let n = 2; taken.has(name.toLocaleLowerCase('pt-BR')); n++) name = `${e.name} (variação ${n})`;
+    if (name !== e.name) console.log(`  dedupe: ${e.externalId} "${e.name}" -> "${name}"`);
+    e.name = name;
+    taken.set(name.toLocaleLowerCase('pt-BR'), e.externalId);
+  }
+} else {
+  // the curated list is small enough to name every exercise uniquely by hand: a duplicate is an error, not "(variação N)"
+  const taken = new Map();
+  for (const e of catalogue) {
+    const key = e.name.toLocaleLowerCase('pt-BR');
+    if (taken.has(key)) fail(`duplicate display name "${e.name}": ${taken.get(key)} and ${e.externalId} (fix it in name-overrides.json or custom-exercises.json)`);
+    taken.set(key, e.externalId);
+  }
+  const stale = catalogue
+    .filter((e) => curatedNames.has(e.externalId) && curatedNames.get(e.externalId) !== e.name)
+    .map((e) => `${e.externalId}: list says "${curatedNames.get(e.externalId)}", build says "${e.name}"`);
+  if (stale.length) fail(`curated-list.json names out of date (rename in name-overrides.json, then update the list):\n  ${stale.join('\n  ')}`);
 }
 
 // media paths must satisfy the API's isValidMediaPath (safe segments, allowed extension, <= 512 chars)
@@ -591,10 +677,32 @@ for (const [p, m] of manifest) {
 }
 const unusedFrameExcludes = [...frameExclude.keys()].filter((k) => !frameExcludeUsed.has(k));
 if (unusedFrameExcludes.length) console.warn(`WARNING: media-frame-exclude.json entries for candidates no exercise considers: ${unusedFrameExcludes.join(', ')}`);
-for (const e of exercises) if (e.name.length > 255) fail(`name too long for ${e.externalId}`);
+for (const e of catalogue) if (e.name.length > 255) fail(`name too long for ${e.externalId}`);
 
-exercises.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR') || a.externalId.localeCompare(b.externalId));
-const manifestList = [...manifest.values()].sort((a, b) => a.path.localeCompare(b.path));
+catalogue.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR') || a.externalId.localeCompare(b.externalId));
+// only the files the output exercises use (the manifest above covers every openGym pick)
+const usedPaths = new Set(catalogue.flatMap((e) => e.images));
+for (const p of usedPaths) if (!manifest.has(p)) fail(`media path ${p} has no manifest entry`);
+const manifestList = [...manifest.values()].filter((m) => usedPaths.has(m.path)).sort((a, b) => a.path.localeCompare(b.path));
+const manifestFolders = new Set(manifestList.map((m) => m.path.slice(0, m.path.lastIndexOf('/'))));
+
+// media stats over the output exercises
+const mediaBySource = { workoutGuide: 0, everkinetic: 0, wger: 0 };
+const pickStats = { pickedManual: 0, pickedAutoAccepted: 0, pickedReviewed: 0, skippedNoUsableFrames: 0, skippedExcludedUrl: 0 };
+const frameStats = { excludedFrames: 0, byReason: {} };
+for (const e of catalogue) {
+  const info = mediaInfo.get(e.externalId);
+  if (!info) continue; // custom exercise
+  pickStats.skippedNoUsableFrames += info.skippedNoUsableFrames;
+  pickStats.skippedExcludedUrl += info.skippedExcludedUrl;
+  if (!info.source) continue;
+  mediaBySource[info.source]++;
+  pickStats[info.kind]++;
+  for (const reason of info.excludedFrames) {
+    frameStats.excludedFrames++;
+    frameStats.byReason[reason] = (frameStats.byReason[reason] ?? 0) + 1;
+  }
+}
 
 // ---------------------------------------------------------------- credits
 const credits = [
@@ -646,25 +754,28 @@ for (const [license, authors] of [...wgerByLicense].sort()) {
   });
 }
 
-// ---------------------------------------------------------------- write
-writeJson(path.join(OUT, 'exercises.json'), exercises);
-writeJson(path.join(OUT, 'media-manifest.json'), manifestList);
-writeJson(path.join(OUT, 'credits.json'), credits);
-
 // ---------------------------------------------------------------- legacy map validation
+// Every row must point at an exercise of the output: catalog:sync ignores (with a warning) a row whose target is not
+// in exercises.json, and the old exercise would then be archived instead of remapped.
 if (fs.existsSync(FILES.legacy)) {
-  const byId = new Map(exercises.map((e) => [e.externalId, e]));
+  const byId = new Map(catalogue.map((e) => [e.externalId, e]));
   const lines = fs.readFileSync(FILES.legacy, 'utf8').split(/\r?\n/).filter((l) => l.trim());
   if (lines[0] !== 'old_name,old_body_part,external_id') fail('legacy-exercise-map.csv: bad header');
   const seen = new Set();
   console.log(`\nlegacy map (${lines.length - 1} rows):`);
   for (const line of lines.slice(1)) {
-    const m = /^("(?:[^"]|"")*"|[^,]*),([A-Z]+),(\d+)$/.exec(line);
+    const m = /^("(?:[^"]|"")*"|[^,]*),([A-Z]+),(\d+|mt-\d{4})$/.exec(line);
     if (!m) fail(`legacy-exercise-map.csv: cannot parse "${line}"`);
     const oldName = m[1].replace(/^"|"$/g, '').replace(/""/g, '"');
     if (!BODY_PARTS.includes(m[2])) fail(`legacy-exercise-map.csv: bad body part in "${line}"`);
     const e = byId.get(m[3]);
-    if (!e) fail(`legacy-exercise-map.csv: unknown externalId ${m[3]} in "${line}"`);
+    if (!e) {
+      fail(
+        builtById.has(m[3])
+          ? `legacy-exercise-map.csv: "${line}" points at ${m[3]} "${builtById.get(m[3]).name}", which is not in the curated list (retarget the row to a kept exercise or drop it)`
+          : `legacy-exercise-map.csv: unknown externalId ${m[3]} in "${line}"`,
+      );
+    }
     const key = `${oldName.toLowerCase()}|${m[2]}`;
     if (seen.has(key)) fail(`legacy-exercise-map.csv: duplicate row "${line}"`);
     seen.add(key);
@@ -672,20 +783,28 @@ if (fs.existsSync(FILES.legacy)) {
   }
 }
 
+// ---------------------------------------------------------------- write
+writeJson(path.join(OUT, 'exercises.json'), catalogue);
+writeJson(path.join(OUT, 'media-manifest.json'), manifestList);
+writeJson(path.join(OUT, 'credits.json'), credits);
+
 // ---------------------------------------------------------------- report
 const dist = {};
-for (const e of exercises) dist[e.bodyPart] = (dist[e.bodyPart] ?? 0) + 1;
+for (const e of catalogue) dist[e.bodyPart] = (dist[e.bodyPart] ?? 0) + 1;
 console.log('\nbodyPart distribution:');
 for (const bp of BODY_PARTS) console.log(`  ${bp.padEnd(10)} ${String(dist[bp] ?? 0).padStart(5)}`);
-const withMedia = exercises.filter((e) => e.images.length).length;
-console.log(`\nexercises: ${exercises.length}, with media: ${withMedia} (${((100 * withMedia) / exercises.length).toFixed(1)}%)`);
+const withMedia = catalogue.filter((e) => e.images.length).length;
+console.log(
+  `\nexercises: ${catalogue.length} (${catalogue.length - customExercises.length} openGym${ALL ? ', --all' : ` of ${exercises.length}, curated-list.json`} + ${customExercises.length} custom), ` +
+    `with media: ${withMedia} (${((100 * withMedia) / catalogue.length).toFixed(1)}%)`,
+);
 console.log(`media by source: ${JSON.stringify(mediaBySource)}`);
 console.log(`media picks: ${JSON.stringify(pickStats)}`);
 const band = reviewList.filter((r) => r.score >= REVIEW_MIN && r.score < AUTO_ACCEPT);
 console.log(`media-review.json: ${band.length} decisions in the ${REVIEW_MIN}-${AUTO_ACCEPT} band (${band.filter((r) => r.decision === 'accept').length} accepted, ${band.filter((r) => r.decision === 'reject').length} rejected), ${reviewList.length - band.length} explicit rejects of auto-accepted matches`);
 const frameCounts = {};
-for (const e of exercises) if (e.images.length) frameCounts[e.images.length] = (frameCounts[e.images.length] ?? 0) + 1;
-console.log(`media files in manifest: ${manifestList.length} in ${folderMode.size} folders; exercises by frame count: ${JSON.stringify(frameCounts)}`);
+for (const e of catalogue) if (e.images.length) frameCounts[e.images.length] = (frameCounts[e.images.length] ?? 0) + 1;
+console.log(`media files in manifest: ${manifestList.length} in ${manifestFolders.size} folders (all openGym picks: ${manifest.size}); exercises by frame count: ${JSON.stringify(frameCounts)}`);
 console.log(`media-frame-exclude.json: ${frameStats.excludedFrames} frames left out of the picked media (counted per exercise) ${JSON.stringify(frameStats.byReason)}`);
-console.log(`name overrides applied: ${Object.keys(overrides).length}`);
+console.log(`name overrides applied: ${catalogue.filter((e) => Object.hasOwn(overrides, e.externalId)).length} (of ${Object.keys(overrides).length})`);
 console.log(`\nwrote ${path.join(OUT, 'exercises.json')}, media-manifest.json, credits.json`);

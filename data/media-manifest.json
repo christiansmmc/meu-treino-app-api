@@ -16,22 +16,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0013/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0013-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0013/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0013-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0015/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0015-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -42,22 +26,6 @@
   {
     "path": "sources/everkinetic/0015/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0015-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0016/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0016-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0016/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0016-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -80,38 +48,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0022/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0022-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0022/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0022-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0023/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0023-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0023/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0023-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0026/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0026-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -122,102 +58,6 @@
   {
     "path": "sources/everkinetic/0026/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0026-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0028/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0028-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0028/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0028-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0035/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0035-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0035/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0035-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0037/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0037-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0037/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0037-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0038/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0038-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0038/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0038-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0039/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0039-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0039/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0039-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0045/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0045-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0045/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0045-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -272,38 +112,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0058/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0058-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0058/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0058-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0059/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0059-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0059/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0059-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0061/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0061-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -330,70 +138,6 @@
   {
     "path": "sources/everkinetic/0062/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0062-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0064/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0064-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0064/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0064-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0069/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0069-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0069/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0069-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0070/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0070-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0070/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0070-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0076/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0076-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0076/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0076-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -432,38 +176,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0082/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0082-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0082/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0082-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0083/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0083-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0083/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0083-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0085/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0085-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -474,38 +186,6 @@
   {
     "path": "sources/everkinetic/0085/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0085-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0090/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0090-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0090/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0090-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0092/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0092-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0092/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0092-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -528,22 +208,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0100/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0100-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0100/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0100-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0103/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0103-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -554,38 +218,6 @@
   {
     "path": "sources/everkinetic/0103/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0103-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0104/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0104-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0104/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0104-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0107/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0107-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0107/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0107-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -624,54 +256,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0125/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0125-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0125/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0125-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0126/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0126-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0126/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0126-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0128/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0128-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0128/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0128-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0129/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0129-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -682,470 +266,6 @@
   {
     "path": "sources/everkinetic/0129/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0129-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0130/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0130-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0130/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0130-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0132/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0132-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0132/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0132-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0133/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0133-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0133/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0133-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0134/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0134-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0134/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0134-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0135/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0135-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0135/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0135-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0136/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0136-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0136/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0136-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0139/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0139-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0139/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0139-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0140/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0140-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0140/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0140-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0141/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0141-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0141/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0141-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0144/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0144-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0144/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0144-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0146/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0146-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0146/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0146-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0148/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0148-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0148/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0148-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0150/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0150-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0150/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0150-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0151/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0151-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0151/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0151-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0154/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0154-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0154/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0154-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0161/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0161-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0161/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0161-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0163/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0163-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0163/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0163-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0164/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0164-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0164/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0164-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0165/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0165-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0165/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0165-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0166/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0166-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0166/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0166-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0169/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0169-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0169/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0169-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0170/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0170-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0170/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0170-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0172/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0172-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0172/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0172-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0175/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0175-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0175/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0175-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0177/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0177-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0177/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0177-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0182/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0182-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0182/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0182-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0186/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0186-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0186/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0186-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0187/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0187-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0187/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0187-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0188/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0188-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0188/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0188-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -1184,102 +304,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0195/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0195-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0195/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0195-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0196/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0196-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0196/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0196-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0197/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0197-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0197/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0197-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0198/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0198-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0198/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0198-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0201/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0201-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0201/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0201-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0203/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0203-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0203/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0203-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0207/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0207-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -1290,38 +314,6 @@
   {
     "path": "sources/everkinetic/0207/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0207-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0208/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0208-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0208/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0208-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0209/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0209-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0209/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0209-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -1376,54 +368,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0218/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0218-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0218/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0218-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0219/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0219-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0219/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0219-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0221/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0221-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0221/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0221-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0223/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0223-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -1434,118 +378,6 @@
   {
     "path": "sources/everkinetic/0223/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0223-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0225/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0225-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0225/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0225-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0231/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0231-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0231/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0231-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0232/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0232-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0232/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0232-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0233/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0233-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0233/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0233-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0235/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0235-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0235/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0235-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0237/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0237-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0237/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0237-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0238/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0238-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0238/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0238-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -1568,182 +400,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0240/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0240-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0240/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0240-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0242/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0242-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0242/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0242-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0243/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0243-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0243/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0243-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0244/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0244-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0244/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0244-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0245/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0245-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0245/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0245-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0246/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0246-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0246/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0246-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0247/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0247-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0247/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0247-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0248/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0248-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0248/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0248-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0250/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0250-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0250/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0250-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0251/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0251-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0251/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0251-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0252/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0252-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0252/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0252-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0253/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0253-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -1760,246 +416,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0255/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0255-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0255/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0255-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0256/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0256-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0256/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0256-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0257/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0257-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0257/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0257-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0258/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0258-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0258/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0258-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0263/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0263-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0263/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0263-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0266/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0266-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0266/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0266-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0268/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0268-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0268/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0268-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0270/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0270-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0270/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0270-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0272/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0272-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0272/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0272-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0273/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0273-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0273/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0273-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0275/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0275-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0275/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0275-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0276/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0276-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0276/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0276-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0278/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0278-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0278/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0278-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0280/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0280-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0280/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0280-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0281/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0281-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0281/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0281-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/everkinetic/0284/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0284-relaxation.png",
     "license": "CC BY-SA 4.0",
@@ -2010,38 +426,6 @@
   {
     "path": "sources/everkinetic/0284/frame-2.v2.png",
     "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0284-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0287/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0287-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0287/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0287-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0288/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0288-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0288/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0288-tension.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
     "transform": "luma-to-alpha",
@@ -2080,62 +464,6 @@
     "align": "register"
   },
   {
-    "path": "sources/everkinetic/0295/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0295-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0295/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0295-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0296/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0296-relaxation.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0296/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0296-tension.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0300/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/cuban-dumbbell-press-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0300/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/cuban-dumbbell-press-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
-    "path": "sources/everkinetic/0300/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/cuban-dumbbell-press-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Everkinetic (http://everkinetic.com, https://github.com/everkinetic/data); colours adapted: black strokes on white converted to white strokes on a transparent background",
-    "transform": "luma-to-alpha",
-    "align": "register"
-  },
-  {
     "path": "sources/workout-guide/ab-wheel/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/ab-wheel/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -2144,24 +472,8 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/archer-push-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/archer-push-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/arnold-press/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/arnold-press/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/assisted-chin-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/assisted-chin-up/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -2192,14 +504,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/banded-squat/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/banded-squat/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/barbell-glute-bridge/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/barbell-glute-bridge/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -2212,54 +516,6 @@
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/barbell-row/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0026-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/battle-ropes/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/battle-ropes/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bear-crawl/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bear-crawl/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bear-crawl/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bear-crawl/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bear-crawl/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bear-crawl/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bench-dip/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bench-dip/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0162-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bench-dip/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bench-dip/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
     "align": "canvas"
   },
@@ -2290,14 +546,6 @@
   {
     "path": "sources/workout-guide/bicep-curl/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bicep-curl/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/bodyweight-squat/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bodyweight-squat/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -2362,22 +610,6 @@
   {
     "path": "sources/workout-guide/cable-curl/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-curl/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/cable-fly/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-fly/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0048-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/cable-fly/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-fly/frame-3.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -2512,14 +744,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/cossack-squat/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cossack-squat/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/crunch/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/crunch/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -2600,14 +824,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/decline-sit-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/decline-sit-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/diamond-push-up/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/diamond-push-up/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -2618,38 +834,6 @@
   {
     "path": "sources/workout-guide/diamond-push-up/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/diamond-push-up/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/donkey-calf-raise/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/donkey-calf-raise/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0275-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/donkey-calf-raise/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/donkey-calf-raise/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/drag-curl/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/drag-curl/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0222-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/drag-curl/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/drag-curl/frame-3.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -2800,54 +984,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/farmer-carry/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/farmer-carry/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/flutter-kick/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/flutter-kick/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/flutter-kick/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/flutter-kick/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/forward-lunge/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/forward-lunge/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/forward-lunge/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/forward-lunge/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/forward-lunge/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/forward-lunge/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/front-raise/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/front-raise/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -2874,22 +1010,6 @@
   {
     "path": "sources/workout-guide/front-squat/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/front-squat/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/glute-bridge-march/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/glute-bridge-march/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/glute-bridge-march/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/glute-bridge-march/frame-2.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -2968,30 +1088,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/hamstring-stretch/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hamstring-stretch/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/handstand-push-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/handstand-push-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/hanging-knee-raise/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hanging-knee-raise/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/hanging-leg-raise/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hanging-leg-raise/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -3026,14 +1122,6 @@
   {
     "path": "sources/workout-guide/hip-thrust/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-thrust/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/inchworm/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/inchworm/frame-2.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3082,22 +1170,6 @@
   {
     "path": "sources/workout-guide/incline-dumbbell-curl/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/incline-dumbbell-curl/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/incline-dumbbell-press/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/incline-dumbbell-press/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0061-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/incline-dumbbell-press/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/incline-dumbbell-press/frame-3.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3272,14 +1344,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/lying-leg-raise/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/lying-leg-raise/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/machine-chest-press/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-chest-press/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -3328,22 +1392,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/neutral-grip-pull-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/neutral-grip-pull-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0090-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/neutral-grip-pull-up/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/neutral-grip-pull-up/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/one-arm-dumbbell-row/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/one-arm-dumbbell-row/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -3384,30 +1432,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/pendlay-row/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/pendlay-row/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/plank-shoulder-tap/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/plank-shoulder-tap/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/plank-shoulder-tap/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/plank-shoulder-tap/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/plank/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/plank/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -3418,14 +1442,6 @@
   {
     "path": "sources/workout-guide/plank/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/plank/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/plate-front-raise/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/plate-front-raise/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3464,34 +1480,10 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/push-up-shoulder-tap/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/push-up-shoulder-tap/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/push-up-shoulder-tap/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/push-up-shoulder-tap/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/push-up/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/push-up/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); adapted from Everkinetic (https://github.com/everkinetic/data/blob/main/dist/svg/0077-tension.svg), CC BY-SA 4.0: rasterized, recolored and vector-traced; colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/rack-pull/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/rack-pull/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
     "align": "canvas"
   },
@@ -3530,14 +1522,6 @@
   {
     "path": "sources/workout-guide/reverse-curl/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/reverse-curl/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/reverse-hyperextension/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/reverse-hyperextension/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3602,22 +1586,6 @@
   {
     "path": "sources/workout-guide/russian-twist/frame-3.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/russian-twist/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/scapular-pull-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/scapular-pull-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/scapular-push-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/scapular-push-up/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3704,40 +1672,8 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/single-arm-cable-row/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/single-arm-cable-row/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/single-arm-dumbbell-tricep-extension/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/single-arm-dumbbell-tricep-extension/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/single-leg-calf-raise/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/single-leg-calf-raise/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/sissy-squat/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/sissy-squat/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/skater-hop/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/skater-hop/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
@@ -3880,30 +1816,6 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/toe-touch/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/toe-touch/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/towel-row/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/towel-row/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/trap-bar-deadlift/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/trap-bar-deadlift/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/treadmill-incline-walk/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/treadmill-incline-walk/frame-1.png",
     "license": "CC BY-SA 4.0",
@@ -3960,64 +1872,8 @@
     "align": "canvas"
   },
   {
-    "path": "sources/workout-guide/wall-push-up/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/wall-push-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/weighted-crunch/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-crunch/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/weighted-crunch/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-crunch/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
     "path": "sources/workout-guide/weighted-pull-up/frame-1.v2.png",
     "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-pull-up/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/weighted-russian-twist/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-russian-twist/frame-1.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/weighted-russian-twist/frame-2.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-russian-twist/frame-2.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/weighted-russian-twist/frame-3.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/weighted-russian-twist/frame-3.png",
-    "license": "CC BY-SA 4.0",
-    "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
-    "transform": "to-white",
-    "align": "canvas"
-  },
-  {
-    "path": "sources/workout-guide/worlds-greatest-stretch/frame-1.v2.png",
-    "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/worlds-greatest-stretch/frame-1.png",
     "license": "CC BY-SA 4.0",
     "attribution": "Bryl Lim, Workout Guide (https://github.com/bryllim/workout-guide); colours adapted: strokes normalized to pure white",
     "transform": "to-white",
