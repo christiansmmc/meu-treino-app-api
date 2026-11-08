@@ -1,0 +1,26 @@
+[
+  {
+    "source": "ExerciseDB v1 (AscendAPI), via hasaneyldrm/exercises-dataset",
+    "license": "MIT",
+    "url": "https://github.com/hasaneyldrm/exercises-dataset",
+    "attribution": "Nomes, músculos e instruções originais em inglês. Copyright (c) 2026 Hasan Emir Yıldırım."
+  },
+  {
+    "source": "openGym",
+    "license": "AGPL-3.0",
+    "url": "https://github.com/DuarteSantos8/openGym",
+    "attribution": "Catálogo de exercícios e tradução para o português do Brasil (nomes e instruções). Copyright (C) 2026 Duarte Santos e colaboradores."
+  },
+  {
+    "source": "Workout Guide",
+    "license": "CC BY-SA 4.0",
+    "url": "https://github.com/bryllim/workout-guide",
+    "attribution": "Ilustrações de Bryl Lim (https://bryllim.com); parte dos quadros adaptada de Everkinetic. Cores adaptadas: traço normalizado para branco puro."
+  },
+  {
+    "source": "Everkinetic",
+    "license": "CC BY-SA 4.0",
+    "url": "https://github.com/everkinetic/data",
+    "attribution": "Ilustrações de exercícios de Everkinetic (http://everkinetic.com). Cores adaptadas: traço preto sobre branco convertido em traço branco sobre fundo transparente."
+  }
+]

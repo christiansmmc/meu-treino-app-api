@@ -10,6 +10,13 @@ const schema = z.object({
   PORT: z.coerce.number().int().positive().default(8080),
   APP_TIMEZONE: z.string().default('America/Sao_Paulo'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  /** Raiz dos arquivos servidos em `GET /api/media/*` (imagens/vídeos do catálogo). */
+  MEDIA_DIR: z.string().min(1).default('./media'),
+  /** `src/boot.ts` roda `catalog:sync` antes de subir o servidor quando true. */
+  CATALOG_SYNC_ON_START: z
+    .string()
+    .transform((v) => v === 'true' || v === '1')
+    .default('true'),
 })
 
 const parsed = schema.safeParse(process.env)

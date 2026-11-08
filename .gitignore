@@ -1,4 +1,9 @@
 node_modules
 .env
+.env.*
+!.env.example
 *.log
 .DS_Store
+# Mídia do catálogo (imagens/vídeos): servida de MEDIA_DIR, montada como volume.
+# Só a da raiz: src/media/ é código (media:fetch).
+/media/

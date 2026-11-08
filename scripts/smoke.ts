@@ -14,7 +14,14 @@
  *
  * Uso: BASE_URL=http://localhost:8080/api DATABASE_URL=postgres://... bun run scripts/smoke.ts
  */
-import { eq } from 'drizzle-orm'
+import { eq, inArray } from 'drizzle-orm'
+import {
+  CATALOG_FILE,
+  LEGACY_MAP_FILE,
+  parseCatalog,
+  parseLegacyMap,
+  syncCatalog,
+} from '../src/db/catalog-sync.ts'
 import { db, sql } from '../src/db/client.ts'
 import { client as clientTable, exercise, users, workoutExercise } from '../src/db/schema.ts'
 
@@ -320,15 +327,176 @@ try {
 
 // --- Exercises --------------------------------------------------------------
 let exerciseIds: number[] = []
+/** Primeiro exercício do catálogo com imagem — base dos checks de detalhe e de mídia. */
+let exerciseWithImage: any = null
 {
   const res = await call('GET', '/exercises')
   const list = Array.isArray(res.body) ? res.body : []
   exerciseIds = list.slice(0, 3).map((e: any) => e.id)
+  exerciseWithImage = list.find((e: any) => typeof e.imageUrl === 'string') ?? null
   check('GET /exercises → lista', res.status === 200 && list.length > 0, res.body?.length)
   check(
     'exercise tem id/name/bodyPart',
     list[0] && typeof list[0].id === 'number' && !!list[0].name && !!list[0].bodyPart,
     list[0],
+  )
+  check(
+    'exercise tem equipment/target/imageUrl (imageUrl null ou /api/media/...), sem mediaAttribution',
+    list.length > 0 &&
+      list.every(
+        (e: any) =>
+          'equipment' in e &&
+          'target' in e &&
+          // Crédito da mídia só no detalhe (`GET /exercises/{id}`), não na lista.
+          !('mediaAttribution' in e) &&
+          (e.imageUrl === null || (typeof e.imageUrl === 'string' && e.imageUrl.startsWith('/api/media/'))),
+      ),
+    list[0],
+  )
+  // Mesmo collator do handler: ordem alfabética pt-BR, não por body_part/id.
+  const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true })
+  check(
+    'GET /exercises vem ordenado por nome (pt-BR)',
+    list.every((e: any, i: number) => i === 0 || collator.compare(list[i - 1].name, e.name) <= 0),
+    list.slice(0, 5).map((e: any) => e.name),
+  )
+}
+
+{
+  const res = await call('GET', '/exercises', { auth: false })
+  check('GET /exercises sem token → 401', res.status === 401, res.body)
+}
+
+// Resposta JSON comprimida quando o cliente aceita gzip (o Dart aceita e
+// descompacta sozinho). `decompress: false` (Bun) devolve os bytes crus para
+// provar que vieram mesmo em gzip, não só o header.
+{
+  const res = await fetch(`${BASE_URL}/exercises`, {
+    headers: { Authorization: `Bearer ${token}`, 'Accept-Encoding': 'gzip' },
+    decompress: false,
+  } as RequestInit)
+  const bytes = new Uint8Array(await res.arrayBuffer())
+  check(
+    'GET /exercises com Accept-Encoding: gzip → Content-Encoding gzip',
+    res.status === 200 &&
+      res.headers.get('content-encoding') === 'gzip' &&
+      bytes[0] === 0x1f &&
+      bytes[1] === 0x8b,
+    { status: res.status, encoding: res.headers.get('content-encoding') },
+  )
+}
+
+{
+  const target = exerciseWithImage ?? null
+  const res = target ? await call('GET', `/exercises/${target.id}`) : null
+  const d = res?.body
+  check(
+    'GET /exercises/{id} → detalhe completo',
+    !!target &&
+      res?.status === 200 &&
+      d?.id === target.id &&
+      d?.name === target.name &&
+      d?.bodyPart === target.bodyPart &&
+      'nameEn' in d &&
+      'equipment' in d &&
+      'target' in d &&
+      'category' in d &&
+      'mediaAttribution' in d &&
+      Array.isArray(d?.secondaryMuscles) &&
+      Array.isArray(d?.instructions) &&
+      Array.isArray(d?.images) &&
+      d.images.every((u: unknown) => typeof u === 'string' && u.startsWith('/api/media/')) &&
+      (d?.videoUrl === null || (typeof d?.videoUrl === 'string' && d.videoUrl.startsWith('/api/media/'))) &&
+      d?.imageUrl === (d?.images?.[0] ?? null) &&
+      d?.imageUrl === target.imageUrl,
+    target ? d : 'nenhum exercício do catálogo tem imagem — o catálogo/fixture precisa de pelo menos um',
+  )
+}
+
+{
+  const res = await call('GET', '/exercises/abc')
+  check(
+    'GET /exercises/{id} não numérico → 400 ARGUMENT_TYPE_MISMATCH',
+    res.status === 400 && res.body?.code === 'ARGUMENT_TYPE_MISMATCH',
+    res.body,
+  )
+  const missing = await call('GET', '/exercises/999999999')
+  check(
+    'GET /exercises/{inexistente} → 404 código 007',
+    missing.status === 404 && missing.body?.code === '007',
+    missing.body,
+  )
+}
+
+// --- Media ------------------------------------------------------------------
+// Público: `Image.network`/<img> não mandam Authorization. `imageUrl` é
+// origin-relative (`/api/media/...`), então resolve contra a origem de BASE_URL.
+{
+  const origin = new URL(BASE_URL).origin
+  if (exerciseWithImage) {
+    const url = `${origin}${exerciseWithImage.imageUrl}`
+    const res = await fetch(url)
+    const bytes = new Uint8Array(await res.arrayBuffer())
+    check(
+      'GET imageUrl sem token → 200 imagem + Cache-Control immutable',
+      res.status === 200 &&
+        (res.headers.get('content-type') ?? '').startsWith('image/') &&
+        (res.headers.get('cache-control') ?? '').includes('immutable') &&
+        bytes.length > 0 &&
+        Number(res.headers.get('content-length')) === bytes.length,
+      {
+        url,
+        status: res.status,
+        type: res.headers.get('content-type'),
+        hint: res.status === 404 ? 'MEDIA_DIR da API está populado?' : undefined,
+      },
+    )
+
+    const ranged = await fetch(url, { headers: { Range: 'bytes=0-9' } })
+    const rangedBytes = new Uint8Array(await ranged.arrayBuffer())
+    check(
+      'GET imageUrl com Range: bytes=0-9 → 206 parcial',
+      ranged.status === 206 &&
+        rangedBytes.length === 10 &&
+        ranged.headers.get('content-range') === `bytes 0-9/${bytes.length}` &&
+        rangedBytes.every((b, i) => b === bytes[i]),
+      { status: ranged.status, range: ranged.headers.get('content-range'), length: rangedBytes.length },
+    )
+
+    const unsatisfiable = await fetch(url, { headers: { Range: `bytes=${bytes.length + 10}-` } })
+    check(
+      'GET imageUrl com Range fora do arquivo → 416',
+      unsatisfiable.status === 416,
+      unsatisfiable.status,
+    )
+  } else {
+    check('catálogo tem ao menos um exercício com imageUrl (para testar /media)', false)
+  }
+
+  // Path traversal: `%2f`/`%5c` codificados viram separador só DEPOIS de
+  // decodificados, e `..` literal é normalizado pelo próprio fetch — por isso
+  // as variantes codificadas. Todas têm que dar o 404 padrão, nunca 200.
+  const attempts = [
+    '/api/media/..%2f..%2fpackage.json',
+    '/api/media/..%2F..%2F.env',
+    '/api/media/exercises/..%5c..%5cpackage.json',
+    '/api/media/%2e%2e%2f%2e%2e%2fpackage.json',
+    '/api/media/.env',
+    '/api/media/exercises',
+    '/api/media/nao-existe.jpg',
+    '/api/media/package.json',
+  ]
+  const results = await Promise.all(
+    attempts.map(async (path) => {
+      const res = await fetch(`${origin}${path}`)
+      const body = await res.text()
+      return { path, status: res.status, json: body.includes('"NOT_FOUND"') }
+    }),
+  )
+  check(
+    'GET /media com traversal/arquivo inexistente/extensão fora da allowlist → 404 NOT_FOUND',
+    results.every((r) => r.status === 404 && r.json),
+    results.filter((r) => r.status !== 404 || !r.json),
   )
 }
 
@@ -421,6 +589,16 @@ let workoutExerciseId = 0
     'workoutExercise: sets/reps/exerciseLoad/listOrder/exercise',
     first?.sets === 3 && first?.reps === 10 && first?.exerciseLoad === 40 && first?.listOrder === 0 && !!first?.exercise?.bodyPart,
     first,
+  )
+  check(
+    'workoutExercise.exercise traz imageUrl (string /api/media/... ou null)',
+    (res.body?.workoutExercises ?? []).length > 0 &&
+      res.body.workoutExercises.every(
+        (we: any) =>
+          'imageUrl' in (we.exercise ?? {}) &&
+          (we.exercise.imageUrl === null || we.exercise.imageUrl.startsWith('/api/media/')),
+      ),
+    res.body?.workoutExercises?.map((we: any) => we.exercise),
   )
   check(
     'campos omitidos viram null',
@@ -775,6 +953,18 @@ let recordId = 0
       res.body?.workoutRecordExercises?.[0]?.workoutRecordExerciseSets?.[1]?.exerciseLoad === 45,
     res.body?.workoutRecordExercises?.[0],
   )
+  check(
+    'workoutRecordExercise.exercise traz id/name/bodyPart/imageUrl',
+    (res.body?.workoutRecordExercises ?? []).length === 2 &&
+      res.body.workoutRecordExercises.every(
+        (wre: any) =>
+          typeof wre.exercise?.id === 'number' &&
+          !!wre.exercise?.name &&
+          !!wre.exercise?.bodyPart &&
+          'imageUrl' in wre.exercise,
+      ),
+    res.body?.workoutRecordExercises?.map((wre: any) => wre.exercise),
+  )
 }
 
 {
@@ -954,7 +1144,8 @@ let swappedSecondName = ''
     typeof found?.exercises?.[0]?.name === 'string' &&
       'sets' in found.exercises[0] &&
       'reps' in found.exercises[0] &&
-      'exerciseLoad' in found.exercises[0],
+      'exerciseLoad' in found.exercises[0] &&
+      'imageUrl' in found.exercises[0],
     found?.exercises?.[0],
   )
 
@@ -1213,7 +1404,7 @@ const novaSenha = 'test5678'
 // para a conta B e precisa devolvê-lo para A antes daquele bloco rodar.
 {
   // Não há endpoint HTTP para criar exercício custom — insere direto no banco
-  // (mesmo padrão do `db:seed`) para garantir que a conta A tem um, sem supor
+  // (como o `catalog:sync` faz com o catálogo) para garantir que a conta A tem um, sem supor
   // que sobrou algum de um passo anterior.
   const [clientA] = await db
     .select({ id: clientTable.id })
@@ -1238,6 +1429,94 @@ const novaSenha = 'test5678'
       .values({ name: 'Exercício Custom Smoke A', bodyPart: 'PEITO', clientId: clientAId })
       .returning({ id: exercise.id })
     customExerciseId = customExercise?.id ?? 0
+  }
+
+  // Exercício arquivado: `catalog:sync` arquiva (archived_at), em vez de
+  // apagar, o exercício que saiu do catálogo mas ainda é usado por algum
+  // treino/registro. Reproduzido aqui no custom da conta A — sai junto no
+  // DELETE /clients do fim, sem sujar o catálogo global: o treino é criado
+  // com ele ativo e o arquivamento é feito direto no banco, como o sync faz.
+  if (customExerciseId > 0) {
+    const visible = await call('GET', '/exercises')
+    check(
+      'exercício custom da conta aparece em GET /exercises',
+      (visible.body as any[])?.some((e) => e.id === customExerciseId),
+      visible.body?.length,
+    )
+
+    const created = await call('POST', '/workouts', {
+      body: {
+        workoutName: 'Treino Smoke Arquivado',
+        exercises: [{ exerciseId: customExerciseId }, { exerciseId: exerciseIds[0] }],
+      },
+    })
+    const archivedWorkoutId = created.body?.id ?? 0
+    check(
+      'POST /workouts com exercício custom → 201',
+      created.status === 201 && archivedWorkoutId > 0,
+      created.body,
+    )
+
+    await db.update(exercise).set({ archivedAt: new Date() }).where(eq(exercise.id, customExerciseId))
+
+    const list = await call('GET', '/exercises')
+    check(
+      'exercício arquivado some de GET /exercises',
+      list.status === 200 && !(list.body as any[])?.some((e) => e.id === customExerciseId),
+      list.body?.length,
+    )
+
+    const detail = await call('GET', `/exercises/${customExerciseId}`)
+    check(
+      'GET /exercises/{id} de exercício arquivado → 200 (custom sem mídia: images [] e imageUrl null)',
+      detail.status === 200 &&
+        detail.body?.id === customExerciseId &&
+        Array.isArray(detail.body?.images) &&
+        detail.body.images.length === 0 &&
+        detail.body?.imageUrl === null &&
+        detail.body?.videoUrl === null &&
+        detail.body?.mediaAttribution === null,
+      detail.body,
+    )
+
+    const workoutDetail = await call('GET', `/workouts/${archivedWorkoutId}`)
+    check(
+      'GET /workouts/{id} continua trazendo o exercício arquivado',
+      workoutDetail.status === 200 &&
+        (workoutDetail.body?.workoutExercises as any[])?.some(
+          (we) => we.exercise?.id === customExerciseId && we.exercise?.name === 'Exercício Custom Smoke A',
+        ),
+      workoutDetail.body,
+    )
+
+    const full = await call('GET', '/workouts/full')
+    const fullWorkout = (full.body as any[])?.find((w) => w.id === archivedWorkoutId)
+    check(
+      'GET /workouts/full continua trazendo o exercício arquivado',
+      full.status === 200 &&
+        (fullWorkout?.exercises as any[])?.some((e) => e.name === 'Exercício Custom Smoke A'),
+      fullWorkout,
+    )
+
+    const record = await call('POST', '/workout-record', {
+      body: {
+        workoutId: archivedWorkoutId,
+        exercises: [
+          {
+            exerciseId: customExerciseId,
+            status: 'COMPLETED',
+            note: null,
+            exerciseSets: [{ set: 1, reps: 10, exerciseLoad: 20 }],
+          },
+        ],
+      },
+    })
+    check(
+      'POST /workout-record com exercício arquivado de um treino existente → 201',
+      record.status === 201 &&
+        record.body?.workoutRecordExercises?.[0]?.exercise?.id === customExerciseId,
+      record.body,
+    )
   }
 
   const tokenA = token
@@ -1276,6 +1555,13 @@ const novaSenha = 'test5678'
     negado.body,
   )
 
+  const detalheAlheio = await call('GET', `/exercises/${customExerciseId}`)
+  check(
+    'GET /exercises/{id} custom de outro cliente → 404 código 007',
+    detalheAlheio.status === 404 && detalheAlheio.body?.code === '007',
+    detalheAlheio.body,
+  )
+
   const aceito = await call('POST', '/workout-record', {
     body: {
       workoutId: workoutBId,
@@ -1297,6 +1583,91 @@ const novaSenha = 'test5678'
   // tudo que já rodou antes dele) depende do `token` module-scope apontando
   // para a conta principal do smoke.
   token = tokenA
+}
+
+// --- catalog:sync no banco da API (sempre dry-run: rollback no fim) ---------
+// O mesmo `syncCatalog` que o boot roda, direto no banco de `DATABASE_URL`:
+// 1. banco já sincronizado não reescreve nenhuma linha (idempotência);
+// 2. exercício do catálogo (com `external_id`) que saiu do arquivo é
+//    arquivado, nunca remapeado pelo nome via mapa legado — "Panturrilha no Leg
+//    Press" casa com a linha legada → 0738;
+// 3. uma referência nova a um exercício legado, inserida por outra transação
+//    enquanto o sync roda (a versão anterior da API segue no ar durante o
+//    deploy), não derruba o sync com violação de FK: ele espera o commit e
+//    arquiva em vez de apagar.
+{
+  const items = parseCatalog(await Bun.file(CATALOG_FILE).json())
+  const legacyMap = parseLegacyMap(await Bun.file(LEGACY_MAP_FILE).text())
+  const baseline = await syncCatalog(items, legacyMap, { dryRun: true })
+  check(
+    'catalog:sync (dry-run) no banco já sincronizado → nada inserido/atualizado',
+    baseline.inserted === 0 && baseline.updated === 0 && baseline.unchanged === items.length,
+    baseline,
+  )
+
+  const created = await call('POST', '/workouts', {
+    body: { workoutName: 'Treino Smoke Sync', exercises: [{ exerciseId: exerciseIds[0] }] },
+  })
+  const syncWorkoutId: number = created.body?.id ?? 0
+  check('POST /workouts (fixture do catalog:sync) → 201', created.status === 201 && syncWorkoutId > 0, created.body)
+
+  // Globais falsos, apagados no `finally` (DELETE /clients não apaga global).
+  const fakeIds: number[] = []
+  try {
+    if (syncWorkoutId > 0) {
+      const stamp = Date.now()
+      const [removed] = await db
+        .insert(exercise)
+        .values({ name: 'Panturrilha no Leg Press', bodyPart: 'PERNA', externalId: `smoke-removed-${stamp}` })
+        .returning({ id: exercise.id })
+      const [legacy] = await db
+        .insert(exercise)
+        .values({ name: `Smoke legado ${stamp}`, bodyPart: 'PERNA' })
+        .returning({ id: exercise.id })
+      fakeIds.push(removed!.id, legacy!.id)
+      await db.insert(workoutExercise).values({ workoutId: syncWorkoutId, exerciseId: removed!.id, listOrder: 1 })
+
+      // Outra conexão insere a referência ao legado e só commita depois que o
+      // sync já está rodando (e travado esperando por ela).
+      let release!: () => void
+      const released = new Promise<void>((resolve) => (release = resolve))
+      let markInserted!: () => void
+      const inserted = new Promise<void>((resolve) => (markInserted = resolve))
+      const concurrent = sql.begin(async (tx) => {
+        await tx`INSERT INTO workout_exercise (workout_id, exercise_id, list_order) VALUES (${syncWorkoutId}, ${legacy!.id}, 2)`
+        markInserted()
+        await released
+      })
+      await inserted
+      const syncing = syncCatalog(items, legacyMap, { dryRun: true }).then(
+        (summary) => ({ summary, error: null as unknown }),
+        (error: unknown) => ({ summary: null, error }),
+      )
+      await Bun.sleep(1500)
+      release()
+      await concurrent
+      const { summary, error } = await syncing
+
+      check(
+        'catalog:sync com insert concorrente apontando para um legado → sem violação de FK',
+        error === null,
+        error instanceof Error ? error.message : error,
+      )
+      check(
+        'catalog:sync: exercício do catálogo fora do arquivo e legado recém-referenciado → arquivados (nem remapeados nem apagados)',
+        !!summary &&
+          summary.remapped === baseline.remapped &&
+          summary.deleted === baseline.deleted &&
+          summary.archived === baseline.archived + 2,
+        { baseline, summary },
+      )
+    }
+  } finally {
+    if (fakeIds.length > 0) {
+      await db.delete(workoutExercise).where(inArray(workoutExercise.exerciseId, fakeIds))
+      await db.delete(exercise).where(inArray(exercise.id, fakeIds))
+    }
+  }
 }
 
 // --- DELETE /clients --------------------------------------------------------

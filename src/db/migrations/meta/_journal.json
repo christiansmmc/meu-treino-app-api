@@ -8,6 +8,20 @@
       "when": 1785274343349,
       "tag": "0000_nervous_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794156313560,
+      "tag": "0001_exercise_catalog",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794168854669,
+      "tag": "0002_catalog_sync_state",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,105 @@
+old_name,old_body_part,external_id
+Rosca Scott,BICEPS,0070
+Rosca Concentrada,BICEPS,0297
+Rosca Direta na Polia,BICEPS,0868
+Rosca Direta com Barra,BICEPS,0031
+Rosca Direta com Halteres,BICEPS,0294
+Rosca Inclinada com Halteres,BICEPS,0318
+Rosca Martelo com Halteres,BICEPS,0313
+Rosca Martelo na Polia,BICEPS,0165
+Rosca Spider,BICEPS,0454
+Rosca Alternada com Halteres,BICEPS,0285
+Rosca Inversa com Barra,BICEPS,0080
+PullDown,COSTAS,0238
+Pulley Frente,COSTAS,0198
+Remada Baixa na Polia,COSTAS,0861
+Remada Baixa na Máquina,COSTAS,0588
+Remada Cavalinho,COSTAS,0606
+Remada Curvada com Barra,COSTAS,0027
+Remada na Máquina,COSTAS,1350
+Remada Unilateral com Halteres,COSTAS,0292
+Puxada com Pegada Neutra,COSTAS,0818
+Remada com Barra T,COSTAS,0606
+Barra Fixa,COSTAS,0652
+Desenvolvimento com Halteres,OMBRO,0405
+Desenvolvimento na Máquina,OMBRO,0603
+Elevação Frontal com Halteres,OMBRO,0310
+Elevação Frontal na Polia,OMBRO,0162
+Elevação Lateral com Halteres,OMBRO,0334
+Elevação Lateral na Máquina,OMBRO,0584
+Elevação Lateral na Polia,OMBRO,0178
+Encolhimento com Barra,OMBRO,0095
+Encolhimento com Halteres,OMBRO,0406
+Crucifixo Inverso na Máquina,OMBRO,0602
+Crucifixo Inverso na Polia,OMBRO,0154
+Desenvolvimento Arnold,OMBRO,2137
+Desenvolvimento com Barra,OMBRO,0091
+Face Pull,OMBRO,0233
+Cross-Over,PEITO,0155
+Crucifixo na Máquina,PEITO,0596
+Crucifixo com Halteres,PEITO,0308
+Flexão de Braço,PEITO,0662
+Peck Deck,PEITO,0596
+Pullover com Halteres,PEITO,0375
+Supino Inclinado com Barra,PEITO,0047
+Supino Inclinado com Halteres,PEITO,0314
+Supino Reto com Barra,PEITO,0025
+Supino Reto com Halteres,PEITO,0289
+Flexão com Pegada Fechada,PEITO,0259
+Flexão com Inclinação,PEITO,0493
+Supino Declinado com Halteres,PEITO,0301
+Agachamento Livre com Barra,PERNA,0043
+Agachamento no Smith,PERNA,0770
+Agachamento na Máquina Guiada,PERNA,0743
+Avanço com Halteres,PERNA,0336
+Cadeira Extensora,PERNA,0585
+Cadeira Flexora,PERNA,0599
+Leg Press 45°,PERNA,0739
+Mesa Flexora,PERNA,0586
+Panturrilha no Leg Press,PERNA,0738
+Panturrilha Sentado,PERNA,0594
+Stiff com Halteres,PERNA,0432
+Stiff com Barra,PERNA,0116
+Afundo com Halteres,PERNA,0336
+Agachamento Búlgaro,PERNA,0410
+Passada com Halteres,PERNA,1460
+Cadeira Abdutora,PERNA,0597
+Cadeira Adutora,PERNA,0598
+Tríceps Corda na Polia,TRICEPS,0200
+Tríceps Francês com Halteres,TRICEPS,2188
+Tríceps Francês na Polia,TRICEPS,0194
+Tríceps Testa com Barra,TRICEPS,0060
+Tríceps Testa na Máquina,TRICEPS,0607
+Tríceps Testa na Polia,TRICEPS,0186
+Tríceps Coice com Halteres,TRICEPS,0333
+Mergulho nas Paralelas,TRICEPS,0251
+Rosca de Punho com Barra,ANTEBRACO,0126
+Rosca de Punho Invertida com Barra,ANTEBRACO,0082
+Rosca de Punho com Halteres,ANTEBRACO,0369
+Rosca Inversa na Polia,ANTEBRACO,0206
+Farmer's Walk,ANTEBRACO,2133
+Abdominal Supra no Solo,ABDOMEN,0274
+Abdominal Infra no Solo,ABDOMEN,0872
+Abdominal Oblíquo,ABDOMEN,0635
+Abdominal na Máquina,ABDOMEN,1452
+Abdominal na Polia,ABDOMEN,0175
+Prancha Isométrica,ABDOMEN,2135
+Prancha Lateral,ABDOMEN,0705
+Elevação de Pernas Suspenso,ABDOMEN,0472
+Roda Abdominal,ABDOMEN,0857
+Elevação Pélvica com Barra,GLUTEO,0058
+Ponte de Glúteo,GLUTEO,3013
+Coice na Polia,GLUTEO,0228
+Coice na Máquina,GLUTEO,2286
+Abdução de Quadril na Máquina,GLUTEO,0597
+Levantamento Terra,LOMBAR,0032
+Levantamento Terra Sumô,LOMBAR,0117
+Hiperextensão Lombar,LOMBAR,0489
+Extensão Lombar na Máquina,LOMBAR,0573
+Good Morning com Barra,LOMBAR,0044
+Esteira,CARDIO,3666
+Bicicleta Ergométrica,CARDIO,2138
+Elíptico,CARDIO,2141
+Escada Ergométrica,CARDIO,2311
+Corda Naval,CARDIO,0128
+Pular Corda,CARDIO,2612

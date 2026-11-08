@@ -16,5 +16,23 @@ services:
       timeout: 5s
       retries: 10
 
+  # Opcional: `docker compose --profile api up -d --build` sobe a API em container
+  # (migrations + catalog:sync no boot). `docker compose up -d db` continua subindo só o banco.
+  api:
+    profiles: ['api']
+    build: .
+    container_name: workout_sheet_v2_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://workout_sheet_api:workout_sheet_api@db:5432/workout_sheet_api_v2
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET no .env}
+      CATALOG_SYNC_ON_START: ${CATALOG_SYNC_ON_START:-true}
+    ports:
+      - '${API_PORT:-8080}:8080'
+    volumes:
+      - ./media:/app/media:ro
+
 volumes:
   postgres_data_v2:

@@ -3,9 +3,11 @@ import {
   bigserial,
   index,
   integer,
+  jsonb,
   numeric,
   pgEnum,
   pgTable,
+  text,
   timestamp,
   uniqueIndex,
   varchar,
@@ -87,12 +89,40 @@ export const exercise = pgTable(
     bodyPart: bodyPartEnum('body_part').notNull(),
     /** NULL = exercício global do catálogo; não-null = custom do cliente. */
     clientId: bigint('client_id', { mode: 'number' }).references(() => client.id),
+    /**
+     * Id do exercício no catálogo de origem (ex.: `"0025"`). Chave do upsert de
+     * `bun run catalog:sync`; NULL em exercícios custom e nos legados.
+     */
+    externalId: varchar('external_id', { length: 64 }),
+    nameEn: varchar('name_en', { length: 255 }),
+    equipment: varchar('equipment', { length: 255 }),
+    target: varchar('target', { length: 255 }),
+    secondaryMuscles: jsonb('secondary_muscles').$type<string[]>().notNull().default([]),
+    category: varchar('category', { length: 255 }),
+    instructions: jsonb('instructions').$type<string[]>().notNull().default([]),
+    /**
+     * Caminhos relativos a `MEDIA_DIR` (qualquer layout, ex.:
+     * `sources/workout-guide/bench-press/frame-1.png`; um arquivo pode ser
+     * compartilhado por vários exercícios); >1 = frames de animação.
+     */
+    images: jsonb('images').$type<string[]>().notNull().default([]),
+    /** Caminho relativo a `MEDIA_DIR`, ou NULL. */
+    video: varchar('video', { length: 512 }),
+    /** Crédito exigido pela licença da mídia (ex.: CC BY-SA), exibido junto das imagens. */
+    mediaAttribution: text('media_attribution'),
+    /**
+     * Exercício global que saiu do catálogo mas ainda é referenciado por algum
+     * treino/registro: some de `GET /exercises`, continua resolvendo nos joins
+     * do histórico e em `GET /exercises/:id`.
+     */
+    archivedAt: timestamp('archived_at', { mode: 'date', withTimezone: true }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (t) => ({
     bodyPartIdx: index('exercise_body_part_idx').on(t.bodyPart),
     clientIdx: index('exercise_client_id_idx').on(t.clientId),
+    externalIdUnique: uniqueIndex('exercise_external_id_unique').on(t.externalId),
   }),
 )
 
@@ -133,6 +163,9 @@ export const workoutExercise = pgTable(
   },
   (t) => ({
     orderIdx: index('workout_exercise_workout_order_idx').on(t.workoutId, t.listOrder),
+    // FK sem índice: o `catalog:sync` remapeia/apaga exercícios por `exercise_id`,
+    // e cada DELETE em `exercise` checa a FK aqui.
+    exerciseIdx: index('workout_exercise_exercise_id_idx').on(t.exerciseId),
   }),
 )
 
@@ -169,6 +202,8 @@ export const workoutRecordExercise = pgTable(
   },
   (t) => ({
     recordIdx: index('workout_record_exercise_record_idx').on(t.workoutRecordId),
+    // Mesmo motivo de `workout_exercise_exercise_id_idx`.
+    exerciseIdx: index('workout_record_exercise_exercise_id_idx').on(t.exerciseId),
   }),
 )
 
@@ -189,3 +224,17 @@ export const workoutRecordExerciseSet = pgTable(
     exerciseIdx: index('workout_record_exercise_set_exercise_idx').on(t.workoutRecordExerciseId),
   }),
 )
+
+/**
+ * Último `catalog:sync` completo — uma linha só (`id = 1`). O boot compara o
+ * hash de `data/exercises.json` (+ mapa legado + versão do sync) e uma
+ * impressão digital dos exercícios globais no banco com o que está aqui: se os
+ * dois batem, o catálogo já está sincronizado e o sync é pulado (poupa o
+ * upsert de ~1.300 linhas a cada cold start). Ver `catalog-sync.ts`.
+ */
+export const catalogSyncState = pgTable('catalog_sync_state', {
+  id: integer('id').primaryKey(),
+  contentHash: varchar('content_hash', { length: 64 }).notNull(),
+  dbFingerprint: text('db_fingerprint').notNull(),
+  syncedAt: timestamp('synced_at', { mode: 'date', withTimezone: true }).notNull().defaultNow(),
+})
