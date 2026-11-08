@@ -13,6 +13,7 @@ import {
 } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
 import { assertExercisesExist } from '../shared/exercise-access.ts'
+import { exerciseFirstImage, mediaUrl } from '../shared/media.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { startOfMonthInAppTimezone, toLocalDate, toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
@@ -70,6 +71,7 @@ async function buildDetail(recordId: number) {
       exerciseId: exercise.id,
       exerciseName: exercise.name,
       bodyPart: exercise.bodyPart,
+      exerciseImage: exerciseFirstImage,
     })
     .from(workoutRecordExercise)
     .innerJoin(exercise, eq(exercise.id, workoutRecordExercise.exerciseId))
@@ -111,7 +113,12 @@ async function buildDetail(recordId: number) {
       id: ex.id,
       note: ex.note,
       status: ex.status,
-      exercise: { id: ex.exerciseId, name: ex.exerciseName, bodyPart: ex.bodyPart },
+      exercise: {
+        id: ex.exerciseId,
+        name: ex.exerciseName,
+        bodyPart: ex.bodyPart,
+        imageUrl: mediaUrl(ex.exerciseImage),
+      },
       workoutRecordExerciseSets: (setsByExercise.get(ex.id) ?? []).map((s) => ({
         id: s.id,
         set: s.set,

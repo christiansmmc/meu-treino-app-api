@@ -1,0 +1,1042 @@
+[
+  {
+    "externalId": "0024",
+    "nameEn": "barbell bench front squat",
+    "source": "wger",
+    "sourceId": "257",
+    "sourceName": "Front Squats",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "front squat; bench (box) front squat is the same movement to a box"
+  },
+  {
+    "externalId": "0024",
+    "nameEn": "barbell bench front squat",
+    "source": "workoutGuide",
+    "sourceId": "front-squat",
+    "sourceName": "Front Squat",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "front squat; the bench (box) front squat is the same movement to a box"
+  },
+  {
+    "externalId": "0031",
+    "nameEn": "barbell curl",
+    "source": "everkinetic",
+    "sourceId": "0211",
+    "sourceName": "Biceps Curl: Barbell",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "barbell biceps curl = barbell curl"
+  },
+  {
+    "externalId": "0031",
+    "nameEn": "barbell curl",
+    "source": "wger",
+    "sourceId": "91",
+    "sourceName": "Biceps Curls With Barbell",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "barbell biceps curl = barbell curl"
+  },
+  {
+    "externalId": "0034",
+    "nameEn": "barbell decline bent arm pullover",
+    "source": "everkinetic",
+    "sourceId": "0045",
+    "sourceName": "Bent Arm Pullover",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "bent arm pullover with barbell; flat vs decline bench, acceptably close"
+  },
+  {
+    "externalId": "0052",
+    "nameEn": "barbell jm bench press",
+    "source": "everkinetic",
+    "sourceId": "0175",
+    "sourceName": "JM Press",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "JM press = JM bench press"
+  },
+  {
+    "externalId": "0100",
+    "nameEn": "barbell skier",
+    "source": "workoutGuide",
+    "sourceId": "skierg",
+    "sourceName": "SkiErg",
+    "score": 0.97,
+    "decision": "reject",
+    "reason": "SkiErg is the cardio machine; \"barbell skier\" is a barbell swing (auto-accepted 0.97, wrong)"
+  },
+  {
+    "externalId": "0110",
+    "nameEn": "barbell standing reverse grip curl",
+    "source": "workoutGuide",
+    "sourceId": "reverse-curl",
+    "sourceName": "Reverse Curl",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "reverse (overhand) barbell curl, same exercise"
+  },
+  {
+    "externalId": "0111",
+    "nameEn": "barbell standing rocking leg calf raise",
+    "source": "everkinetic",
+    "sourceId": "0278",
+    "sourceName": "Rocking Standing Calf Raise with Barbell",
+    "score": 0.767,
+    "decision": "accept",
+    "reason": "same exercise (rocking standing calf raise with barbell)"
+  },
+  {
+    "externalId": "0140",
+    "nameEn": "biceps pull-up",
+    "source": "everkinetic",
+    "sourceId": "0087",
+    "sourceName": "Pull Ups",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "pull-up, acceptably close (grip only)"
+  },
+  {
+    "externalId": "0140",
+    "nameEn": "biceps pull-up",
+    "source": "wger",
+    "sourceId": "475",
+    "sourceName": "Pull-ups",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "pull-up, acceptably close (grip only)"
+  },
+  {
+    "externalId": "0140",
+    "nameEn": "biceps pull-up",
+    "source": "workoutGuide",
+    "sourceId": "pull-up",
+    "sourceName": "Pull-up",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "pull-up; openGym describes it as underhand but the steps say overhand; the hanging pull-up figure is acceptably close"
+  },
+  {
+    "externalId": "0155",
+    "nameEn": "cable cross-over variation",
+    "source": "everkinetic",
+    "sourceId": "0048",
+    "sourceName": "Cable Crossover",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "cable crossover = cable cross-over variation"
+  },
+  {
+    "externalId": "0155",
+    "nameEn": "cable cross-over variation",
+    "source": "wger",
+    "sourceId": "323",
+    "sourceName": "Cable Cross-over",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "cable crossover = cable cross-over variation"
+  },
+  {
+    "externalId": "0168",
+    "nameEn": "cable hip adduction",
+    "source": "workoutGuide",
+    "sourceId": "cable-standing-hip-abduction",
+    "sourceName": "Cable Standing Hip Abduction",
+    "score": 0.87,
+    "decision": "reject",
+    "reason": "hip ABduction image for a hip ADduction exercise (auto-accepted 0.87, wrong)"
+  },
+  {
+    "externalId": "0190",
+    "nameEn": "cable one arm curl",
+    "source": "everkinetic",
+    "sourceId": "0247",
+    "sourceName": "Standing One Arm Bicep Curl with Cable",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "standing one arm cable curl, same exercise"
+  },
+  {
+    "externalId": "0198",
+    "nameEn": "cable pulldown",
+    "source": "workoutGuide",
+    "sourceId": "lat-pulldown",
+    "sourceName": "Lat Pulldown",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "lat pulldown = cable pulldown"
+  },
+  {
+    "externalId": "0200",
+    "nameEn": "cable pushdown (with rope attachment)",
+    "source": "everkinetic",
+    "sourceId": "0205",
+    "sourceName": "Triceps Pushdown: Cable",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown on cable; attachment differs only"
+  },
+  {
+    "externalId": "0200",
+    "nameEn": "cable pushdown (with rope attachment)",
+    "source": "wger",
+    "sourceId": "805",
+    "sourceName": "Tricep Pushdown on Cable",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown on cable; attachment differs only"
+  },
+  {
+    "externalId": "0200",
+    "nameEn": "cable pushdown (with rope attachment)",
+    "source": "workoutGuide",
+    "sourceId": "tricep-pushdown",
+    "sourceName": "Tricep Pushdown",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown; rope vs bar attachment, acceptably close"
+  },
+  {
+    "externalId": "0201",
+    "nameEn": "cable pushdown",
+    "source": "everkinetic",
+    "sourceId": "0205",
+    "sourceName": "Triceps Pushdown: Cable",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown on cable = cable pushdown"
+  },
+  {
+    "externalId": "0201",
+    "nameEn": "cable pushdown",
+    "source": "wger",
+    "sourceId": "805",
+    "sourceName": "Tricep Pushdown on Cable",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown on cable = cable pushdown"
+  },
+  {
+    "externalId": "0201",
+    "nameEn": "cable pushdown",
+    "source": "workoutGuide",
+    "sourceId": "tricep-pushdown",
+    "sourceName": "Tricep Pushdown",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps pushdown = cable pushdown"
+  },
+  {
+    "externalId": "0226",
+    "nameEn": "cable standing crunch",
+    "source": "workoutGuide",
+    "sourceId": "cable-crunch",
+    "sourceName": "Cable Crunch",
+    "score": 0.769,
+    "decision": "reject",
+    "reason": "Cable Crunch is the kneeling version; this one is standing (different posture)"
+  },
+  {
+    "externalId": "0227",
+    "nameEn": "cable standing fly",
+    "source": "wger",
+    "sourceId": "237",
+    "sourceName": "Fly With Cable",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "fly with cable, same exercise"
+  },
+  {
+    "externalId": "0227",
+    "nameEn": "cable standing fly",
+    "source": "workoutGuide",
+    "sourceId": "cable-fly",
+    "sourceName": "Cable Fly",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "standing cable fly, same exercise"
+  },
+  {
+    "externalId": "0251",
+    "nameEn": "chest dip",
+    "source": "wger",
+    "sourceId": "194",
+    "sourceName": "Dips",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "dips on parallel bars = chest dip"
+  },
+  {
+    "externalId": "0259",
+    "nameEn": "close-grip push-up",
+    "source": "everkinetic",
+    "sourceId": "0188",
+    "sourceName": "Close Triceps Pushup",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "close triceps push-up = close-grip push-up"
+  },
+  {
+    "externalId": "0271",
+    "nameEn": "crunch (on stability ball)",
+    "source": "everkinetic",
+    "sourceId": "0295",
+    "sourceName": "Stability Ball Abdominal Crunch",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "stability ball crunch, same exercise"
+  },
+  {
+    "externalId": "0301",
+    "nameEn": "dumbbell decline bench press",
+    "source": "workoutGuide",
+    "sourceId": "decline-dumbbell-press",
+    "sourceName": "Decline Dumbbell Press",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "decline dumbbell press = dumbbell decline bench press"
+  },
+  {
+    "externalId": "0314",
+    "nameEn": "dumbbell incline bench press",
+    "source": "workoutGuide",
+    "sourceId": "incline-dumbbell-press",
+    "sourceName": "Incline Dumbbell Press",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "incline dumbbell press = dumbbell incline bench press"
+  },
+  {
+    "externalId": "0317",
+    "nameEn": "dumbbell incline curl v. 2",
+    "source": "everkinetic",
+    "sourceId": "0214",
+    "sourceName": "Alternating Incline Curl with Dumbbell",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "incline dumbbell curl; alternating vs both arms, acceptably close"
+  },
+  {
+    "externalId": "0318",
+    "nameEn": "dumbbell incline curl",
+    "source": "everkinetic",
+    "sourceId": "0214",
+    "sourceName": "Alternating Incline Curl with Dumbbell",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "incline dumbbell curl; alternating vs both arms, acceptably close"
+  },
+  {
+    "externalId": "0321",
+    "nameEn": "dumbbell incline hammer press",
+    "source": "everkinetic",
+    "sourceId": "0059",
+    "sourceName": "Bench Press: Dumbbell (Incline, Hammer Grip)",
+    "score": 0.789,
+    "decision": "accept",
+    "reason": "incline dumbbell press with hammer grip = incline hammer press"
+  },
+  {
+    "externalId": "0333",
+    "nameEn": "dumbbell kickback",
+    "source": "everkinetic",
+    "sourceId": "0204",
+    "sourceName": "Triceps Kickback with Dumbbell",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps kickback with dumbbell, same exercise"
+  },
+  {
+    "externalId": "0333",
+    "nameEn": "dumbbell kickback",
+    "source": "workoutGuide",
+    "sourceId": "tricep-kickback",
+    "sourceName": "Tricep Kickback",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "triceps kickback = dumbbell kickback"
+  },
+  {
+    "externalId": "0344",
+    "nameEn": "dumbbell lying one arm pronated triceps extension",
+    "source": "everkinetic",
+    "sourceId": "0186",
+    "sourceName": "Triceps Extension: Dumbbell (Single Arm, Pronated)",
+    "score": 0.762,
+    "decision": "accept",
+    "reason": "single arm pronated dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0346",
+    "nameEn": "dumbbell lying one arm supinated triceps extension",
+    "source": "everkinetic",
+    "sourceId": "0187",
+    "sourceName": "Triceps Extension: Dumbbell (Single Arm, Supinated)",
+    "score": 0.762,
+    "decision": "accept",
+    "reason": "single arm supinated dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0353",
+    "nameEn": "dumbbell one arm concentration curl (on stability ball)",
+    "source": "everkinetic",
+    "sourceId": "0258",
+    "sourceName": "One Arm Bicep Concentration on Stability Ball with Dumbbell",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "one arm concentration curl on stability ball, same exercise"
+  },
+  {
+    "externalId": "0362",
+    "nameEn": "dumbbell one arm triceps extension (on bench)",
+    "source": "everkinetic",
+    "sourceId": "0173",
+    "sourceName": "Triceps Extension: Dumbbell (One Arm)",
+    "score": 0.815,
+    "decision": "accept",
+    "reason": "one arm dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0362",
+    "nameEn": "dumbbell one arm triceps extension (on bench)",
+    "source": "workoutGuide",
+    "sourceId": "single-arm-dumbbell-tricep-extension",
+    "sourceName": "Single Arm Dumbbell Tricep Extension",
+    "score": 0.815,
+    "decision": "accept",
+    "reason": "seated single arm dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0380",
+    "nameEn": "dumbbell rear lateral raise",
+    "source": "everkinetic",
+    "sourceId": "0023",
+    "sourceName": "Lying Rear Lateral Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "rear lateral raise; lying face-down on a bench vs bent over, same arm path, acceptably close"
+  },
+  {
+    "externalId": "0400",
+    "nameEn": "dumbbell seated one leg calf raise",
+    "source": "wger",
+    "sourceId": "1620",
+    "sourceName": "Seated Dumbbell Calf Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "seated dumbbell calf raise; one leg vs both, acceptably close"
+  },
+  {
+    "externalId": "0409",
+    "nameEn": "dumbbell single leg calf raise",
+    "source": "everkinetic",
+    "sourceId": "0276",
+    "sourceName": "Seated One Leg Calf Raise with Dumbbell",
+    "score": 0.75,
+    "decision": "reject",
+    "reason": "image is the seated calf raise; this exercise is standing on one leg on a step"
+  },
+  {
+    "externalId": "0416",
+    "nameEn": "dumbbell standing biceps curl",
+    "source": "everkinetic",
+    "sourceId": "0224",
+    "sourceName": "Biceps Curl: Dumbbell",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "dumbbell biceps curl, same exercise"
+  },
+  {
+    "externalId": "0416",
+    "nameEn": "dumbbell standing biceps curl",
+    "source": "wger",
+    "sourceId": "92",
+    "sourceName": "Biceps Curls With Dumbbell",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "dumbbell biceps curl, same exercise"
+  },
+  {
+    "externalId": "0416",
+    "nameEn": "dumbbell standing biceps curl",
+    "source": "workoutGuide",
+    "sourceId": "bicep-curl",
+    "sourceName": "Bicep Curl",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "standing dumbbell biceps curl, same exercise"
+  },
+  {
+    "externalId": "0423",
+    "nameEn": "dumbbell standing one arm extension",
+    "source": "everkinetic",
+    "sourceId": "0173",
+    "sourceName": "Triceps Extension: Dumbbell (One Arm)",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "one arm dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0423",
+    "nameEn": "dumbbell standing one arm extension",
+    "source": "workoutGuide",
+    "sourceId": "single-arm-dumbbell-tricep-extension",
+    "sourceName": "Single Arm Dumbbell Tricep Extension",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "single arm overhead dumbbell triceps extension, same exercise"
+  },
+  {
+    "externalId": "0429",
+    "nameEn": "dumbbell standing reverse curl",
+    "source": "everkinetic",
+    "sourceId": "0257",
+    "sourceName": "Biceps Curl: Dumbbell (Reverse)",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "reverse dumbbell curl, same exercise"
+  },
+  {
+    "externalId": "0447",
+    "nameEn": "ez barbell curl",
+    "source": "wger",
+    "sourceId": "94",
+    "sourceName": "Biceps Curls With SZ-bar",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "biceps curl with SZ (EZ) bar = EZ barbell curl"
+  },
+  {
+    "externalId": "0475",
+    "nameEn": "hanging straight leg raise",
+    "source": "workoutGuide",
+    "sourceId": "hanging-leg-raise",
+    "sourceName": "Hanging Leg Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "hanging leg raise with straight legs, same exercise"
+  },
+  {
+    "externalId": "0488",
+    "nameEn": "hyperextension (on bench)",
+    "source": "workoutGuide",
+    "sourceId": "back-extension",
+    "sourceName": "Back Extension",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "back extension = hyperextension on bench"
+  },
+  {
+    "externalId": "0597",
+    "nameEn": "lever seated hip abduction",
+    "source": "wger",
+    "sourceId": "12",
+    "sourceName": "Seated Hip Adduction",
+    "score": 0.9,
+    "decision": "reject",
+    "reason": "seated hip ADduction image for a hip ABduction exercise (auto-accepted 0.90, wrong)"
+  },
+  {
+    "externalId": "0620",
+    "nameEn": "lying leg raise flat bench",
+    "source": "everkinetic",
+    "sourceId": "0021",
+    "sourceName": "Flat Bench Leg Raises",
+    "score": 0.778,
+    "decision": "accept",
+    "reason": "flat bench leg raise, same exercise"
+  },
+  {
+    "externalId": "0631",
+    "nameEn": "muscle up",
+    "source": "workoutGuide",
+    "sourceId": "v-up",
+    "sourceName": "V-Up",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "V-Up is a floor ab exercise, not a muscle-up"
+  },
+  {
+    "externalId": "0710",
+    "nameEn": "side hip abduction",
+    "source": "workoutGuide",
+    "sourceId": "side-lying-hip-abduction",
+    "sourceName": "Side-Lying Hip Abduction",
+    "score": 0.75,
+    "decision": "reject",
+    "reason": "image is side-lying hip abduction; this exercise is standing"
+  },
+  {
+    "externalId": "0727",
+    "nameEn": "single leg calf raise (on a dumbbell)",
+    "source": "everkinetic",
+    "sourceId": "0276",
+    "sourceName": "Seated One Leg Calf Raise with Dumbbell",
+    "score": 0.75,
+    "decision": "reject",
+    "reason": "image is the seated calf raise; this exercise is standing on a dumbbell"
+  },
+  {
+    "externalId": "0814",
+    "nameEn": "triceps dip",
+    "source": "everkinetic",
+    "sourceId": "0172",
+    "sourceName": "Triceps Dips: Body Weight",
+    "score": 1,
+    "decision": "reject",
+    "reason": "Everkinetic \"Triceps Dips: Body Weight\" shows a parallel-bar dip (checked visually); this exercise is the bench dip (auto-accepted 1.0)"
+  },
+  {
+    "externalId": "0814",
+    "nameEn": "triceps dip",
+    "source": "wger",
+    "sourceId": "194",
+    "sourceName": "Dips",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "parallel-bar dip; this exercise is the bench dip"
+  },
+  {
+    "externalId": "0814",
+    "nameEn": "triceps dip",
+    "source": "workoutGuide",
+    "sourceId": "dip",
+    "sourceName": "Dip",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "parallel-bar dip; this exercise is the bench dip"
+  },
+  {
+    "externalId": "0850",
+    "nameEn": "weighted side bend (on stability ball)",
+    "source": "everkinetic",
+    "sourceId": "0208",
+    "sourceName": "Weighted Ball Side Bend",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "weighted side bend on ball, same exercise"
+  },
+  {
+    "externalId": "0860",
+    "nameEn": "cable kickback",
+    "source": "workoutGuide",
+    "sourceId": "cable-kickback",
+    "sourceName": "Cable Kickback",
+    "score": 1,
+    "decision": "reject",
+    "reason": "Workout Guide \"Cable Kickback\" is the glute kickback; this exercise is the triceps cable kickback (auto-accepted 1.0)"
+  },
+  {
+    "externalId": "0865",
+    "nameEn": "lying leg-hip raise",
+    "source": "wger",
+    "sourceId": "377",
+    "sourceName": "Leg Raises, Lying",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "lying leg raise; leg-hip raise adds a hip lift, acceptably close"
+  },
+  {
+    "externalId": "0865",
+    "nameEn": "lying leg-hip raise",
+    "source": "workoutGuide",
+    "sourceId": "lying-leg-raise",
+    "sourceName": "Lying Leg Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "lying leg raise; leg-hip raise adds a hip lift, acceptably close"
+  },
+  {
+    "externalId": "0868",
+    "nameEn": "cable curl",
+    "source": "wger",
+    "sourceId": "95",
+    "sourceName": "Biceps Curl With Cable",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "cable biceps curl = cable curl"
+  },
+  {
+    "externalId": "0874",
+    "nameEn": "cable standing crunch (with rope attachment)",
+    "source": "workoutGuide",
+    "sourceId": "cable-crunch",
+    "sourceName": "Cable Crunch",
+    "score": 0.769,
+    "decision": "reject",
+    "reason": "Cable Crunch is the kneeling version; this one is standing (different posture)"
+  },
+  {
+    "externalId": "1004",
+    "nameEn": "band squat",
+    "source": "everkinetic",
+    "sourceId": "0155",
+    "sourceName": "Squats: Exercise Bands",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "squat with exercise bands = band squat"
+  },
+  {
+    "externalId": "1261",
+    "nameEn": "cable decline press",
+    "source": "everkinetic",
+    "sourceId": "0085",
+    "sourceName": "Decline Chest Press",
+    "score": 0.809,
+    "decision": "reject",
+    "reason": "image is a decline chest press machine; this exercise uses cables"
+  },
+  {
+    "externalId": "1349",
+    "nameEn": "lever reverse t-bar row",
+    "source": "everkinetic",
+    "sourceId": "0029",
+    "sourceName": "T-Bar Rows",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "T-bar row machine; grip differs only"
+  },
+  {
+    "externalId": "1349",
+    "nameEn": "lever reverse t-bar row",
+    "source": "workoutGuide",
+    "sourceId": "t-bar-row",
+    "sourceName": "T-Bar Row",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "chest-supported T-bar row machine; grip differs only"
+  },
+  {
+    "externalId": "1379",
+    "nameEn": "dumbbell seated calf raise",
+    "source": "everkinetic",
+    "sourceId": "0276",
+    "sourceName": "Seated One Leg Calf Raise with Dumbbell",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "seated dumbbell calf raise; one leg vs both, acceptably close"
+  },
+  {
+    "externalId": "1380",
+    "nameEn": "dumbbell seated one leg calf raise - hammer grip",
+    "source": "everkinetic",
+    "sourceId": "0276",
+    "sourceName": "Seated One Leg Calf Raise with Dumbbell",
+    "score": 0.755,
+    "decision": "accept",
+    "reason": "seated one leg dumbbell calf raise, same exercise (grip detail only)"
+  },
+  {
+    "externalId": "1386",
+    "nameEn": "one leg donkey calf raise",
+    "source": "everkinetic",
+    "sourceId": "0275",
+    "sourceName": "Donkey Calf Raises",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "donkey calf raise; one leg vs both, acceptably close"
+  },
+  {
+    "externalId": "1386",
+    "nameEn": "one leg donkey calf raise",
+    "source": "workoutGuide",
+    "sourceId": "single-leg-calf-raise",
+    "sourceName": "Single-Leg Calf Raise",
+    "score": 0.75,
+    "decision": "reject",
+    "reason": "image is a standing single-leg calf raise; donkey raise is bent over (Everkinetic donkey image preferred)"
+  },
+  {
+    "externalId": "1387",
+    "nameEn": "one leg floor calf raise",
+    "source": "workoutGuide",
+    "sourceId": "single-leg-calf-raise",
+    "sourceName": "Single-Leg Calf Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "single-leg calf raise, same exercise"
+  },
+  {
+    "externalId": "1391",
+    "nameEn": "sled calf press on leg press",
+    "source": "workoutGuide",
+    "sourceId": "leg-press-calf-raise",
+    "sourceName": "Leg Press Calf Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "calf raise on the leg press, same exercise"
+  },
+  {
+    "externalId": "1392",
+    "nameEn": "sled one leg calf press on leg press",
+    "source": "everkinetic",
+    "sourceId": "0273",
+    "sourceName": "Calves Press on Leg Machine",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "calf press on leg press; one leg vs both, acceptably close"
+  },
+  {
+    "externalId": "1392",
+    "nameEn": "sled one leg calf press on leg press",
+    "source": "wger",
+    "sourceId": "146",
+    "sourceName": "Calf Press Using Leg Press Machine",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "calf press on leg press; one leg vs both, acceptably close"
+  },
+  {
+    "externalId": "1399",
+    "nameEn": "bench dip on floor",
+    "source": "wger",
+    "sourceId": "1000",
+    "sourceName": "Floor dips",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "floor dips (hands behind, feet on floor), acceptably close to the bench dip with feet on floor"
+  },
+  {
+    "externalId": "1414",
+    "nameEn": "dumbbell one arm reverse preacher curl",
+    "source": "everkinetic",
+    "sourceId": "0237",
+    "sourceName": "Preacher Curl: Dumbbell (One Arm)",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "one arm dumbbell preacher curl; grip differs only"
+  },
+  {
+    "externalId": "1495",
+    "nameEn": "oblique crunch v. 2",
+    "source": "everkinetic",
+    "sourceId": "0291",
+    "sourceName": "Crunches",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "plain crunch; oblique crunch adds a twist, misleading"
+  },
+  {
+    "externalId": "1495",
+    "nameEn": "oblique crunch v. 2",
+    "source": "wger",
+    "sourceId": "167",
+    "sourceName": "Crunches",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "plain crunch; oblique crunch adds a twist, misleading"
+  },
+  {
+    "externalId": "1495",
+    "nameEn": "oblique crunch v. 2",
+    "source": "workoutGuide",
+    "sourceId": "crunch",
+    "sourceName": "Crunch",
+    "score": 0.833,
+    "decision": "reject",
+    "reason": "plain crunch; oblique crunch adds a twist, misleading"
+  },
+  {
+    "externalId": "1646",
+    "nameEn": "dumbbell alternate hammer preacher curl",
+    "source": "everkinetic",
+    "sourceId": "0240",
+    "sourceName": "Preacher Curl: Dumbbell (Hammer)",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "hammer dumbbell preacher curl, same exercise"
+  },
+  {
+    "externalId": "1663",
+    "nameEn": "dumbbell one arm hammer preacher curl",
+    "source": "everkinetic",
+    "sourceId": "0237",
+    "sourceName": "Preacher Curl: Dumbbell (One Arm)",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "one arm dumbbell preacher curl; grip differs only"
+  },
+  {
+    "externalId": "1668",
+    "nameEn": "dumbbell one arm seated bicep curl on exercise ball",
+    "source": "everkinetic",
+    "sourceId": "0255",
+    "sourceName": "Biceps Curl: Stability Ball with Dumbbell (seated)",
+    "score": 0.808,
+    "decision": "accept",
+    "reason": "seated dumbbell curl on stability ball, same exercise"
+  },
+  {
+    "externalId": "1672",
+    "nameEn": "dumbbell one arm zottman preacher curl",
+    "source": "everkinetic",
+    "sourceId": "0237",
+    "sourceName": "Preacher Curl: Dumbbell (One Arm)",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "one arm dumbbell preacher curl; Zottman grip change only"
+  },
+  {
+    "externalId": "1755",
+    "nameEn": "weighted tricep dips",
+    "source": "wger",
+    "sourceId": "194",
+    "sourceName": "Dips",
+    "score": 0.783,
+    "decision": "accept",
+    "reason": "dips; weighted vs bodyweight, acceptably close"
+  },
+  {
+    "externalId": "1755",
+    "nameEn": "weighted tricep dips",
+    "source": "workoutGuide",
+    "sourceId": "weighted-dip",
+    "sourceName": "Weighted Dip",
+    "score": 0.833,
+    "decision": "accept",
+    "reason": "weighted dip, same exercise"
+  },
+  {
+    "externalId": "1764",
+    "nameEn": "hanging leg hip raise",
+    "source": "workoutGuide",
+    "sourceId": "hanging-leg-raise",
+    "sourceName": "Hanging Leg Raise",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "hanging leg raise; hip raise variant, acceptably close"
+  },
+  {
+    "externalId": "2287",
+    "nameEn": "lever alternate leg press",
+    "source": "everkinetic",
+    "sourceId": "0127",
+    "sourceName": "Leg Press",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "leg press; alternating legs, acceptably close"
+  },
+  {
+    "externalId": "2287",
+    "nameEn": "lever alternate leg press",
+    "source": "wger",
+    "sourceId": "371",
+    "sourceName": "Leg Press",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "leg press; alternating legs, acceptably close"
+  },
+  {
+    "externalId": "2287",
+    "nameEn": "lever alternate leg press",
+    "source": "workoutGuide",
+    "sourceId": "leg-press",
+    "sourceName": "Leg Press",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "leg press; alternating legs, acceptably close"
+  },
+  {
+    "externalId": "2298",
+    "nameEn": "inverted row on bench",
+    "source": "wger",
+    "sourceId": "1198",
+    "sourceName": "Inverted Rows",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "inverted row; bench vs bar anchor, acceptably close"
+  },
+  {
+    "externalId": "2298",
+    "nameEn": "inverted row on bench",
+    "source": "workoutGuide",
+    "sourceId": "inverted-row",
+    "sourceName": "Inverted Row",
+    "score": 0.8,
+    "decision": "accept",
+    "reason": "inverted row; bench vs bar anchor, acceptably close"
+  },
+  {
+    "externalId": "3239",
+    "nameEn": "kneeling plank tap shoulder (male)",
+    "source": "wger",
+    "sourceId": "1091",
+    "sourceName": "Plank Shoulder Taps",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "plank shoulder tap; kneeling vs full plank, acceptably close"
+  },
+  {
+    "externalId": "3239",
+    "nameEn": "kneeling plank tap shoulder (male)",
+    "source": "workoutGuide",
+    "sourceId": "plank-shoulder-tap",
+    "sourceName": "Plank Shoulder Tap",
+    "score": 0.75,
+    "decision": "accept",
+    "reason": "plank shoulder tap; kneeling vs full plank, acceptably close"
+  },
+  {
+    "externalId": "3286",
+    "nameEn": "weighted muscle up",
+    "source": "workoutGuide",
+    "sourceId": "v-up",
+    "sourceName": "V-Up",
+    "score": 0.783,
+    "decision": "reject",
+    "reason": "V-Up is a floor ab exercise, not a muscle-up"
+  },
+  {
+    "externalId": "3545",
+    "nameEn": "dumbbell incline alternate press",
+    "source": "everkinetic",
+    "sourceId": "0080",
+    "sourceName": "Incline Dumbbell Press",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "incline dumbbell press; alternating arms, acceptably close"
+  },
+  {
+    "externalId": "3545",
+    "nameEn": "dumbbell incline alternate press",
+    "source": "workoutGuide",
+    "sourceId": "incline-dumbbell-press",
+    "sourceName": "Incline Dumbbell Press",
+    "score": 0.769,
+    "decision": "accept",
+    "reason": "incline dumbbell press; alternating arms, acceptably close"
+  },
+  {
+    "externalId": "3667",
+    "nameEn": "side lying hip adduction (male)",
+    "source": "workoutGuide",
+    "sourceId": "side-lying-hip-abduction",
+    "sourceName": "Side-Lying Hip Abduction",
+    "score": 1,
+    "decision": "reject",
+    "reason": "side-lying hip ABduction image for a hip ADduction exercise (auto-accepted 1.0, wrong)"
+  },
+  {
+    "externalId": "3758",
+    "nameEn": "lever standing chest press",
+    "source": "wger",
+    "sourceId": "129",
+    "sourceName": "Chest Press",
+    "score": 0.8,
+    "decision": "reject",
+    "reason": "image is the seated machine chest press; this machine is used standing"
+  },
+  {
+    "externalId": "3758",
+    "nameEn": "lever standing chest press",
+    "source": "workoutGuide",
+    "sourceId": "machine-chest-press",
+    "sourceName": "Machine Chest Press",
+    "score": 0.8,
+    "decision": "reject",
+    "reason": "image is the seated machine chest press; this machine is used standing"
+  }
+]

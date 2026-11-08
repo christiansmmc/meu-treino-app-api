@@ -14,6 +14,12 @@ export const sql = postgres(env.DATABASE_URL, {
   max: 10,
   prepare: false,
   ssl: env.DATABASE_SSL ? 'require' : undefined,
+  // Sem isso cada boot despeja no log os NOTICEs das migrations ("schema
+  // drizzle already exists, skipping", truncamento de nome de FK...). WARNING
+  // e acima continuam aparecendo.
+  onnotice: (notice) => {
+    if (notice.severity !== 'NOTICE') console.warn(notice)
+  },
 })
 
 export const db = drizzle(sql, { schema })

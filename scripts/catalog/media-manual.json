@@ -1,0 +1,717 @@
+[
+  {
+    "externalId": "0454",
+    "source": "everkinetic",
+    "sourceId": "0245",
+    "sourceName": "Spider Curl with Barbell",
+    "reason": "EZ-bar spider curl; Everkinetic shows the barbell spider curl (close variant)",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0245-relaxation.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0245-tension.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      }
+    ]
+  },
+  {
+    "externalId": "0285",
+    "source": "everkinetic",
+    "sourceId": "0223",
+    "sourceName": "Alternating Bicep Curl with Dumbbell",
+    "reason": "alternating dumbbell biceps curl, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0223-relaxation.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0223-tension.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      }
+    ]
+  },
+  {
+    "externalId": "0588",
+    "source": "workoutGuide",
+    "sourceId": "machine-row",
+    "sourceName": "Machine Row",
+    "reason": "seated machine row; narrow-grip handle, close variant",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "1350",
+    "source": "workoutGuide",
+    "sourceId": "machine-row",
+    "sourceName": "Machine Row",
+    "reason": "chest-supported seated machine row, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-row/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0818",
+    "source": "workoutGuide",
+    "sourceId": "lat-pulldown",
+    "sourceName": "Lat Pulldown",
+    "reason": "lat pulldown; parallel-grip handle instead of the wide bar, close variant",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/lat-pulldown/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/lat-pulldown/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/lat-pulldown/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0093-tension.svg"
+  },
+  {
+    "externalId": "0602",
+    "source": "workoutGuide",
+    "sourceId": "reverse-pec-deck",
+    "sourceName": "Reverse Pec Deck",
+    "reason": "seated machine reverse fly = reverse pec deck",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/reverse-pec-deck/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/reverse-pec-deck/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/reverse-pec-deck/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0154",
+    "source": "workoutGuide",
+    "sourceId": "cable-rear-delt-fly",
+    "sourceName": "Cable Rear Delt Fly",
+    "reason": "cable rear delt fly, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-rear-delt-fly/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-rear-delt-fly/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-rear-delt-fly/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0233",
+    "source": "workoutGuide",
+    "sourceId": "face-pull",
+    "sourceName": "Face Pull",
+    "reason": "standing rope cable row toward the face = face pull",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/face-pull/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/face-pull/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/face-pull/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0596",
+    "source": "workoutGuide",
+    "sourceId": "pec-deck",
+    "sourceName": "Pec Deck",
+    "reason": "seated machine fly = pec deck",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/pec-deck/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/pec-deck/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/pec-deck/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0375",
+    "source": "everkinetic",
+    "sourceId": "0079",
+    "sourceName": "Straight Arm Dumbbell Pullover",
+    "reason": "dumbbell pullover, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0079-relaxation.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/everkinetic/data/main/dist/png/0079-tension.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Everkinetic"
+      }
+    ]
+  },
+  {
+    "externalId": "0738",
+    "source": "workoutGuide",
+    "sourceId": "leg-press-calf-raise",
+    "sourceName": "Leg Press Calf Raise",
+    "reason": "calf press on the 45° leg press, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/leg-press-calf-raise/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/leg-press-calf-raise/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/leg-press-calf-raise/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0273-tension.svg"
+  },
+  {
+    "externalId": "0432",
+    "source": "workoutGuide",
+    "sourceId": "dumbbell-romanian-deadlift",
+    "sourceName": "Dumbbell Romanian Deadlift",
+    "reason": "stiff-leg vs Romanian deadlift with dumbbells, close variant",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-romanian-deadlift/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-romanian-deadlift/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-romanian-deadlift/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0116",
+    "source": "workoutGuide",
+    "sourceId": "romanian-deadlift",
+    "sourceName": "Romanian Deadlift",
+    "reason": "straight-leg (stiff) vs Romanian deadlift with barbell, close variant",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/romanian-deadlift/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/romanian-deadlift/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/romanian-deadlift/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0118-tension.svg"
+  },
+  {
+    "externalId": "0410",
+    "source": "workoutGuide",
+    "sourceId": "bulgarian-split-squat",
+    "sourceName": "Bulgarian Split Squat",
+    "reason": "dumbbell Bulgarian split squat, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bulgarian-split-squat/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bulgarian-split-squat/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/bulgarian-split-squat/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "1460",
+    "source": "workoutGuide",
+    "sourceId": "walking-lunge",
+    "sourceName": "Walking Lunge",
+    "reason": "walking lunge (the figure holds dumbbells), same movement",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/walking-lunge/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/walking-lunge/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/walking-lunge/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0121-tension.svg"
+  },
+  {
+    "externalId": "0597",
+    "source": "workoutGuide",
+    "sourceId": "hip-abduction-machine",
+    "sourceName": "Hip Abduction Machine",
+    "reason": "seated hip abduction machine, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-abduction-machine/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-abduction-machine/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-abduction-machine/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0598",
+    "source": "workoutGuide",
+    "sourceId": "hip-adduction-machine",
+    "sourceName": "Hip Adduction Machine",
+    "reason": "seated hip adduction machine, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-adduction-machine/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-adduction-machine/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-adduction-machine/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "2188",
+    "source": "workoutGuide",
+    "sourceId": "dumbbell-overhead-tricep-extension",
+    "sourceName": "Dumbbell Overhead Tricep Extension",
+    "reason": "seated overhead dumbbell triceps extension, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-overhead-tricep-extension/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-overhead-tricep-extension/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/dumbbell-overhead-tricep-extension/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0194-tension.svg"
+  },
+  {
+    "externalId": "2133",
+    "source": "workoutGuide",
+    "sourceId": "farmer-carry",
+    "sourceName": "Farmer Carry",
+    "reason": "farmer's walk = farmer carry",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/farmer-carry/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/farmer-carry/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/farmer-carry/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "0175",
+    "source": "workoutGuide",
+    "sourceId": "cable-crunch",
+    "sourceName": "Cable Crunch",
+    "reason": "kneeling cable crunch, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-crunch/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-crunch/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-crunch/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0288-tension.svg"
+  },
+  {
+    "externalId": "0705",
+    "source": "workoutGuide",
+    "sourceId": "side-plank",
+    "sourceName": "Side Plank",
+    "reason": "forearm side plank, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/side-plank/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/side-plank/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/side-plank/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0113-tension.svg"
+  },
+  {
+    "externalId": "0857",
+    "source": "workoutGuide",
+    "sourceId": "ab-wheel",
+    "sourceName": "Ab Wheel Rollout",
+    "reason": "ab wheel rollout, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/ab-wheel/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/ab-wheel/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/ab-wheel/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0285-tension.svg"
+  },
+  {
+    "externalId": "0058",
+    "source": "workoutGuide",
+    "sourceId": "hip-thrust",
+    "sourceName": "Hip Thrust",
+    "reason": "barbell hip thrust, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-thrust/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-thrust/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/hip-thrust/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "3013",
+    "source": "workoutGuide",
+    "sourceId": "glute-bridge",
+    "sourceName": "Glute Bridge",
+    "reason": "floor glute bridge, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/glute-bridge/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/glute-bridge/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/glute-bridge/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0109-tension.svg"
+  },
+  {
+    "externalId": "0228",
+    "source": "workoutGuide",
+    "sourceId": "cable-kickback",
+    "sourceName": "Cable Kickback",
+    "reason": "standing cable hip extension = cable glute kickback",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-kickback/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-kickback/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cable-kickback/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ],
+    "adaptedFrom": "https://github.com/everkinetic/data/blob/main/dist/svg/0112-tension.svg"
+  },
+  {
+    "externalId": "2286",
+    "source": "workoutGuide",
+    "sourceId": "machine-glute-kickback",
+    "sourceName": "Machine Glute Kickback",
+    "reason": "machine hip extension = machine glute kickback",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-glute-kickback/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-glute-kickback/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/machine-glute-kickback/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "3666",
+    "source": "workoutGuide",
+    "sourceId": "treadmill-incline-walk",
+    "sourceName": "Treadmill Incline Walk",
+    "reason": "incline treadmill walk, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/treadmill-incline-walk/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/treadmill-incline-walk/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/treadmill-incline-walk/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "2138",
+    "source": "workoutGuide",
+    "sourceId": "cycling",
+    "sourceName": "Cycling",
+    "reason": "stationary bike, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cycling/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cycling/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/cycling/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "2141",
+    "source": "workoutGuide",
+    "sourceId": "elliptical",
+    "sourceName": "Elliptical",
+    "reason": "elliptical, same exercise",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/elliptical/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/elliptical/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/elliptical/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  },
+  {
+    "externalId": "2311",
+    "source": "workoutGuide",
+    "sourceId": "stair-climber",
+    "sourceName": "Stair Climber",
+    "reason": "stepmill = stair climber",
+    "frames": [
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/stair-climber/frame-1.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/stair-climber/frame-2.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/bryllim/workout-guide/main/packages/workout-guide/assets/stair-climber/frame-3.png",
+        "license": "CC BY-SA 4.0",
+        "author": "Bryl Lim"
+      }
+    ]
+  }
+]

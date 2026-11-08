@@ -11,6 +11,7 @@ import {
   argumentTypeMismatch,
 } from '../shared/errors.ts'
 import { assertExercisesExist } from '../shared/exercise-access.ts'
+import { exerciseFirstImage, mediaUrl } from '../shared/media.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
@@ -113,6 +114,7 @@ workoutRoutes.get('/', async (c) => {
 
 interface FullWorkoutExerciseRow {
   name: string
+  imageUrl: string | null
   sets: number | null
   reps: number | null
   exerciseLoad: number | null
@@ -136,6 +138,7 @@ workoutRoutes.get('/full', async (c) => {
     .select({
       workoutId: workoutExercise.workoutId,
       name: exercise.name,
+      image: exerciseFirstImage,
       sets: workoutExercise.sets,
       reps: workoutExercise.reps,
       exerciseLoad: workoutExercise.exerciseLoad,
@@ -156,6 +159,7 @@ workoutRoutes.get('/full', async (c) => {
     const list = byWorkout.get(row.workoutId) ?? []
     list.push({
       name: row.name,
+      imageUrl: mediaUrl(row.image),
       sets: row.sets,
       reps: row.reps,
       exerciseLoad: toNumber(row.exerciseLoad),
@@ -255,6 +259,7 @@ workoutRoutes.get('/:id', async (c) => {
       exerciseId: exercise.id,
       exerciseName: exercise.name,
       bodyPart: exercise.bodyPart,
+      exerciseImage: exerciseFirstImage,
     })
     .from(workoutExercise)
     .innerJoin(exercise, eq(exercise.id, workoutExercise.exerciseId))
@@ -274,6 +279,7 @@ workoutRoutes.get('/:id', async (c) => {
         id: row.exerciseId,
         name: row.exerciseName,
         bodyPart: row.bodyPart,
+        imageUrl: mediaUrl(row.exerciseImage),
       },
     })),
   })
