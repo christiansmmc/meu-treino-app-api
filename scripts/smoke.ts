@@ -625,6 +625,112 @@ let workoutExerciseId = 0
   check('listOrder persistiu', found?.listOrder === 7, found)
 }
 
+// --- Ordem dos exercícios do treino -----------------------------------------
+// `PATCH /workouts/{id}/exercise-order` recebe a lista COMPLETA dos
+// workoutExercise do treino na nova ordem. Qualquer lista que não seja
+// exatamente o conjunto atual (faltando, sobrando, repetida, de outro treino)
+// é recusada com 409 — o app estava com uma versão velha do treino.
+let orderWorkoutId = 0
+{
+  const created = await call('POST', '/workouts', {
+    body: {
+      workoutName: 'Treino Smoke Ordem',
+      exercises: exerciseIds.slice(0, 3).map((exerciseId) => ({ exerciseId })),
+    },
+  })
+  orderWorkoutId = created.body?.id ?? 0
+  check('POST /workouts (setup da ordem dos exercícios) → 201', created.status === 201, created.body)
+
+  const before = await call('GET', `/workouts/${orderWorkoutId}`)
+  const ids: number[] = (before.body?.workoutExercises ?? []).map((we: any) => we.id)
+  check(
+    'POST /workouts grava os exercícios na ordem do array',
+    JSON.stringify(before.body?.workoutExercises?.map((we: any) => we.exercise.id)) ===
+      JSON.stringify(exerciseIds.slice(0, 3)),
+    before.body?.workoutExercises,
+  )
+
+  const [a, b, c] = ids as [number, number, number]
+  const novaOrdem = [c, a, b]
+  const res = await call('PATCH', `/workouts/${orderWorkoutId}/exercise-order`, {
+    body: { workoutExerciseIds: novaOrdem },
+  })
+  check('PATCH /workouts/{id}/exercise-order → 200 sem body', res.status === 200 && res.body === null, res.body)
+
+  const after = await call('GET', `/workouts/${orderWorkoutId}`)
+  check(
+    'GET /workouts/{id} devolve a nova ordem, com listOrder 0..n-1',
+    JSON.stringify(after.body?.workoutExercises?.map((we: any) => [we.id, we.listOrder])) ===
+      JSON.stringify([
+        [c, 0],
+        [a, 1],
+        [b, 2],
+      ]),
+    after.body?.workoutExercises,
+  )
+
+  const full = await call('GET', '/workouts/full')
+  const fullWorkout = (full.body as any[])?.find((w) => w.id === orderWorkoutId)
+  check(
+    'GET /workouts/full segue a nova ordem',
+    JSON.stringify(fullWorkout?.exercises?.map((e: any) => e.listOrder)) === JSON.stringify([0, 1, 2]) &&
+      fullWorkout?.exercises?.[0]?.name === after.body?.workoutExercises?.[0]?.exercise?.name,
+    fullWorkout,
+  )
+
+  const recusadas: [string, unknown[]][] = [
+    ['lista incompleta', [c, a]],
+    ['id repetido', [c, a, a]],
+    ['id a mais', [c, a, b, workoutExerciseId]],
+    ['id de outro treino no lugar de um deste', [c, a, workoutExerciseId]],
+    ['lista vazia', []],
+  ]
+  for (const [caso, lista] of recusadas) {
+    const r = await call('PATCH', `/workouts/${orderWorkoutId}/exercise-order`, {
+      body: { workoutExerciseIds: lista },
+    })
+    check(
+      `PATCH exercise-order com ${caso} → 409 código 010`,
+      r.status === 409 && r.body?.code === '010',
+      r.body,
+    )
+  }
+
+  const unchanged = await call('GET', `/workouts/${orderWorkoutId}`)
+  check(
+    'ordem não muda depois das listas recusadas',
+    JSON.stringify(unchanged.body?.workoutExercises?.map((we: any) => we.id)) === JSON.stringify(novaOrdem),
+    unchanged.body?.workoutExercises,
+  )
+
+  const invalido = await call('PATCH', `/workouts/${orderWorkoutId}/exercise-order`, {
+    body: { workoutExerciseIds: 'x' },
+  })
+  check(
+    'PATCH exercise-order com body inválido → 400 VALIDATION_ERROR',
+    invalido.status === 400 && invalido.body?.code === 'VALIDATION_ERROR',
+    invalido.body,
+  )
+
+  const inexistente = await call('PATCH', '/workouts/999999/exercise-order', {
+    body: { workoutExerciseIds: novaOrdem },
+  })
+  check(
+    'PATCH exercise-order de treino inexistente → 404 código 003',
+    inexistente.status === 404 && inexistente.body?.code === '003',
+    inexistente.body,
+  )
+
+  const idTexto = await call('PATCH', '/workouts/abc/exercise-order', {
+    body: { workoutExerciseIds: novaOrdem },
+  })
+  check(
+    'PATCH exercise-order com id não numérico → 400 ARGUMENT_TYPE_MISMATCH',
+    idTexto.status === 400 && idTexto.body?.code === 'ARGUMENT_TYPE_MISMATCH',
+    idTexto.body,
+  )
+}
+
 {
   const res = await call('GET', '/workouts/999999')
   check(
@@ -1560,6 +1666,29 @@ const novaSenha = 'test5678'
     'GET /exercises/{id} custom de outro cliente → 404 código 007',
     detalheAlheio.status === 404 && detalheAlheio.body?.code === '007',
     detalheAlheio.body,
+  )
+
+  const ordemAlheia = await call('GET', `/workouts/${workoutBId}`)
+  const ordemAlheiaIds = (ordemAlheia.body?.workoutExercises ?? []).map((we: any) => we.id)
+  token = tokenA
+  const treinoA = await call('GET', `/workouts/${orderWorkoutId}`)
+  const treinoAIds = (treinoA.body?.workoutExercises ?? []).map((we: any) => we.id)
+  token = loginB.body?.token ?? ''
+  const reordenarAlheio = await call('PATCH', `/workouts/${orderWorkoutId}/exercise-order`, {
+    body: { workoutExerciseIds: [...treinoAIds].reverse() },
+  })
+  check(
+    'PATCH exercise-order no treino de outro cliente → 400 código 002',
+    reordenarAlheio.status === 400 && reordenarAlheio.body?.code === '002',
+    reordenarAlheio.body,
+  )
+  const proprioComIdAlheio = await call('PATCH', `/workouts/${workoutBId}/exercise-order`, {
+    body: { workoutExerciseIds: [treinoAIds[0]] },
+  })
+  check(
+    'PATCH exercise-order no próprio treino com id de exercício de outro cliente → 409 código 010',
+    ordemAlheiaIds.length === 1 && proprioComIdAlheio.status === 409 && proprioComIdAlheio.body?.code === '010',
+    proprioComIdAlheio.body,
   )
 
   const aceito = await call('POST', '/workout-record', {
