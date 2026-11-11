@@ -29,6 +29,12 @@ export const ErrorType = {
   // Mensagem hardcoded porque `ErrorType` inteiro é estático — se
   // `PASSWORD_MIN_LENGTH` (`clients.routes.ts`) mudar, atualizar aqui junto.
   SHORT_PASSWORD: { code: '009', message: 'A senha precisa ter pelo menos 6 caracteres.' },
+  // `PATCH /workouts/{id}/exercise-order` com uma lista que não é exatamente
+  // o conjunto atual de exercícios do treino (o app estava desatualizado).
+  WORKOUT_EXERCISE_ORDER_CONFLICT: {
+    code: '010',
+    message: 'Os exercícios deste treino mudaram. Atualize o treino e tente de novo.',
+  },
 } as const
 
 export interface ErrorTypeEntry {

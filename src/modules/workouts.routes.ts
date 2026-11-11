@@ -43,6 +43,10 @@ const listOrderSchema = z.array(
   }),
 )
 
+const exerciseOrderSchema = z.object({
+  workoutExerciseIds: z.array(z.number().int().positive()),
+})
+
 export const workoutRoutes = new Hono<AuthVariables>()
 
 workoutRoutes.use('*', requireAuth, requireUserRole)
@@ -236,6 +240,48 @@ workoutRoutes.patch('/list-order', async (c) => {
         .update(workout)
         .set({ listOrder: dto.listOrder })
         .where(eq(workout.id, owned.id))
+    }
+  })
+
+  return c.body(null, 200)
+})
+
+/**
+ * Nova ordem dos exercícios do treino: a lista COMPLETA dos `workoutExercise`
+ * dele, do primeiro ao último. Grava `listOrder` = posição (0..n-1).
+ *
+ * Uma lista que não seja exatamente o conjunto atual (faltando, sobrando,
+ * repetida, com id de outro treino) → 409: o app reordenou uma versão velha
+ * do treino e precisa recarregar. Aplicar parcialmente embaralharia a ordem.
+ */
+workoutRoutes.patch('/:id/exercise-order', async (c) => {
+  const client = loggedClient(c)
+  const id = parseIdParam(c.req.param('id'))
+  if (id === null) return argumentTypeMismatch(c)
+
+  const dto = await parseBody(c, exerciseOrderSchema)
+  const owned = await findOwnedWorkout(client, id)
+
+  await db.transaction(async (tx) => {
+    // `for update` serializa duas reordenações do mesmo treino: a segunda
+    // espera a primeira terminar e valida contra o estado já gravado.
+    const rows = await tx
+      .select({ id: workoutExercise.id })
+      .from(workoutExercise)
+      .where(eq(workoutExercise.workoutId, owned.id))
+      .for('update')
+
+    const atual = rows.map((r) => r.id).sort((a, b) => a - b)
+    const proposto = [...dto.workoutExerciseIds].sort((a, b) => a - b)
+    const mesmoConjunto =
+      atual.length === proposto.length && atual.every((value, i) => value === proposto[i])
+    AppError.throwIfNot(mesmoConjunto, ErrorType.WORKOUT_EXERCISE_ORDER_CONFLICT, 409)
+
+    for (const [index, workoutExerciseId] of dto.workoutExerciseIds.entries()) {
+      await tx
+        .update(workoutExercise)
+        .set({ listOrder: index })
+        .where(eq(workoutExercise.id, workoutExerciseId))
     }
   })
 
