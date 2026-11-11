@@ -1,4 +1,4 @@
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -7,6 +7,7 @@ import { workout, workoutExercise } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
 import { assertExerciseExists } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
+import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
@@ -25,9 +26,58 @@ const updateSchema = z.object({
   load: exerciseLoadSchema.nullable(),
 })
 
+/** Só carga, nunca nula: a sincronização entre treinos não apaga carga. */
+const loadsSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        workoutExerciseId: z.number().int().positive(),
+        load: exerciseLoadSchema,
+      }),
+    )
+    .min(1),
+})
+
 export const workoutExerciseRoutes = new Hono<AuthVariables>()
 
 workoutExerciseRoutes.use('*', requireAuth, requireUserRole)
+
+// Precisa vir antes de `/:id` para não ser capturada como path param.
+/**
+ * Grava a mesma ideia de "carga nova" em várias linhas de uma vez, sem tocar
+ * em séries e reps — é o "usar nos outros treinos" do app. Tudo ou nada: uma
+ * linha inexistente (ou de treino apagado) → 404 `001`; de outro cliente →
+ * 400 `002`; nos dois casos nada é gravado.
+ */
+workoutExerciseRoutes.patch('/loads', async (c) => {
+  const client = loggedClient(c)
+  const dto = await parseBody(c, loadsSchema)
+  const ids = [...new Set(dto.items.map((item) => item.workoutExerciseId))]
+
+  await db.transaction(async (tx) => {
+    const rows = await tx
+      .select({ id: workoutExercise.id, clientId: workout.clientId })
+      .from(workoutExercise)
+      .innerJoin(workout, eq(workout.id, workoutExercise.workoutId))
+      .where(and(inArray(workoutExercise.id, ids), isNull(workout.deletedAt)))
+
+    if (rows.length !== ids.length) throw new AppError(ErrorType.WORKOUT_EXERCISE_NOT_FOUND, 404)
+    AppError.throwIfNot(
+      rows.every((row) => row.clientId === client.id),
+      ErrorType.CLIENT_DONT_HAVE_ACCESS,
+    )
+
+    const now = new Date()
+    for (const item of dto.items) {
+      await tx
+        .update(workoutExercise)
+        .set({ exerciseLoad: String(item.load), loadUpdatedAt: now })
+        .where(eq(workoutExercise.id, item.workoutExerciseId))
+    }
+  })
+
+  return c.body(null, 200)
+})
 
 workoutExerciseRoutes.post('/', async (c) => {
   const client = loggedClient(c)
@@ -48,6 +98,7 @@ workoutExerciseRoutes.post('/', async (c) => {
     sets: dto.sets ?? null,
     reps: dto.reps ?? null,
     exerciseLoad: dto.exerciseLoad != null ? String(dto.exerciseLoad) : null,
+    loadUpdatedAt: dto.exerciseLoad != null ? new Date() : null,
     listOrder,
     workoutId: owned.id,
     exerciseId: dto.exercise.id,
@@ -65,7 +116,11 @@ workoutExerciseRoutes.patch('/:id', async (c) => {
   const dto = await parseBody(c, updateSchema)
 
   const [row] = await db
-    .select({ id: workoutExercise.id, clientId: workout.clientId })
+    .select({
+      id: workoutExercise.id,
+      clientId: workout.clientId,
+      exerciseLoad: workoutExercise.exerciseLoad,
+    })
     .from(workoutExercise)
     .innerJoin(workout, eq(workout.id, workoutExercise.workoutId))
     .where(eq(workoutExercise.id, id))
@@ -74,12 +129,17 @@ workoutExerciseRoutes.patch('/:id', async (c) => {
   if (!row) throw new AppError(ErrorType.WORKOUT_EXERCISE_NOT_FOUND, 404)
   AppError.throwIfNot(row.clientId === client.id, ErrorType.CLIENT_DONT_HAVE_ACCESS)
 
+  // `load_updated_at` só anda quando a carga muda de fato — editar séries e
+  // reps com a mesma carga não conta como "carga mudada por último".
+  const loadChanged = toNumber(row.exerciseLoad) !== dto.load
+
   await db
     .update(workoutExercise)
     .set({
       sets: dto.sets,
       reps: dto.reps,
       exerciseLoad: dto.load !== null ? String(dto.load) : null,
+      ...(loadChanged ? { loadUpdatedAt: new Date() } : {}),
     })
     .where(eq(workoutExercise.id, row.id))
 

@@ -22,6 +22,13 @@
       "when": 1794168854669,
       "tag": "0002_catalog_sync_state",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794417102585,
+      "tag": "0003_cool_warstar",
+      "breakpoints": true
     }
   ]
 }

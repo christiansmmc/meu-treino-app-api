@@ -1015,6 +1015,211 @@ let addedWorkoutExerciseId = 0
   check('DELETE /workout-exercises/{id} → 204', res.status === 204 && !res.body, res.body)
 }
 
+// --- load_updated_at: quando a CARGA mudou por último ----------------------
+// Não muda com séries/reps nem com a reordenação (que mexem em `updated_at`).
+// SQL direto, sem depender do schema do Drizzle.
+async function loadUpdatedAtOf(id: number): Promise<Date | null> {
+  const [row] = await sql`select load_updated_at from workout_exercise where id = ${id}`
+  // O cliente desta API devolve `timestamp` como texto ("2026-11-11 17:12:16.125"),
+  // em UTC (é o que o Drizzle grava e lê).
+  const value = row?.load_updated_at as string | Date | null | undefined
+  if (value == null) return null
+  return value instanceof Date ? value : new Date(`${value.replace(' ', 'T')}Z`)
+}
+{
+  const created = await call('POST', '/workouts', {
+    body: {
+      workoutName: 'Treino Smoke Carga',
+      exercises: [
+        { exerciseId: exerciseIds[0], sets: 3, reps: 10, load: 40 },
+        { exerciseId: exerciseIds[1] },
+      ],
+    },
+  })
+  const loadWorkoutId = created.body?.id ?? 0
+  const detail = await call('GET', `/workouts/${loadWorkoutId}`)
+  const [comCarga, semCarga] = (detail.body?.workoutExercises ?? []).map((we: any) => we.id as number)
+  const t0 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'POST /workouts grava load_updated_at só em quem tem carga',
+    t0 instanceof Date && (await loadUpdatedAtOf(semCarga ?? 0)) === null,
+    { t0 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workout-exercises/${comCarga}`, { body: { sets: 3, reps: 10, load: 45 } })
+  const t1 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workout-exercises/{id} que muda a carga atualiza load_updated_at',
+    t0 instanceof Date && t1 instanceof Date && t1.getTime() > t0.getTime(),
+    { t0, t1 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workout-exercises/${comCarga}`, { body: { sets: 4, reps: 12, load: 45 } })
+  const t2 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workout-exercises/{id} só com séries/reps não muda load_updated_at',
+    t1 instanceof Date && t2 instanceof Date && t2.getTime() === t1.getTime(),
+    { t1, t2 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workouts/${loadWorkoutId}/exercise-order`, {
+    body: { workoutExerciseIds: [semCarga, comCarga] },
+  })
+  const t3 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workouts/{id}/exercise-order não muda load_updated_at',
+    t2 instanceof Date && t3 instanceof Date && t3.getTime() === t2.getTime(),
+    { t2, t3 },
+  )
+
+  await call('POST', '/workout-exercises', {
+    body: { sets: 3, reps: 10, exerciseLoad: 22, workout: { id: loadWorkoutId }, exercise: { id: exerciseIds[2] } },
+  })
+  const afterAdd = await call('GET', `/workouts/${loadWorkoutId}`)
+  const adicionado = (afterAdd.body?.workoutExercises ?? []).find((we: any) => we.exercise.id === exerciseIds[2])
+  check(
+    'POST /workout-exercises com carga grava load_updated_at',
+    (await loadUpdatedAtOf(adicionado?.id ?? 0)) instanceof Date,
+    adicionado,
+  )
+}
+
+// --- Cargas entre treinos ---------------------------------------------------
+// `GET /exercise-loads`: a carga de cada exercício pedido em todos os treinos
+// ativos do cliente. O cliente do smoke já tem outros treinos com
+// exerciseIds[0] (blocos acima), então as checagens olham os treinos daqui.
+const cargaTreinoIds: number[] = []
+{
+  const criar = async (workoutName: string, load?: number) =>
+    (
+      await call('POST', '/workouts', {
+        body: { workoutName, exercises: [{ exerciseId: exerciseIds[0], sets: 3, reps: 10, load }] },
+      })
+    ).body?.id ?? 0
+  const comCarga = await criar('Treino Smoke Cargas 1', 30)
+  const semCarga = await criar('Treino Smoke Cargas 2')
+  const apagado = await criar('Treino Smoke Cargas Apagado', 50)
+  await call('DELETE', `/workouts/${apagado}`)
+  cargaTreinoIds.push(comCarga, semCarga)
+
+  const res = await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)
+  const item = (res.body as any[])?.[0]
+  const entries: any[] = item?.entries ?? []
+  const doTreino = (id: number) => entries.find((e) => e.workoutId === id)
+  check(
+    'GET /exercise-loads lista o exercício nos treinos ativos',
+    res.status === 200 &&
+      item?.exerciseId === exerciseIds[0] &&
+      doTreino(comCarga)?.load === 30 &&
+      doTreino(comCarga)?.workoutName === 'Treino Smoke Cargas 1' &&
+      typeof doTreino(comCarga)?.workoutExerciseId === 'number' &&
+      doTreino(semCarga)?.load === null &&
+      doTreino(semCarga)?.loadUpdatedAt === null &&
+      doTreino(apagado) === undefined,
+    res.body,
+  )
+
+  const datas = entries.map((e) => e.loadUpdatedAt)
+  const primeiroNulo = datas.indexOf(null)
+  const comData = (primeiroNulo === -1 ? datas : datas.slice(0, primeiroNulo)) as string[]
+  check(
+    'GET /exercise-loads ordena pela carga mudada por último',
+    entries.length >= 2 &&
+      (primeiroNulo === -1 || datas.slice(primeiroNulo).every((d) => d === null)) &&
+      comData.every((d, i) => i === 0 || Date.parse(comData[i - 1]!) >= Date.parse(d)) &&
+      comData.every((d) => !Number.isNaN(Date.parse(d))),
+    datas,
+  )
+
+  const catalogo = await call('GET', '/exercises')
+  const foraDeTreinos = (catalogo.body as any[])?.find((e) => !exerciseIds.includes(e.id))?.id
+  const vazio = await call('GET', `/exercise-loads?exerciseIds=${foraDeTreinos},${exerciseIds[0]},${foraDeTreinos}`)
+  check(
+    'GET /exercise-loads com exercício fora de treinos → entries [] (um item por id, na ordem pedida)',
+    vazio.status === 200 &&
+      vazio.body?.length === 2 &&
+      vazio.body[0]?.exerciseId === foraDeTreinos &&
+      Array.isArray(vazio.body[0]?.entries) &&
+      vazio.body[0].entries.length === 0 &&
+      vazio.body[1]?.exerciseId === exerciseIds[0],
+    vazio.body,
+  )
+
+  for (const [caso, query] of [
+    ['sem exerciseIds', ''],
+    ['com exerciseIds=abc', '?exerciseIds=abc'],
+  ] as const) {
+    const r = await call('GET', `/exercise-loads${query}`)
+    check(
+      `GET /exercise-loads ${caso} → 400 VALIDATION_ERROR`,
+      r.status === 400 && r.body?.code === 'VALIDATION_ERROR',
+      r.body,
+    )
+  }
+
+  // `PATCH /workout-exercises/loads`: só a carga, em várias linhas de uma vez.
+  const linhaComCarga = doTreino(comCarga)?.workoutExerciseId as number
+  const linhaSemCarga = doTreino(semCarga)?.workoutExerciseId as number
+  const antes = await loadUpdatedAtOf(linhaComCarga)
+  await Bun.sleep(5)
+  const lote = await call('PATCH', '/workout-exercises/loads', {
+    body: {
+      items: [
+        { workoutExerciseId: linhaComCarga, load: 35 },
+        { workoutExerciseId: linhaSemCarga, load: 35 },
+      ],
+    },
+  })
+  const depois = await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)
+  const depoisEntries: any[] = depois.body?.[0]?.entries ?? []
+  const detalhe = async (id: number) => (await call('GET', `/workouts/${id}`)).body?.workoutExercises?.[0]
+  const [d1, d2] = [await detalhe(comCarga), await detalhe(semCarga)]
+  check(
+    'PATCH /workout-exercises/loads grava a carga em várias linhas',
+    lote.status === 200 &&
+      lote.body === null &&
+      depoisEntries.find((e) => e.workoutId === comCarga)?.load === 35 &&
+      depoisEntries.find((e) => e.workoutId === semCarga)?.load === 35 &&
+      d1?.sets === 3 && d1?.reps === 10 && d2?.sets === 3 && d2?.reps === 10,
+    { status: lote.status, body: lote.body, d1, d2 },
+  )
+  const agora = await loadUpdatedAtOf(linhaComCarga)
+  check(
+    'PATCH loads atualiza load_updated_at',
+    antes instanceof Date && agora instanceof Date && agora.getTime() > antes.getTime() &&
+      (await loadUpdatedAtOf(linhaSemCarga)) instanceof Date,
+    { antes, agora },
+  )
+
+  for (const [caso, body] of [
+    ['load null', { items: [{ workoutExerciseId: linhaComCarga, load: null }] }],
+    ['items vazio', { items: [] }],
+  ] as const) {
+    const r = await call('PATCH', '/workout-exercises/loads', { body })
+    check(`PATCH loads com ${caso} → 400 VALIDATION_ERROR`, r.status === 400 && r.body?.code === 'VALIDATION_ERROR', r.body)
+  }
+
+  const inexistente = await call('PATCH', '/workout-exercises/loads', {
+    body: {
+      items: [
+        { workoutExerciseId: linhaComCarga, load: 99 },
+        { workoutExerciseId: 999999, load: 99 },
+      ],
+    },
+  })
+  const intacta = (await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)).body?.[0]?.entries?.find(
+    (e: any) => e.workoutId === comCarga,
+  )
+  check(
+    'PATCH loads com id inexistente → 404 001 e nada gravado',
+    inexistente.status === 404 && inexistente.body?.code === '001' && intacta?.load === 35,
+    { body: inexistente.body, intacta },
+  )
+}
+
 // --- Workout records --------------------------------------------------------
 {
   const res = await call('GET', `/workout-record/last?workoutId=${workoutId}`)
@@ -1668,6 +1873,14 @@ const novaSenha = 'test5678'
     detalheAlheio.body,
   )
 
+  const cargasB = await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)
+  const entriesB: any[] = cargasB.body?.[0]?.entries ?? []
+  check(
+    'GET /exercise-loads não mostra treinos de outro cliente',
+    cargasB.status === 200 && entriesB.length === 1 && entriesB[0]?.workoutId === workoutBId,
+    cargasB.body,
+  )
+
   const ordemAlheia = await call('GET', `/workouts/${workoutBId}`)
   const ordemAlheiaIds = (ordemAlheia.body?.workoutExercises ?? []).map((we: any) => we.id)
   token = tokenA
@@ -1689,6 +1902,14 @@ const novaSenha = 'test5678'
     'PATCH exercise-order no próprio treino com id de exercício de outro cliente → 409 código 010',
     ordemAlheiaIds.length === 1 && proprioComIdAlheio.status === 409 && proprioComIdAlheio.body?.code === '010',
     proprioComIdAlheio.body,
+  )
+  const cargaAlheia = await call('PATCH', '/workout-exercises/loads', {
+    body: { items: [{ workoutExerciseId: treinoAIds[0], load: 1 }] },
+  })
+  check(
+    'PATCH loads em linha de outro cliente → 400 002',
+    cargaAlheia.status === 400 && cargaAlheia.body?.code === '002',
+    cargaAlheia.body,
   )
 
   const aceito = await call('POST', '/workout-record', {
