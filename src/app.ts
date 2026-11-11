@@ -3,6 +3,7 @@ import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
 import { authRoutes } from './modules/auth.routes.ts'
 import { clientRoutes } from './modules/clients.routes.ts'
+import { exerciseLoadRoutes } from './modules/exercise-loads.routes.ts'
 import { exerciseRoutes } from './modules/exercises.routes.ts'
 import { serveMedia } from './modules/media.routes.ts'
 import { workoutExerciseRoutes } from './modules/workout-exercises.routes.ts'
@@ -32,6 +33,7 @@ app.get(`${MEDIA_ROUTE_PREFIX}*`, serveMedia)
 app.route('/api/authenticate', authRoutes)
 app.route('/api/clients', clientRoutes)
 app.route('/api/exercises', exerciseRoutes)
+app.route('/api/exercise-loads', exerciseLoadRoutes)
 app.route('/api/workouts', workoutRoutes)
 app.route('/api/workout-exercises', workoutExerciseRoutes)
 app.route('/api/workout-record', workoutRecordRoutes)

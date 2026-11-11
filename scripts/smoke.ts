@@ -1086,6 +1086,80 @@ async function loadUpdatedAtOf(id: number): Promise<Date | null> {
   )
 }
 
+// --- Cargas entre treinos ---------------------------------------------------
+// `GET /exercise-loads`: a carga de cada exercício pedido em todos os treinos
+// ativos do cliente. O cliente do smoke já tem outros treinos com
+// exerciseIds[0] (blocos acima), então as checagens olham os treinos daqui.
+const cargaTreinoIds: number[] = []
+{
+  const criar = async (workoutName: string, load?: number) =>
+    (
+      await call('POST', '/workouts', {
+        body: { workoutName, exercises: [{ exerciseId: exerciseIds[0], sets: 3, reps: 10, load }] },
+      })
+    ).body?.id ?? 0
+  const comCarga = await criar('Treino Smoke Cargas 1', 30)
+  const semCarga = await criar('Treino Smoke Cargas 2')
+  const apagado = await criar('Treino Smoke Cargas Apagado', 50)
+  await call('DELETE', `/workouts/${apagado}`)
+  cargaTreinoIds.push(comCarga, semCarga)
+
+  const res = await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)
+  const item = (res.body as any[])?.[0]
+  const entries: any[] = item?.entries ?? []
+  const doTreino = (id: number) => entries.find((e) => e.workoutId === id)
+  check(
+    'GET /exercise-loads lista o exercício nos treinos ativos',
+    res.status === 200 &&
+      item?.exerciseId === exerciseIds[0] &&
+      doTreino(comCarga)?.load === 30 &&
+      doTreino(comCarga)?.workoutName === 'Treino Smoke Cargas 1' &&
+      typeof doTreino(comCarga)?.workoutExerciseId === 'number' &&
+      doTreino(semCarga)?.load === null &&
+      doTreino(semCarga)?.loadUpdatedAt === null &&
+      doTreino(apagado) === undefined,
+    res.body,
+  )
+
+  const datas = entries.map((e) => e.loadUpdatedAt)
+  const primeiroNulo = datas.indexOf(null)
+  const comData = (primeiroNulo === -1 ? datas : datas.slice(0, primeiroNulo)) as string[]
+  check(
+    'GET /exercise-loads ordena pela carga mudada por último',
+    entries.length >= 2 &&
+      (primeiroNulo === -1 || datas.slice(primeiroNulo).every((d) => d === null)) &&
+      comData.every((d, i) => i === 0 || Date.parse(comData[i - 1]!) >= Date.parse(d)) &&
+      comData.every((d) => !Number.isNaN(Date.parse(d))),
+    datas,
+  )
+
+  const catalogo = await call('GET', '/exercises')
+  const foraDeTreinos = (catalogo.body as any[])?.find((e) => !exerciseIds.includes(e.id))?.id
+  const vazio = await call('GET', `/exercise-loads?exerciseIds=${foraDeTreinos},${exerciseIds[0]},${foraDeTreinos}`)
+  check(
+    'GET /exercise-loads com exercício fora de treinos → entries [] (um item por id, na ordem pedida)',
+    vazio.status === 200 &&
+      vazio.body?.length === 2 &&
+      vazio.body[0]?.exerciseId === foraDeTreinos &&
+      Array.isArray(vazio.body[0]?.entries) &&
+      vazio.body[0].entries.length === 0 &&
+      vazio.body[1]?.exerciseId === exerciseIds[0],
+    vazio.body,
+  )
+
+  for (const [caso, query] of [
+    ['sem exerciseIds', ''],
+    ['com exerciseIds=abc', '?exerciseIds=abc'],
+  ] as const) {
+    const r = await call('GET', `/exercise-loads${query}`)
+    check(
+      `GET /exercise-loads ${caso} → 400 VALIDATION_ERROR`,
+      r.status === 400 && r.body?.code === 'VALIDATION_ERROR',
+      r.body,
+    )
+  }
+}
+
 // --- Workout records --------------------------------------------------------
 {
   const res = await call('GET', `/workout-record/last?workoutId=${workoutId}`)
@@ -1737,6 +1811,14 @@ const novaSenha = 'test5678'
     'GET /exercises/{id} custom de outro cliente → 404 código 007',
     detalheAlheio.status === 404 && detalheAlheio.body?.code === '007',
     detalheAlheio.body,
+  )
+
+  const cargasB = await call('GET', `/exercise-loads?exerciseIds=${exerciseIds[0]}`)
+  const entriesB: any[] = cargasB.body?.[0]?.entries ?? []
+  check(
+    'GET /exercise-loads não mostra treinos de outro cliente',
+    cargasB.status === 200 && entriesB.length === 1 && entriesB[0]?.workoutId === workoutBId,
+    cargasB.body,
   )
 
   const ordemAlheia = await call('GET', `/workouts/${workoutBId}`)
