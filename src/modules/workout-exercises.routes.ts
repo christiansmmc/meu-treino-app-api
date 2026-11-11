@@ -1,4 +1,4 @@
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
@@ -26,9 +26,58 @@ const updateSchema = z.object({
   load: exerciseLoadSchema.nullable(),
 })
 
+/** Só carga, nunca nula: a sincronização entre treinos não apaga carga. */
+const loadsSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        workoutExerciseId: z.number().int().positive(),
+        load: exerciseLoadSchema,
+      }),
+    )
+    .min(1),
+})
+
 export const workoutExerciseRoutes = new Hono<AuthVariables>()
 
 workoutExerciseRoutes.use('*', requireAuth, requireUserRole)
+
+// Precisa vir antes de `/:id` para não ser capturada como path param.
+/**
+ * Grava a mesma ideia de "carga nova" em várias linhas de uma vez, sem tocar
+ * em séries e reps — é o "usar nos outros treinos" do app. Tudo ou nada: uma
+ * linha inexistente (ou de treino apagado) → 404 `001`; de outro cliente →
+ * 400 `002`; nos dois casos nada é gravado.
+ */
+workoutExerciseRoutes.patch('/loads', async (c) => {
+  const client = loggedClient(c)
+  const dto = await parseBody(c, loadsSchema)
+  const ids = [...new Set(dto.items.map((item) => item.workoutExerciseId))]
+
+  await db.transaction(async (tx) => {
+    const rows = await tx
+      .select({ id: workoutExercise.id, clientId: workout.clientId })
+      .from(workoutExercise)
+      .innerJoin(workout, eq(workout.id, workoutExercise.workoutId))
+      .where(and(inArray(workoutExercise.id, ids), isNull(workout.deletedAt)))
+
+    if (rows.length !== ids.length) throw new AppError(ErrorType.WORKOUT_EXERCISE_NOT_FOUND, 404)
+    AppError.throwIfNot(
+      rows.every((row) => row.clientId === client.id),
+      ErrorType.CLIENT_DONT_HAVE_ACCESS,
+    )
+
+    const now = new Date()
+    for (const item of dto.items) {
+      await tx
+        .update(workoutExercise)
+        .set({ exerciseLoad: String(item.load), loadUpdatedAt: now })
+        .where(eq(workoutExercise.id, item.workoutExerciseId))
+    }
+  })
+
+  return c.body(null, 200)
+})
 
 workoutExerciseRoutes.post('/', async (c) => {
   const client = loggedClient(c)
