@@ -7,6 +7,7 @@ import { workout, workoutExercise } from '../db/schema.ts'
 import { AppError, ErrorType, argumentTypeMismatch } from '../shared/errors.ts'
 import { assertExerciseExists } from '../shared/exercise-access.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
+import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables } from '../types.ts'
 import { findOwnedWorkout } from './workouts.routes.ts'
@@ -48,6 +49,7 @@ workoutExerciseRoutes.post('/', async (c) => {
     sets: dto.sets ?? null,
     reps: dto.reps ?? null,
     exerciseLoad: dto.exerciseLoad != null ? String(dto.exerciseLoad) : null,
+    loadUpdatedAt: dto.exerciseLoad != null ? new Date() : null,
     listOrder,
     workoutId: owned.id,
     exerciseId: dto.exercise.id,
@@ -65,7 +67,11 @@ workoutExerciseRoutes.patch('/:id', async (c) => {
   const dto = await parseBody(c, updateSchema)
 
   const [row] = await db
-    .select({ id: workoutExercise.id, clientId: workout.clientId })
+    .select({
+      id: workoutExercise.id,
+      clientId: workout.clientId,
+      exerciseLoad: workoutExercise.exerciseLoad,
+    })
     .from(workoutExercise)
     .innerJoin(workout, eq(workout.id, workoutExercise.workoutId))
     .where(eq(workoutExercise.id, id))
@@ -74,12 +80,17 @@ workoutExerciseRoutes.patch('/:id', async (c) => {
   if (!row) throw new AppError(ErrorType.WORKOUT_EXERCISE_NOT_FOUND, 404)
   AppError.throwIfNot(row.clientId === client.id, ErrorType.CLIENT_DONT_HAVE_ACCESS)
 
+  // `load_updated_at` só anda quando a carga muda de fato — editar séries e
+  // reps com a mesma carga não conta como "carga mudada por último".
+  const loadChanged = toNumber(row.exerciseLoad) !== dto.load
+
   await db
     .update(workoutExercise)
     .set({
       sets: dto.sets,
       reps: dto.reps,
       exerciseLoad: dto.load !== null ? String(dto.load) : null,
+      ...(loadChanged ? { loadUpdatedAt: new Date() } : {}),
     })
     .where(eq(workoutExercise.id, row.id))
 

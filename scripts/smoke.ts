@@ -1015,6 +1015,77 @@ let addedWorkoutExerciseId = 0
   check('DELETE /workout-exercises/{id} → 204', res.status === 204 && !res.body, res.body)
 }
 
+// --- load_updated_at: quando a CARGA mudou por último ----------------------
+// Não muda com séries/reps nem com a reordenação (que mexem em `updated_at`).
+// SQL direto, sem depender do schema do Drizzle.
+async function loadUpdatedAtOf(id: number): Promise<Date | null> {
+  const [row] = await sql`select load_updated_at from workout_exercise where id = ${id}`
+  // O cliente desta API devolve `timestamp` como texto ("2026-11-11 17:12:16.125").
+  const value = row?.load_updated_at as string | Date | null | undefined
+  if (value == null) return null
+  return value instanceof Date ? value : new Date(value.replace(' ', 'T'))
+}
+{
+  const created = await call('POST', '/workouts', {
+    body: {
+      workoutName: 'Treino Smoke Carga',
+      exercises: [
+        { exerciseId: exerciseIds[0], sets: 3, reps: 10, load: 40 },
+        { exerciseId: exerciseIds[1] },
+      ],
+    },
+  })
+  const loadWorkoutId = created.body?.id ?? 0
+  const detail = await call('GET', `/workouts/${loadWorkoutId}`)
+  const [comCarga, semCarga] = (detail.body?.workoutExercises ?? []).map((we: any) => we.id as number)
+  const t0 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'POST /workouts grava load_updated_at só em quem tem carga',
+    t0 instanceof Date && (await loadUpdatedAtOf(semCarga ?? 0)) === null,
+    { t0 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workout-exercises/${comCarga}`, { body: { sets: 3, reps: 10, load: 45 } })
+  const t1 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workout-exercises/{id} que muda a carga atualiza load_updated_at',
+    t0 instanceof Date && t1 instanceof Date && t1.getTime() > t0.getTime(),
+    { t0, t1 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workout-exercises/${comCarga}`, { body: { sets: 4, reps: 12, load: 45 } })
+  const t2 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workout-exercises/{id} só com séries/reps não muda load_updated_at',
+    t1 instanceof Date && t2 instanceof Date && t2.getTime() === t1.getTime(),
+    { t1, t2 },
+  )
+
+  await Bun.sleep(5)
+  await call('PATCH', `/workouts/${loadWorkoutId}/exercise-order`, {
+    body: { workoutExerciseIds: [semCarga, comCarga] },
+  })
+  const t3 = await loadUpdatedAtOf(comCarga ?? 0)
+  check(
+    'PATCH /workouts/{id}/exercise-order não muda load_updated_at',
+    t2 instanceof Date && t3 instanceof Date && t3.getTime() === t2.getTime(),
+    { t2, t3 },
+  )
+
+  await call('POST', '/workout-exercises', {
+    body: { sets: 3, reps: 10, exerciseLoad: 22, workout: { id: loadWorkoutId }, exercise: { id: exerciseIds[2] } },
+  })
+  const afterAdd = await call('GET', `/workouts/${loadWorkoutId}`)
+  const adicionado = (afterAdd.body?.workoutExercises ?? []).find((we: any) => we.exercise.id === exerciseIds[2])
+  check(
+    'POST /workout-exercises com carga grava load_updated_at',
+    (await loadUpdatedAtOf(adicionado?.id ?? 0)) instanceof Date,
+    adicionado,
+  )
+}
+
 // --- Workout records --------------------------------------------------------
 {
   const res = await call('GET', `/workout-record/last?workoutId=${workoutId}`)

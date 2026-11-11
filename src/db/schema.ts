@@ -151,6 +151,13 @@ export const workoutExercise = pgTable(
     sets: integer('sets'),
     reps: integer('reps'),
     exerciseLoad: numeric('exercise_load', { precision: 5, scale: 2 }),
+    /**
+     * Quando a CARGA desta linha mudou por último (não `updated_at`, que muda
+     * com séries, reps e reordenação). Decide qual carga sugerir quando o
+     * mesmo exercício tem cargas diferentes em treinos diferentes. `null` =
+     * nunca teve carga.
+     */
+    loadUpdatedAt: timestamp('load_updated_at', { mode: 'date' }),
     listOrder: integer('list_order').notNull().default(0),
     workoutId: bigint('workout_id', { mode: 'number' })
       .notNull()

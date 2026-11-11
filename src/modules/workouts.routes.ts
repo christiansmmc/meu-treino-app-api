@@ -198,6 +198,7 @@ workoutRoutes.post('/', async (c) => {
 
   const listOrder = maxOrder?.value === null || maxOrder?.value === undefined ? 0 : maxOrder.value + 1
 
+  const now = new Date()
   const id = await db.transaction(async (tx) => {
     const [inserted] = await tx
       .insert(workout)
@@ -215,6 +216,7 @@ workoutRoutes.post('/', async (c) => {
         sets: e.sets ?? null,
         reps: e.reps ?? null,
         exerciseLoad: e.load != null ? String(e.load) : null,
+        loadUpdatedAt: e.load != null ? now : null,
         listOrder: index,
         workoutId,
         exerciseId: e.exerciseId,
