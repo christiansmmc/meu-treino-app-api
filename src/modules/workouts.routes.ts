@@ -13,6 +13,7 @@ import {
 import { assertExercisesExist } from '../shared/exercise-access.ts'
 import { exerciseFirstImage, mediaUrl } from '../shared/media.ts'
 import { exerciseLoadSchema } from '../shared/schemas.ts'
+import { latestNextLoads } from '../shared/next-load.ts'
 import { toNumber } from '../shared/serialize.ts'
 import { parseBody, parseIdParam } from '../shared/validate.ts'
 import type { AuthVariables, ClientRow } from '../types.ts'
@@ -314,6 +315,11 @@ workoutRoutes.get('/:id', async (c) => {
     .where(eq(workoutExercise.workoutId, owned.id))
     .orderBy(asc(workoutExercise.listOrder), asc(workoutExercise.id))
 
+  const hints = await latestNextLoads(
+    client.id,
+    rows.map((row) => row.exerciseId),
+  )
+
   return c.json({
     id: owned.id,
     name: owned.name,
@@ -323,6 +329,7 @@ workoutRoutes.get('/:id', async (c) => {
       reps: row.reps,
       exerciseLoad: toNumber(row.exerciseLoad),
       listOrder: row.listOrder,
+      nextLoad: hints.get(row.exerciseId) ?? null,
       exercise: {
         id: row.exerciseId,
         name: row.exerciseName,
