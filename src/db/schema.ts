@@ -29,13 +29,21 @@ export const BODY_PARTS = [
 
 export const RECORD_EXERCISE_STATUS = ['COMPLETED', 'PARTIAL', 'SKIPPED', 'MODIFIED'] as const
 
+/**
+ * Marca "subir carga no próximo treino" de um exercício concluído. `KEEP` apaga uma marca anterior; a coluna
+ * `NULL` (pulado, pendente, registros antigos) não diz nada e não apaga.
+ */
+export const NEXT_LOAD = ['KEEP', 'UP', 'UP_MORE'] as const
+
 export const ROLES = ['USER', 'ADMIN'] as const
 
 export type BodyPart = (typeof BODY_PARTS)[number]
 export type RecordExerciseStatus = (typeof RECORD_EXERCISE_STATUS)[number]
+export type NextLoad = (typeof NEXT_LOAD)[number]
 
 export const bodyPartEnum = pgEnum('body_part', BODY_PARTS)
 export const recordExerciseStatusEnum = pgEnum('record_exercise_status', RECORD_EXERCISE_STATUS)
+export const nextLoadEnum = pgEnum('next_load', NEXT_LOAD)
 export const roleEnum = pgEnum('user_role', ROLES)
 
 const createdAt = () => timestamp('created_at', { mode: 'date' }).notNull().defaultNow()
@@ -198,6 +206,7 @@ export const workoutRecordExercise = pgTable(
     id: bigserial('id', { mode: 'number' }).primaryKey(),
     note: varchar('note', { length: 255 }),
     status: recordExerciseStatusEnum('status').notNull(),
+    nextLoad: nextLoadEnum('next_load'),
     exerciseId: bigint('exercise_id', { mode: 'number' })
       .notNull()
       .references(() => exercise.id),

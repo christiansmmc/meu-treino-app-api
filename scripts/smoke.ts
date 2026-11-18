@@ -1367,6 +1367,46 @@ let recordId = 0
   check('registro deletado sumiu do /last', last.body === null, last.body)
 }
 
+// --- nextLoad no registro (marca "subir carga") -------------------------------
+// Os registros deste bloco são apagados no fim: nenhuma marca fica valendo.
+{
+  const comMarca = await call('POST', '/workout-record', {
+    body: {
+      workoutId,
+      exercises: [
+        { exerciseId: exerciseIds[0], status: 'COMPLETED', nextLoad: 'UP', exerciseSets: [{ set: 1, reps: 10 }] },
+        { exerciseId: exerciseIds[1], status: 'PARTIAL', exerciseSets: [] },
+      ],
+    },
+  })
+  check('POST /workout-record com nextLoad UP → 201', comMarca.status === 201, comMarca.body)
+  const gravado = await sql`
+    select wre.exercise_id, wre.next_load from workout_record_exercise wre
+    where wre.workout_record_id = ${comMarca.body?.id ?? 0} order by wre.id`.catch((err: unknown): any[] => [
+    { erro: String(err) },
+  ])
+  check(
+    'next_load gravado: UP no marcado, NULL no sem campo',
+    gravado.length === 2 && gravado[0]!.next_load === 'UP' && gravado[1]!.next_load === null,
+    gravado,
+  )
+  if (comMarca.body?.id) await call('DELETE', `/workout-record/${comMarca.body.id}`)
+
+  for (const [caso, ex] of [
+    ['nextLoad em SKIPPED', { exerciseId: exerciseIds[0], status: 'SKIPPED', nextLoad: 'UP', exerciseSets: [] }],
+    ['nextLoad desconhecido', { exerciseId: exerciseIds[0], status: 'COMPLETED', nextLoad: 'DOWN', exerciseSets: [] }],
+  ] as const) {
+    const r = await call('POST', '/workout-record', { body: { workoutId, exercises: [ex] } })
+    check(
+      `POST /workout-record ${caso} → 400 VALIDATION_ERROR`,
+      r.status === 400 && r.body?.code === 'VALIDATION_ERROR',
+      r.body,
+    )
+    // antes da validação existir o POST passava: não deixa o registro para os blocos seguintes
+    if (r.status === 201 && r.body?.id) await call('DELETE', `/workout-record/${r.body.id}`)
+  }
+}
+
 // --- GET /workouts/full -----------------------------------------------------
 // Treino esvaziado de propósito: POST /workouts exige ao menos um exercício,
 // então a única forma de ter um treino sem nenhum é criar com um e removê-lo
