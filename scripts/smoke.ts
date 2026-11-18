@@ -1367,6 +1367,110 @@ let recordId = 0
   check('registro deletado sumiu do /last', last.body === null, last.body)
 }
 
+// --- nextLoad no registro (marca "subir carga") -------------------------------
+// Os registros deste bloco são apagados no fim: nenhuma marca fica valendo.
+{
+  const comMarca = await call('POST', '/workout-record', {
+    body: {
+      workoutId,
+      exercises: [
+        { exerciseId: exerciseIds[0], status: 'COMPLETED', nextLoad: 'UP', exerciseSets: [{ set: 1, reps: 10 }] },
+        { exerciseId: exerciseIds[1], status: 'PARTIAL', exerciseSets: [] },
+      ],
+    },
+  })
+  check('POST /workout-record com nextLoad UP → 201', comMarca.status === 201, comMarca.body)
+  const gravado = await sql`
+    select wre.exercise_id, wre.next_load from workout_record_exercise wre
+    where wre.workout_record_id = ${comMarca.body?.id ?? 0} order by wre.id`.catch((err: unknown): any[] => [
+    { erro: String(err) },
+  ])
+  check(
+    'next_load gravado: UP no marcado, NULL no sem campo',
+    gravado.length === 2 && gravado[0]!.next_load === 'UP' && gravado[1]!.next_load === null,
+    gravado,
+  )
+  if (comMarca.body?.id) await call('DELETE', `/workout-record/${comMarca.body.id}`)
+
+  for (const [caso, ex] of [
+    ['nextLoad em SKIPPED', { exerciseId: exerciseIds[0], status: 'SKIPPED', nextLoad: 'UP', exerciseSets: [] }],
+    ['nextLoad desconhecido', { exerciseId: exerciseIds[0], status: 'COMPLETED', nextLoad: 'DOWN', exerciseSets: [] }],
+  ] as const) {
+    const r = await call('POST', '/workout-record', { body: { workoutId, exercises: [ex] } })
+    check(
+      `POST /workout-record ${caso} → 400 VALIDATION_ERROR`,
+      r.status === 400 && r.body?.code === 'VALIDATION_ERROR',
+      r.body,
+    )
+    // antes da validação existir o POST passava: não deixa o registro para os blocos seguintes
+    if (r.status === 201 && r.body?.id) await call('DELETE', `/workout-record/${r.body.id}`)
+  }
+}
+
+// --- GET /workouts/{id}: nextLoad = marca do último registro que concluiu o exercício
+// A marca é do exercício, não do treino: vale em qualquer treino que o tenha.
+// Deixa exerciseIds[0] com UP ativo DE PROPÓSITO (checado no bloco da conta B).
+{
+  const [ex0, ex1, ex2] = exerciseIds as [number, number, number]
+  const criar = async (nome: string, ids: number[]) => {
+    const r = await call('POST', '/workouts', {
+      body: { workoutName: nome, exercises: ids.map((exerciseId) => ({ exerciseId })) },
+    })
+    return (r.body?.id ?? 0) as number
+  }
+  const registrar = async (wId: number, exercises: unknown[]) => {
+    const r = await call('POST', '/workout-record', { body: { workoutId: wId, exercises } })
+    if (r.status !== 201) fatal('POST /workout-record do bloco nextLoad', r.body)
+    return r.body.id as number
+  }
+  /** `nextLoad` da linha do exercício no detalhe; `'AUSENTE'` sem a chave. */
+  const marca = async (wId: number, exId: number) => {
+    const r = await call('GET', `/workouts/${wId}`)
+    const linha = (r.body?.workoutExercises ?? []).find((we: any) => we.exercise?.id === exId)
+    return linha && 'nextLoad' in linha ? linha.nextLoad : 'AUSENTE'
+  }
+
+  const upperA = await criar('Smoke Upper A', [ex0, ex1])
+  const upperB = await criar('Smoke Upper B', [ex0, ex2])
+  if (!upperA || !upperB) fatal('POST /workouts do bloco nextLoad')
+
+  check('sem registros: nextLoad null (a chave existe)', (await marca(upperB, ex0)) === null)
+
+  await registrar(upperA, [
+    { exerciseId: ex0, status: 'COMPLETED', nextLoad: 'UP', exerciseSets: [{ set: 1, reps: 10 }] },
+    { exerciseId: ex1, status: 'COMPLETED', nextLoad: 'UP_MORE', exerciseSets: [{ set: 1, reps: 10 }] },
+  ])
+  check('marca UP no Upper A aparece no Upper B (mesmo exercício)', (await marca(upperB, ex0)) === 'UP')
+  check('marca UP_MORE aparece no próprio treino', (await marca(upperA, ex1)) === 'UP_MORE')
+  check('exercício nunca marcado → null', (await marca(upperB, ex2)) === null)
+
+  await registrar(upperB, [
+    { exerciseId: ex0, status: 'SKIPPED', exerciseSets: [] },
+    { exerciseId: ex2, status: 'PARTIAL', exerciseSets: [] },
+  ])
+  check('pulado / sem nextLoad não apaga a marca', (await marca(upperA, ex0)) === 'UP')
+
+  const comKeep = await registrar(upperB, [
+    { exerciseId: ex0, status: 'COMPLETED', nextLoad: 'KEEP', exerciseSets: [{ set: 1, reps: 10 }] },
+  ])
+  check('KEEP apaga a marca', (await marca(upperA, ex0)) === null)
+
+  await call('DELETE', `/workout-record/${comKeep}`)
+  check('apagar o registro do KEEP desfaz: volta o UP', (await marca(upperA, ex0)) === 'UP')
+
+  await registrar(upperA, [
+    { exerciseId: ex1, status: 'COMPLETED', nextLoad: 'KEEP', exerciseSets: [{ set: 1, reps: 10 }] },
+    { exerciseId: ex1, status: 'COMPLETED', nextLoad: 'UP', exerciseSets: [{ set: 1, reps: 10 }] },
+  ])
+  check('mesmo exercício duas vezes no registro: vale a última linha', (await marca(upperA, ex1)) === 'UP')
+
+  const apagado = await call('DELETE', `/workouts/${upperA}`)
+  check('DELETE /workouts Smoke Upper A', apagado.status === 204, apagado.body)
+  check('registro de treino apagado continua valendo', (await marca(upperB, ex0)) === 'UP')
+
+  await call('DELETE', `/workouts/${upperB}`)
+}
+
 // --- GET /workouts/full -----------------------------------------------------
 // Treino esvaziado de propósito: POST /workouts exige ao menos um exercício,
 // então a única forma de ter um treino sem nenhum é criar com um e removê-lo
@@ -1879,6 +1983,15 @@ const novaSenha = 'test5678'
     'GET /exercise-loads não mostra treinos de outro cliente',
     cargasB.status === 200 && entriesB.length === 1 && entriesB[0]?.workoutId === workoutBId,
     cargasB.body,
+  )
+
+  // a conta A deixou exerciseIds[0] com UP ativo (bloco nextLoad)
+  const detalheB = await call('GET', `/workouts/${workoutBId}`)
+  const linhaB = detalheB.body?.workoutExercises?.[0]
+  check(
+    'GET /workouts/{id} não mostra a marca de carga de outro cliente',
+    detalheB.status === 200 && linhaB !== undefined && 'nextLoad' in linhaB && linhaB.nextLoad === null,
+    linhaB,
   )
 
   const ordemAlheia = await call('GET', `/workouts/${workoutBId}`)

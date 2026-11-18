@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { loggedClient, requireAuth, requireUserRole } from '../auth/middleware.ts'
 import { db } from '../db/client.ts'
 import {
+  NEXT_LOAD,
   RECORD_EXERCISE_STATUS,
   exercise,
   workout,
@@ -25,21 +26,33 @@ const PERIODS = ['CURRENT_MONTH', 'LAST_3_MONTHS', 'ALL', 'LAST'] as const
 const createSchema = z.object({
   workoutId: z.number().int().positive(),
   exercises: z.array(
-    z.object({
-      exerciseId: z.number().int().positive(),
-      status: z.enum(RECORD_EXERCISE_STATUS),
-      note: z.string().nullish(),
-      exerciseSets: z
-        .array(
-          z.object({
-            set: z.number().int(),
-            reps: z.number().int().nullish(),
-            exerciseLoad: exerciseLoadSchema.nullish(),
-            note: z.string().nullish(),
-          }),
-        )
-        .nullish(),
-    }),
+    z
+      .object({
+        exerciseId: z.number().int().positive(),
+        status: z.enum(RECORD_EXERCISE_STATUS),
+        note: z.string().nullish(),
+        // marca "subir carga no próximo treino"; só faz sentido num exercício feito
+        nextLoad: z.enum(NEXT_LOAD).nullish(),
+        exerciseSets: z
+          .array(
+            z.object({
+              set: z.number().int(),
+              reps: z.number().int().nullish(),
+              exerciseLoad: exerciseLoadSchema.nullish(),
+              note: z.string().nullish(),
+            }),
+          )
+          .nullish(),
+      })
+      .superRefine((ex, ctx) => {
+        if (ex.status === 'SKIPPED' && ex.nextLoad != null) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['nextLoad'],
+            message: 'Exercício pulado não leva marca de carga.',
+          })
+        }
+      }),
   ),
 })
 
@@ -157,6 +170,7 @@ workoutRecordRoutes.post('/', async (c) => {
         .values({
           note: ex.note ?? null,
           status: ex.status,
+          nextLoad: ex.nextLoad ?? null,
           exerciseId: ex.exerciseId,
           workoutRecordId: id,
         })
